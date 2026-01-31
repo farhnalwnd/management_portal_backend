@@ -18,9 +18,6 @@ class RolePermissionSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $this->command->info('Generating Shield Permissions...');
-        // $this->command->call('shield:generate', ['--all' => true, '--panel' => 'admin', '--minimal']);
-
         $roles = [
             'super_admin',
             'vice_president',
@@ -110,7 +107,7 @@ class RolePermissionSeeder extends Seeder
                 'nik' => 999999,
                 'first_name' => 'Super',
                 'last_name' => 'Admin',
-                'password' => bcrypt('password'), // Sebaiknya ganti dengan password yang aman
+                'password' => bcrypt('password'),
                 'department_id' => 1,
                 'status' => 'active',
             ]
