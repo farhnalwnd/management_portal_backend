@@ -11,7 +11,10 @@ use App\Filament\Resources\Users\Schemas\UserInfolist;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
+use Dom\Text;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -36,7 +39,51 @@ class UserResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
-        return UserInfolist::configure($schema);
+        return $schema
+            ->columns(2)
+            ->components([
+                Section::make('User Information')
+                    ->columns(3)
+                    ->schema([
+                    Section::make('Identity')
+                        ->schema([
+                            TextEntry::make('full_name')
+                                ->label('Full Name')
+                                ->state(fn($record): string => $record->first_name . ' ' . $record->last_name),
+
+                            TextEntry::make('nik')
+                                ->label('NIK'),
+
+                            TextEntry::make('email')
+                                ->label('Email Address'),
+                        ])
+                        ->columns(1)
+                        ->columnSpan(2),
+
+                    Section::make('Details')
+                        ->schema([
+                            TextEntry::make('department.name')
+                                ->label('Department'),
+
+                            TextEntry::make('status')
+                                ->badge()
+                                ->color(fn(string $state): string => match ($state) {
+                                    'active' => 'success',
+                                    'inactive' => 'warning',
+                                    'locked' => 'danger',
+                                    default => 'gray',
+                                }),
+
+                            TextEntry::make('roles.name')
+                                ->label('Roles')
+                                ->default('No Role Assigned')
+                                ->badge()
+                                ->color('info'),
+                        ])
+                        ->columnSpan(1),
+                    ])
+                    ->columnSpanFull(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -56,8 +103,8 @@ class UserResource extends Resource
         return [
             'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
-            'view' => ViewUser::route('/{record}'),
             'edit' => EditUser::route('/{record}/edit'),
+            // 'view' => ViewUser::route('/{record}'),
         ];
     }
 }
