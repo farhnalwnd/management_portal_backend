@@ -16,26 +16,30 @@ class MenuMgtsTable
         return $table
             ->columns([
                 TextColumn::make('menu_name')
+                    ->label('Menu Name')
                     ->searchable(),
-                TextColumn::make('module_id')
+                TextColumn::make('modul_mgt.module_name')
+                    ->label('Module')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('content_id')
+                TextColumn::make('content_mgt.title')
+                    ->label('Content')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('display_order')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('menu_level')
+                    ->label('Display Order')
                     ->numeric()
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label('Active')
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
