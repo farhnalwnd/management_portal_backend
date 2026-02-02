@@ -51,6 +51,10 @@ class MenuMgtForm
                         ->numeric(),
                     TextInput::make('menu_level')
                         ->required()
+                        ->unique(table: 'menu_mgts', column: 'menu_level', ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'The menu level has already been taken.',
+                        ])
                         ->numeric(),
                     Toggle::make('is_active')
                         ->required(),
