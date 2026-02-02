@@ -18,6 +18,8 @@ class RolePermissionSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        // $this->command->call('shield:generate');
+
         $roles = [
             'super_admin',
             'vice_president',
@@ -35,70 +37,24 @@ class RolePermissionSeeder extends Seeder
             Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
         }
 
-        $permissions = [
-            // Modul Management
-            'view:modules',
-            'create:modules',
-            'edit:modules',
-            'delete:modules',
-
-            // Menu Management
-            'view:menus',
-            'create:menus',
-            'edit:menus',
-            'delete:menus',
-
-            // Content Management
-            'view:contents',
-            'create:contents',
-            'edit:contents',
-            'delete:contents',
-            'publish:contents',
-
-            // Approval System
-            'view:approvals',
-            'approve:contents',
-            'reject:contents',
-
-            // User & Department Management
-            'view:users',
-            'create:users',
-            'edit:users',
-            'delete:users',
-            'view:departments',
-            'manage:departments',
-        ];
-
-        foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
-        }
-
         $allPermissions = Permission::all();
         Role::findByName('super_admin')->givePermissionTo($allPermissions);
         Role::findByName('vice_president')->givePermissionTo($allPermissions);
-
-        $viewOnlyPermissions = [
-            'view:modules',
-            'view:menus',
-            'view:contents',
-            'view:approvals',
-            'view:users',
-            'view:departments'
-        ];
 
         $restrictedRoles = [
             'general_manager',
             'manager',
             'assistant_manager',
             'section_head',
-            'officer',
-            'admin',
-            'leader',
-            'operator'
         ];
 
         foreach ($restrictedRoles as $roleName) {
-            Role::findByName($roleName)->givePermissionTo($viewOnlyPermissions);
+            Role::findByName($roleName)->givePermissionTo([
+                'View:ContentMgt',
+                'View:ModulMgt',
+                // 'view:MenuMgt',
+                // 'view:UserMgt',
+            ]);
         }
 
         $user = User::updateOrCreate(
@@ -115,6 +71,5 @@ class RolePermissionSeeder extends Seeder
 
         $user->assignRole('super_admin');
 
-        $this->command->info('Seeding Roles, Permissions, and Super Admin user completed.');
     }
 }
