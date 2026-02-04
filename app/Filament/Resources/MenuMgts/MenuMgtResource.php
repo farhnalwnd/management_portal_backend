@@ -18,10 +18,13 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class MenuMgtResource extends Resource
 {
     protected static ?string $model = MenuMgt::class;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Feature Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
