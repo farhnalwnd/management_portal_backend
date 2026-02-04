@@ -57,6 +57,10 @@ class MenuMgtForm
                         ])
                         ->numeric(),
                     Toggle::make('is_active')
+                        ->helperText('Enable to activate the menu.')
+                        ->onIcon('heroicon-m-check')
+                        ->offIcon('heroicon-m-x-mark')
+                        ->onColor('success')
                         ->required(),
                     ])
             ]);

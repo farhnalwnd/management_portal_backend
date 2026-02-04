@@ -25,15 +25,22 @@ class ModulMgtForm
                         ->columnSpanFull(),
                     Select::make('category')
                         ->options([
-                            'core' => 'Core',
-                            'optional' => 'Optional',
-                            'advanced' => 'Advanced',
+                            'fico' => 'Finance & Controlling (FI/CO)',
+                            'mm'   => 'Materials Management (MM)',
+                            'sd'   => 'Sales & Distribution (SD)',
+                            'pp'   => 'Production Planning (PP)',
+                            'pm'   => 'Plant Maintenance (PM)',
+                            'hr'   => 'Human Capital Management (HCM)',
                         ])
                         ->native(false)
                         ->required()
                         ->columnSpan(1),
                     Toggle::make('is_active')
                         ->required()
+                        ->helperText('Enable to activate the module.')
+                        ->onIcon('heroicon-m-check')
+                        ->offIcon('heroicon-m-x-mark')
+                        ->onColor('success')
                         ->inline(false)
                         ->columnSpan(1),
                 ]),
