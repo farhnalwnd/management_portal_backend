@@ -15,11 +15,9 @@ class ApprovalMasterForm
             ->components([
                 Select::make('approver.first_name')
                     ->label('Approver Name')
-                    ->options(User::query()->pluck('first_name', 'id'))
-                    // ->validationMessages([
-                    //     'unique' => 'The approver has already been taken.',
-                    // ])
-                    // ->unique('approval_masters','approver_id', ignoreRecord: true)
+                    ->relationship('approver', 'first_name')
+                    ->getOptionLabelFromRecordUsing(fn($record) => $record->first_name . ' ' . $record->last_name)
+                    ->searchable(['first_name', 'last_name'])
                     ->required(),
                 TextInput::make('level')
                     ->validationMessages([

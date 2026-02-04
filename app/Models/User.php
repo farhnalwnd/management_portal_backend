@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(department::class, 'department_id', 'id');
     }
+
+    public function approvalMasters()
+    {
+        return $this->hasMany(ApprovalMaster::class, 'approver_id');
+    }
 }
