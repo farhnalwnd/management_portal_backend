@@ -17,4 +17,14 @@ class ModulMgt extends Model
         'created_by',
         'last_modified_by',
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function modifier()
+    {
+        return $this->belongsTo(User::class, 'last_modified_by', 'id');
+    }
 }

@@ -24,18 +24,20 @@ class ModulMgtsTable
                     ->boolean(),
                 TextColumn::make('category')
                     ->searchable(),
-                TextColumn::make('created_by')
-                    ->numeric()
+                TextColumn::make('creator.first_name')
+                    ->description(fn($record) => $record->modifier ? $record->creator->last_name : '')
                     ->sortable(),
-                TextColumn::make('last_modified_by')
-                    ->numeric()
+                TextColumn::make('modifier.first_name')
+                    ->description(fn($record) => $record->modifier ? $record->modifier->last_name : '')
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Created At')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Updated At')
+                    ->since()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -50,6 +52,7 @@ class ModulMgtsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(null);
     }
 }
