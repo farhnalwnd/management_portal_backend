@@ -25,6 +25,7 @@ class ContentMgtForm
                 TextInput::make('status')
                     ->required(),
                 TextInput::make('repo')
+                    ->prefix('https://')
                     ->required(),
                 TextInput::make('created_by')
                     ->required()
@@ -40,10 +41,6 @@ class ContentMgtForm
                 TextInput::make('approver_id')
                     ->required()
                     ->numeric(),
-                Select::make('approval_status')
-                    ->options(['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected'])
-                    ->default('pending')
-                    ->required(),
             ]);
     }
 }
