@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Filament\Resources\Users\Schemas;
+
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Hash;
+
+class UserForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->columns(3)
+            ->components([
+                Section::make('Identity')
+                    ->columns(3)
+                    ->components([
+                        TextInput::make('first_name')
+                            ->required(),
+                        TextInput::make('last_name')
+                            ->required(),
+                        TextInput::make('nik')
+                            ->required()
+                            ->numeric()
+                            ->maxLength(16),
+                        TextInput::make('email')
+                            ->label('Email address')
+                            ->email()
+                            ->required(),
+                        TextInput::make('password')
+                            ->password()
+                            ->required(fn(string $operation): bool => $operation === 'create')
+                            ->dehydrated(fn($state) => filled($state))
+                            ->dehydrateStateUsing(fn($state) => Hash::make($state)),
+                            ])->columnSpan(2),
+
+                Section::make('Details')
+                        ->components([
+                    Select::make('department_id')
+                        ->relationship('department', 'name')
+                        ->preload()
+                        ->required(),
+                    Select::make('status')
+                        ->options(['active' => 'Active', 'inactive' => 'Inactive', 'locked' => 'Locked'])
+                        ->default('active')
+                        ->required(),
+                    Select::make('roles')
+                        ->relationship('roles', 'name')
+                        ->preload()
+                        ->native(false)
+                        ->required(),
+                    ])->columnSpan(1),
+            ]);
+    }
+}
