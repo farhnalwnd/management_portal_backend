@@ -8,7 +8,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class MenuMgtsTable
 {
@@ -46,7 +48,9 @@ class MenuMgtsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+            Filter::make('is_active')
+                ->label('Active Menus')
+                ->query(fn(Builder $query): Builder => $query->where('is_active', true))
             ])
             ->recordActions([
                 ViewAction::make(),

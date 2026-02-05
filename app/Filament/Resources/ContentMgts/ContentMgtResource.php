@@ -18,10 +18,13 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class ContentMgtResource extends Resource
 {
     protected static ?string $model = ContentMgt::class;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Feature Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

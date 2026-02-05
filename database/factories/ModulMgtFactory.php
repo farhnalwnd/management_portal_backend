@@ -20,7 +20,7 @@ class ModulMgtFactory extends Factory
             'module_name' => $this->faker->word(),
             'module_description' => $this->faker->sentence(),
             'is_active' => $this->faker->boolean(),
-            'category' => $this->faker->word(),
+            'category' => $this->faker->randomElement(['fico', 'mm', 'sd', 'pp', 'pm', 'hr']),
             'created_by' => \App\Models\User::factory(),
             'last_modified_by' => \App\Models\User::factory(),
         ];
