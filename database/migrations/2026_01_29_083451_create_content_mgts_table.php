@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title')->index();
             $table->foreignId('modul_id')->constrained('modul_mgts');
             $table->string('version');
-            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->boolean('status')->default(false);
             $table->string('repo');
             $table->foreignId('created_by')->constrained('users')->nullable();
             $table->foreignId('last_modified_by')->constrained('users')->nullable();

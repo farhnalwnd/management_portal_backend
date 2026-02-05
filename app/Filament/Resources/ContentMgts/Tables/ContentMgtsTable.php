@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -23,19 +24,9 @@ class ContentMgtsTable
                     ->sortable(),
                 TextColumn::make('version')
                     ->searchable(),
-                TextColumn::make('status')
-                    ->badge()
-                    ->color(fn($state) => match ($state) {
-                        'active' => 'success',
-                        'inactive' => 'danger',
-                        default => 'gray',
-                    })
-                    ->icon(fn($state) => match ($state) {
-                        'active' => 'heroicon-o-check-circle',
-                        'inactive' => 'heroicon-o-x-circle',
-                        default => 'heroicon-o-question-mark-circle',
-                    })
-                    ->searchable(),
+                IconColumn::make('status')
+                    ->label('Is Active')
+                    ->boolean(),
                 TextColumn::make('repo')
                     ->searchable(),
                 TextColumn::make('creator.first_name')

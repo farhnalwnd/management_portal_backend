@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('module_name');
             $table->string('module_description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->string('category');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('last_modified_by')->constrained('users');

@@ -48,20 +48,24 @@ class ContentMgt extends Model
     {
         return $this->hasMany(ApprovalMgt::class, 'approver_id', 'id');
     }
-
     protected static function booted()
     {
         static::creating(function ($model) {
-            $model->created_by = auth()->id();
-            $model->last_modified_by = auth()->id();
-            $model->published_by = auth()->id();
-            $model->published_date = now();
-            $model->approver_id = ApprovalMaster::where('level', 1)->first()->approver_id;
+            if (auth()->check()) {
+                $model->published_by = auth()->id();
+                $model->created_by = auth()->id();
+                $model->last_modified_by = auth()->id();
+            }
+
+            $approver = ApprovalMaster::where('level', 1)->first();
+            $model->approver_id = $approver?->approver_id;
             $model->approval_status = 'pending';
         });
 
         static::updating(function ($model) {
-            $model->last_modified_by = auth()->id();
+            if (auth()->check()) {
+                $model->last_modified_by = auth()->id();
+            }
         });
     }
 }

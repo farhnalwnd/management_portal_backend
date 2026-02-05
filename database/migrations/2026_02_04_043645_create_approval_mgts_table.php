@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('approver_id')->constrained('users');
             $table->foreignId('content_id')->constrained('content_mgts');
             $table->string('approval_level')->nullable();
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->string('comments')->nullable();
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();

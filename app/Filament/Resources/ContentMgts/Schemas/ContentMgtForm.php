@@ -7,6 +7,7 @@ use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -49,7 +50,14 @@ class ContentMgtForm
 
                 // ! perbaiki approver di select
                 Section::make('Status & Scheduling')
+                    // ->visibleOn('edit')
                     ->schema([
+                        Select::make('approver_id')
+                            ->label('Approver')
+                            ->relationship('approver', 'first_name')
+                            ->getOptionLabelFromRecordUsing(fn($record) => $record->first_name . ' ' . $record->last_name)
+                            ->visibleOn('edit')
+                            ->disabled(),
                         TextInput::make('approval_status')
                             ->disabled()
                             ->dehydrated()
@@ -58,6 +66,14 @@ class ContentMgtForm
                         DatePicker::make('published_date')
                             ->label('Published Date')
                             ->nullable(),
+                        Toggle::make('status')
+                            ->label('Status Content')
+                            ->helperText('Active content will be visible to users')
+                            ->onIcon('heroicon-m-check-circle')
+                            ->offIcon('heroicon-m-x-circle')
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->visibleOn('edit'),
                     ])->columnSpan(1),
             ]);
     }
