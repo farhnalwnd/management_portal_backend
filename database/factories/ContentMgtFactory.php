@@ -21,7 +21,7 @@ class ContentMgtFactory extends Factory
             'title' => $this->faker->sentence(),
             'modul_id' => \App\Models\ModulMgt::factory(),
             'version' => $this->faker->numerify('v#.##'),
-            'status' => $this->faker->randomElement(['draft', 'review', 'published']),
+            'status' => $this->faker->randomElement(['active', 'inactive']),
             'repo' => $this->faker->url(),
             'created_by' => \App\Models\User::factory(),
             'last_modified_by' => \App\Models\User::factory(),
