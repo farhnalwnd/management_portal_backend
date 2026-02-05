@@ -22,4 +22,24 @@ class ContentMgt extends Model
         'published_date',
         'approver_id',
         'approval_status',];
+
+    public function approver(){
+        return $this->belongsTo(User::class, 'approver_id', 'id');
+    }
+
+    public function module(){
+        return $this->belongsTo(ModulMgt::class, 'modul_id', 'id');
+    }
+
+    public function creator(){
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function modifier(){
+        return $this->belongsTo(User::class, 'last_modified_by', 'id');
+    }
+
+    public function approvalMgt(){
+        return $this->hasMany(ApprovalMgt::class, 'approver_id', 'id');
+    }
 }

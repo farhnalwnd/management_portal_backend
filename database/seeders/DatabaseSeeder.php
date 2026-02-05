@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
             MenuMgtSeeder::class,
             ModulMgtSeeder::class,
             departmentSeeder::class,
-            RolePermissionSeeder::class,
+            ApprovalMasterSeeder::class,
+            // RolePermissionSeeder::class,
         ]);
     }
 }
