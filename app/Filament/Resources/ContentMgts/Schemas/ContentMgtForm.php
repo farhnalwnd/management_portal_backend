@@ -73,7 +73,7 @@ class ContentMgtForm
                             ->offIcon('heroicon-m-x-circle')
                             ->onColor('success')
                             ->offColor('danger')
-                            ->visibleOn('edit'),
+                            ->visible(fn($record) => $record && $record->approval_status === 'approved'),
                     ])->columnSpan(1),
             ]);
     }
