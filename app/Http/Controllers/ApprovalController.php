@@ -17,6 +17,7 @@ class ApprovalController extends Controller
             $approvalMgt = ApprovalMgt::where('content_id', $id)->where('token', $token)->where('approval_status', 'pending')->first();
 
             if (!$approvalMgt) {
+                Log::error('tidak ditemukan: ' . $id . ' ' . $token);
                 return view('mail.approval-failed', [
                     'e' => new \Exception("Link sudah tidak valid atau sudah pernah diproses.")
                 ]);
@@ -29,8 +30,9 @@ class ApprovalController extends Controller
             $contentMgt = ContentMgt::findOrFail($id);
             $contentMgt->approval_status = $status;
             $contentMgt->last_modified_by = $approvalMgt->approver_id;
+            //  * commant untuk approval status tetap false
             if ($status == 'approved') {
-                $contentMgt->status = 'active';
+                $contentMgt->status = true;
             }
             $contentMgt->save();
 

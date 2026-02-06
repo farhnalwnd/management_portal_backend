@@ -2,126 +2,106 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #F8F9FA;
-            margin: 0;
-            padding: 20px;
-        }
+        @media screen and (max-width: 600px) {
+            .content {
+                padding: 20px !important;
+            }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #FFFFFF;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #E5E7EB;
-        }
+            .button-container {
+                display: block !important;
+            }
 
-        .header {
-            background-color: #2C6975;
-            padding: 30px;
-            text-align: center;
-            color: #FFFFFF;
-        }
-
-        .content {
-            padding: 30px;
-            color: #4D4D4D;
-            line-height: 1.6;
-        }
-
-        .footer {
-            background-color: #F3F4F6;
-            padding: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #9CA3AF;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 10px 5px;
-        }
-
-        .btn-approve {
-            background-color: #2C6975;
-            color: #FFFFFF !important;
-        }
-
-        .btn-reject {
-            background-color: #68B2D8;
-            color: #FFFFFF !important;
-        }
-
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .info-table td {
-            padding: 8px 0;
-            border-bottom: 1px solid #F3F4F6;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #2C6975;
-            width: 30%;
+            .btn {
+                display: block !important;
+                margin-bottom: 10px !important;
+                width: auto !important;
+                text-align: center !important;
+            }
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="header">
-            <h2 style="margin:0;">Request Approval</h2>
-            <p style="margin:5px 0 0 0; opacity: 0.8;">Portal Management System</p>
-        </div>
+<body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: 'Inter', Helvetica, Arial, sans-serif;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding: 40px 0;">
+                <table class="container" width="600" border="0" cellpadding="0" cellspacing="0"
+                    style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
 
-        <div class="content">
-            <p>Halo, <strong>Approver</strong>,</p>
-            <p>Terdapat permohonan aktifasi konten baru yang memerlukan tinjauan Anda:</p>
+                    <tr>
+                        <td style="background-color: #1e293b; padding: 20px; text-align: center;">
+                            <span
+                                style="color: #ffffff; font-weight: bold; font-size: 18px; letter-spacing: 1px;">APPROVAL
+                                SYSTEM</span>
+                        </td>
+                    </tr>
 
-            <table class="info-table">
-                <tr>
-                    <td class="label">Judul</td>
-                    <td>{{ $contentMgt->title }}</td>
-                </tr>
-                <tr>
-                    <td class="label">Tipe</td>
-                    <td>{{ $contentMgt->type }}</td>
-                </tr>
-                <tr>
-                    <td class="label">Versi</td>
-                    <td>{{ $contentMgt->version }}</td>
-                </tr>
-            </table>
+                    <tr>
+                        <td class="content" style="padding: 40px; color: #374151;">
+                            <h2 style="margin-top: 0; color: #111827; font-size: 20px;">Permohonan Approval Baru</h2>
+                            <p style="font-size: 15px; line-height: 1.5; color: #6b7280;">
+                                Halo <strong>{{ $contentMgt->user->first_name . ' ' . $contentMgt->user->last_name }}</strong>, Anda menerima permintaan persetujuan untuk konten dengan rincian sebagai berikut:
+                            </p>
 
-            <p>Silakan klik tombol di bawah ini untuk memberikan keputusan langsung:</p>
+                            <table width="100%" border="0" cellpadding="12" cellspacing="0"
+                                style="background-color: #f3f4f6; border-radius: 8px; margin: 25px 0;">
+                                <tr>
+                                    <td style="font-size: 14px; border-bottom: 1px solid #e5e7eb;">
+                                        <strong style="color: #4b5563;">Title:</strong><br>
+                                        <span style="font-size: 16px; color: #111827;">{{ $contentMgt->title }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 14px; border-bottom: 1px solid #e5e7eb;">
+                                        <strong style="color: #4b5563;">Type:</strong><br>
+                                        <span style="font-size: 16px; color: #111827;">{{ $contentMgt->type }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 14px;">
+                                        <strong style="color: #4b5563;">Version:</strong><br>
+                                        <span style="font-size: 16px; color: #111827;">v{{ $contentMgt->version
+                                            }}</span>
+                                    </td>
+                                </tr>
+                            </table>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="{{ $approveLink }}" class="button btn-approve">
-                    Setujui (Approve)
-                </a>
-                <a href="{{ $rejectLink }}" class="button btn-reject">
-                    Tolak (Reject)
-                </a>
-            </div>
-        </div>
+                            <p style="font-size: 15px; color: #374151;">Mohon untuk segera meninjau permohonan ini
+                                dengan menekan salah satu tombol di bawah:</p>
 
-        <div class="footer">
-            <p>&copy; 2026 PT Oneject Indonesia - IT Department</p>
-            <p>Email ini dikirim secara otomatis oleh sistem, mohon tidak membalas.</p>
-        </div>
-    </div>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
+                                <tr>
+                                    <td class="button-container" align="center">
+                                        <a href="{{ $approveLink }}" class="btn"
+                                            style="background-color: #10b981; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; display: inline-block; margin: 0 5px;">
+                                            Approve Now
+                                        </a>
+                                        <a href="{{ $rejectLink }}" class="btn"
+                                            style="background-color: #ef4444; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; display: inline-block; margin: 0 5px;">
+                                            Reject Request
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td
+                            style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+                                Email ini dikirim secara otomatis oleh Portal Management System.<br>
+                                &copy; 2026 PT Oneject Indonesia.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
