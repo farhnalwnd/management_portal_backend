@@ -26,7 +26,7 @@ class MenuMgtResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Feature Management';
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
 
     protected static ?string $recordTitleAttribute = 'MenuMgt';
 
@@ -47,47 +47,47 @@ class MenuMgtResource extends Resource
             ->components([
                 // * menu name
                 Section::make('Menu Name')
-                ->schema([
-                    TextEntry::make('menu_name')
-                        ->hiddenLabel(),
-                ])
-                ->columnSpanFull(),
+                    ->schema([
+                        TextEntry::make('menu_name')
+                            ->hiddenLabel(),
+                    ])
+                    ->columnSpanFull(),
 
                 // * relations
                 Section::make('relations')
-                ->schema([
-                    TextEntry::make('modul_mgt.module_name')
-                        ->label('Module :'),
-                    TextEntry::make('content_mgt.title')
-                        ->label('Content :'),
-                ])
-                ->extraAttributes(['class' => 'h-full'])
-                ->columnSpan(2),
+                    ->schema([
+                        TextEntry::make('modul_mgt.module_name')
+                            ->label('Module :'),
+                        TextEntry::make('content_mgt.title')
+                            ->label('Content :'),
+                    ])
+                    ->extraAttributes(['class' => 'h-full'])
+                    ->columnSpan(2),
 
                 Group::make()->schema([
-                // * settings
-                Section::make('settings')
-                ->schema([
-                    TextEntry::make('display_order')
-                        ->label('Display Order :'),
-                    IconEntry::make('is_active')
-                        ->label('Is Active :')
-                        ->boolean(),
-                ])
-                ->extraAttributes(['class' => 'h-full'])
-                ->columnSpan(1),
+                    // * settings
+                    Section::make('settings')
+                        ->schema([
+                            TextEntry::make('display_order')
+                                ->label('Display Order :'),
+                            IconEntry::make('is_active')
+                                ->label('Is Active :')
+                                ->boolean(),
+                        ])
+                        ->extraAttributes(['class' => 'h-full'])
+                        ->columnSpan(1),
 
-                // * timestamps
-                Section::make('Timestamps')
-                ->schema([
-                    TextEntry::make('created_at')
-                        ->label('Created At :')
-                        ->isoDateTime(),
-                    TextEntry::make('updated_at')
-                        ->label('Updated At :')
-                        ->isoDateTime(),
-                ])->columnSpan(1),
-            ]),
+                    // * timestamps
+                    Section::make('Timestamps')
+                        ->schema([
+                            TextEntry::make('created_at')
+                                ->label('Created At :')
+                                ->isoDateTime(),
+                            TextEntry::make('updated_at')
+                                ->label('Updated At :')
+                                ->isoDateTime(),
+                        ])->columnSpan(1),
+                ]),
             ]);
     }
 

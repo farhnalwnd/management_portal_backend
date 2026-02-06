@@ -13,7 +13,7 @@ class ApprovalMasterForm
     {
         return $schema
             ->components([
-                Select::make('approver.first_name')
+                Select::make('approver_id')
                     ->label('Approver Name')
                     ->relationship('approver', 'first_name')
                     ->getOptionLabelFromRecordUsing(fn($record) => $record->first_name . ' ' . $record->last_name)
@@ -23,7 +23,7 @@ class ApprovalMasterForm
                     ->validationMessages([
                         'unique' => 'The level has already been taken.',
                     ])
-                    ->unique('approval_masters','level', ignoreRecord: true)
+                    ->unique('approval_masters', 'level', ignoreRecord: true)
                     ->required()
                     ->numeric(),
             ]);

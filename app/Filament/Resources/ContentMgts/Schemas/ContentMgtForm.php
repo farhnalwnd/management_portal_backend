@@ -7,6 +7,7 @@ use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -16,56 +17,64 @@ class ContentMgtForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-        ->columns(3)
-        ->components([
-            Section::make('Content Information')
-                ->schema([
-                    Grid::make(2)
-                        ->schema([
-                            TextInput::make('title')
-                                ->label('Title')
-                                ->required()
-                                ->columnSpan(2),
-                            TextInput::make('type')
-                                ->label('Type')
-                                ->required(),
-                            TextInput::make('version')
-                                ->label('Version')
-                                ->required(),
-                            TextInput::make('repo')
-                                ->label('Repository URL')
-                                ->url()
-                                ->suffixIcon('heroicon-m-link')
-                                ->placeholder('https://github.com/...')
-                                ->required()
-                                ->columnSpan(2),
-                        ]),
-                ])
-                ->columnSpan(2),
+            ->columns(3)
+            ->components([
+                Section::make('Content Information')
+                    ->schema([
+                        Grid::make(3)
+                            ->schema([
+                                TextInput::make('title')
+                                    ->label('Title')
+                                    ->required()
+                                    ->columnSpan(3),
+                                TextInput::make('type')
+                                    ->label('Type')
+                                    ->required(),
+                                TextInput::make('version')
+                                    ->label('Version')
+                                    ->required(),
+                                Select::make('modul_id')
+                                    ->label('Module')
+                                    ->relationship('module', 'module_name')
+                                    ->required(),
+                                TextInput::make('repo')
+                                    ->label('Repository URL')
+                                    ->url()
+                                    ->suffixIcon('heroicon-m-link')
+                                    ->placeholder('https://github.com/...')
+                                    ->required()
+                                    ->columnSpan(3),
+                            ]),
+                    ])
+                    ->columnSpan(2),
 
                 // ! perbaiki approver di select
                 Section::make('Status & Scheduling')
+                    // ->visibleOn('edit')
                     ->schema([
                         Select::make('approver_id')
-                            ->options(
-                                User::whereHas('approvalMasters', fn($query) => $query->where('level', 1))
-                                    ->get()
-                                    ->pluck('first_name', 'id')
-                            )
-                            ->disabled()
-                            ->default(fn() => ApprovalMaster::where('level', 1)->value('approver_id'))
-                            ->dehydrated(),
-                        Select::make('approver_id')
-                            ->options(User::whereHas('approvalMasters')->pluck('first_name', 'id'))
                             ->label('Approver')
-                            ->required(),
-                        Select::make('approval_status')
-                            ->label('Approval Status')
+                            ->relationship('approver', 'first_name')
+                            ->getOptionLabelFromRecordUsing(fn($record) => $record->first_name . ' ' . $record->last_name)
+                            ->visibleOn('edit')
+                            ->disabled(),
+                        TextInput::make('approval_status')
+                            ->disabled()
+                            ->dehydrated()
+                            ->default('pending')
                             ->required(),
                         DatePicker::make('published_date')
                             ->label('Published Date')
                             ->nullable(),
+                        Toggle::make('status')
+                            ->label('Status Content')
+                            ->helperText('Active content will be visible to users')
+                            ->onIcon('heroicon-m-check-circle')
+                            ->offIcon('heroicon-m-x-circle')
+                            ->onColor('success')
+                            ->offColor('danger')
+                            ->visibleOn('edit'),
                     ])->columnSpan(1),
-        ]);
+            ]);
     }
 }

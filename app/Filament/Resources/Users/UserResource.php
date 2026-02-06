@@ -50,42 +50,42 @@ class UserResource extends Resource
                 Section::make('User Information')
                     ->columns(3)
                     ->schema([
-                    Section::make('Identity')
-                        ->schema([
-                            TextEntry::make('full_name')
-                                ->label('Full Name')
-                                ->state(fn($record): string => $record->first_name . ' ' . $record->last_name),
+                        Section::make('Identity')
+                            ->schema([
+                                TextEntry::make('full_name')
+                                    ->label('Full Name')
+                                    ->state(fn($record): string => $record->first_name . ' ' . $record->last_name),
 
-                            TextEntry::make('nik')
-                                ->label('NIK'),
+                                TextEntry::make('nik')
+                                    ->label('NIK'),
 
-                            TextEntry::make('email')
-                                ->label('Email Address'),
-                        ])
-                        ->columns(1)
-                        ->columnSpan(2),
+                                TextEntry::make('email')
+                                    ->label('Email Address'),
+                            ])
+                            ->columns(1)
+                            ->columnSpan(2),
 
-                    Section::make('Details')
-                        ->schema([
-                            TextEntry::make('department.name')
-                                ->label('Department'),
+                        Section::make('Details')
+                            ->schema([
+                                TextEntry::make('department.name')
+                                    ->label('Department'),
 
-                            TextEntry::make('status')
-                                ->badge()
-                                ->color(fn(string $state): string => match ($state) {
-                                    'active' => 'success',
-                                    'inactive' => 'warning',
-                                    'locked' => 'danger',
-                                    default => 'gray',
-                                }),
+                                TextEntry::make('status')
+                                    ->badge()
+                                    ->color(fn(string $state): string => match ($state) {
+                                        'active' => 'success',
+                                        'inactive' => 'warning',
+                                        'locked' => 'danger',
+                                        default => 'gray',
+                                    }),
 
-                            TextEntry::make('roles.name')
-                                ->label('Roles')
-                                ->default('No Role Assigned')
-                                ->badge()
-                                ->color('info'),
-                        ])
-                        ->columnSpan(1),
+                                TextEntry::make('roles.name')
+                                    ->label('Roles')
+                                    ->default('No Role Assigned')
+                                    ->badge()
+                                    ->color('info'),
+                            ])
+                            ->columnSpan(1),
                     ])
                     ->columnSpanFull(),
             ]);
