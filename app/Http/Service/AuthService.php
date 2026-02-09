@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Http\Service;
 
+use App\Http\Resources\Api\UserResource;
 use App\Models\User;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -22,14 +22,18 @@ class AuthService
 
         $user = User::where('email', $email)->first();
 
-        if (! $user || ! Hash::check($password, $user->password)) {
-            return null;
+        if (! $user) {
+            return 'user not found';
+        }
+
+        if (! Hash::check($password, $user->password)) {
+            return 'password not match';
         }
 
         $token = $user->createToken($device_name)->plainTextToken;
 
         return [
-            'user'  => $user,
+            'user'  => new UserResource($user),
             'token' => $token,
         ];
     }
