@@ -26,8 +26,8 @@ class DashboardController extends Controller
             return $this->error('User not found', 'user not found', 401);
         }
 
-        $resultUser = $this->dashboardService->getMenu();
+        $resultMenu = $this->dashboardService->getMenu();
 
-        return $this->success($resultUser, 'Dashboard data retrieved successfully');
+        return $this->success($resultMenu, 'Dashboard data retrieved successfully');
     }
 }
