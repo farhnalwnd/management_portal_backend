@@ -36,7 +36,7 @@ class AuthRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            $this->error($validator->errors(), 'validation failed, please check your input', 422)
+            $this->error('validation failed, please check your input', $validator->errors(), 422)
         );
     }
 }
