@@ -13,13 +13,6 @@ class MenuMgtSeeder extends Seeder
      */
     public function run(): void
     {
-        MenuMgt::factory()->create([
-            'menu_name' => 'Dashboard',
-            'module_id' => 1,
-            'content_id' => 1,
-            'display_order' => 1,
-            'menu_level' => 1,
-            'is_active' => true,
-        ]);
+        MenuMgt::factory(10)->sequence(fn($sequence) => ['display_order' => $sequence->index + 1])->sequence(fn($sequence) => ['menu_level' => $sequence->index + 1])->create();
     }
 }

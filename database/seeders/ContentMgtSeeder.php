@@ -13,6 +13,6 @@ class ContentMgtSeeder extends Seeder
      */
     public function run(): void
     {
-        ContentMgt::factory(2)->create();
+        ContentMgt::factory(10)->create();
     }
 }

@@ -50,10 +50,6 @@ class RolePermissionSeeder extends Seeder
 
         foreach ($restrictedRoles as $roleName) {
             Role::findByName($roleName)->givePermissionTo([
-                'View:ContentMgt',
-                'View:ModulMgt',
-                'View:MenuMgt',
-                'View:User',
                 'ViewAny:ContentMgt',
                 'ViewAny:ModulMgt',
                 'ViewAny:MenuMgt',

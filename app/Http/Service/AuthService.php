@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -36,5 +37,14 @@ class AuthService
             'user'  => new UserResource($user),
             'token' => $token,
         ];
+    }
+
+    public function getUserLogin()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return 'user not found';
+        }
+        return ($user);
     }
 }
