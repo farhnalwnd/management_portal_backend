@@ -48,14 +48,14 @@ class RolePermissionSeeder extends Seeder
             'section_head',
         ];
 
-        foreach ($restrictedRoles as $roleName) {
-            Role::findByName($roleName)->givePermissionTo([
-                'ViewAny:ContentMgt',
-                'ViewAny:ModulMgt',
-                'ViewAny:MenuMgt',
-                'ViewAny:User',
-            ]);
-        }
+        // foreach ($restrictedRoles as $roleName) {
+        //     Role::findByName($roleName)->givePermissionTo([
+        //         'ViewAny:ContentMgt',
+        //         'ViewAny:ModulMgt',
+        //         'ViewAny:MenuMgt',
+        //         'ViewAny:User',
+        //     ]);
+        // }
 
         $user = User::updateOrCreate(
             ['email' => 'superadmin@example.com'],
