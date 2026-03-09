@@ -2,7 +2,8 @@
     "agents": [
         "cursor",
         "codex",
-        "claude_code"
+        "claude_code",
+        "gemini"
     ],
     "guidelines": true,
     "herd_mcp": false,
@@ -15,6 +16,7 @@
     "sail": false,
     "skills": [
         "tailwindcss-development",
-        "laravel-permission-development"
+        "laravel-permission-development",
+        "project-guidelines"
     ]
 }

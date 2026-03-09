@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\ProjectUserRoles\Schemas;
 
-use Filament\Forms\Components\TextInput;
+use App\Models\ModulMgt;
+use App\Models\User;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
+use Spatie\Permission\Models\Role;
 
 class ProjectUserRoleForm
 {
@@ -11,15 +14,33 @@ class ProjectUserRoleForm
     {
         return $schema
             ->components([
-                TextInput::make('module_id')
+                Select::make('module_id')
+                    ->label('Module')
+                    ->options(ModulMgt::query()->pluck('module_name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+                Select::make('user_id')
+                    ->label('Users')
+                    ->options(User::query()->get()->pluck('full_name', 'id'))
+                    ->multiple()
+                    ->searchable()
+                    ->preload()
                     ->required()
-                    ->numeric(),
-                TextInput::make('user_id')
+                    ->visibleOn('create'),
+                Select::make('user_id')
+                    ->label('User')
+                    ->options(User::query()->get()->pluck('full_name', 'id'))
+                    ->searchable()
+                    ->preload()
                     ->required()
-                    ->numeric(),
-                TextInput::make('role_id')
-                    ->required()
-                    ->numeric(),
+                    ->visibleOn('edit'),
+                Select::make('role_id')
+                    ->label('Role')
+                    ->options(Role::query()->pluck('name', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
             ]);
     }
 }

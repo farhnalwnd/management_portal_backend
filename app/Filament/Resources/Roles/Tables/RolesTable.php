@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\ProjectUserRoles\Tables;
+namespace App\Filament\Resources\Roles\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -9,33 +9,26 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ProjectUserRolesTable
+class RolesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('modulMgt.module_name')
-                    ->label('Module')
+                TextColumn::make('name')
+                    ->label('Role Name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('user.first_name')
-                    ->label('User')
-                    ->state(fn ($record): string => $record->user
-                        ? $record->user->first_name.' '.$record->user->last_name
-                        : '-')
-                    ->sortable()
-                    ->searchable(['users.first_name', 'users.last_name']),
-                TextColumn::make('role.name')
-                    ->label('Role')
+                TextColumn::make('permissions_count')
+                    ->label('Permissions')
+                    ->counts('permissions')
                     ->badge()
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
+                    ->sortable(),
+                TextColumn::make('guard_name')
+                    ->label('Guard')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

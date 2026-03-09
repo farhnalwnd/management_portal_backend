@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\ProjectUserRoles\Tables;
+namespace App\Filament\Resources\Permissions\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -9,33 +9,28 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ProjectUserRolesTable
+class PermissionsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
+                TextColumn::make('name')
+                    ->label('Permission Name')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('modulMgt.module_name')
                     ->label('Module')
                     ->sortable()
-                    ->searchable(),
-                TextColumn::make('user.first_name')
-                    ->label('User')
-                    ->state(fn ($record): string => $record->user
-                        ? $record->user->first_name.' '.$record->user->last_name
-                        : '-')
-                    ->sortable()
-                    ->searchable(['users.first_name', 'users.last_name']),
-                TextColumn::make('role.name')
-                    ->label('Role')
+                    ->searchable()
                     ->badge()
-                    ->sortable()
-                    ->searchable(),
+                    ->color('info')
+                    ->state(fn ($record) => $record->modulMgt ? "{$record->modulMgt->module_name}" : 'Global'),
+                TextColumn::make('guard_name')
+                    ->label('Guard')
+                    ->badge()
+                    ->sortable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

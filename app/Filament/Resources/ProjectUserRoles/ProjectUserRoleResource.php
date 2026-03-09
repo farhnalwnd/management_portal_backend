@@ -13,14 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class ProjectUserRoleResource extends Resource
 {
     protected static ?string $model = ProjectUserRole::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|UnitEnum|null $navigationGroup = 'Access Control';
 
-    protected static ?string $recordTitleAttribute = 'ProjectUserRole';
+    protected static ?string $navigationLabel = 'Project Permissions';
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
+
+    protected static ?string $modelLabel = 'Project Permission';
 
     public static function form(Schema $schema): Schema
     {
