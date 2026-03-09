@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->foreignId('department_id')->constrained();
             $table->enum('status', ['active', 'inactive', 'locked'])->default('active');
+            $table->index(['nik', 'department_id', 'status']);
             $table->timestamps();
         });
 

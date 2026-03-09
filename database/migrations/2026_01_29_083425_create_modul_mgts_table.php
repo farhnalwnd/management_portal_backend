@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('category');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('last_modified_by')->constrained('users');
+            $table->softDeletes();
+            $table->index(['module_name', 'is_active', 'category', 'created_by']);
             $table->timestamps();
         });
     }

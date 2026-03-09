@@ -25,6 +25,8 @@ return new class extends Migration
             $table->date('published_date')->nullable();
             $table->foreignId('approver_id')->constrained('users')->nullable();
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->index(['type', 'title', 'status']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

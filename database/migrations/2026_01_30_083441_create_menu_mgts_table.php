@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('display_order')->unique();
             $table->integer('menu_level')->unique();
             $table->boolean('is_active')->default(true);
+            $table->index(['menu_name', 'module_id', 'content_id']);
             $table->timestamps();
         });
     }
