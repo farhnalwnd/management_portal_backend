@@ -32,26 +32,27 @@ class UserForm
                             ->required(),
                         TextInput::make('password')
                             ->password()
-                            ->required(fn(string $operation): bool => $operation === 'create')
-                            ->dehydrated(fn($state) => filled($state))
-                            ->dehydrateStateUsing(fn($state) => Hash::make($state)),
-                            ])->columnSpan(2),
+                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
+                    ])->columnSpan(2),
 
                 Section::make('Details')
-                        ->components([
-                    Select::make('department_id')
-                        ->relationship('department', 'name')
-                        ->preload()
-                        ->required(),
-                    Select::make('status')
-                        ->options(['active' => 'Active', 'inactive' => 'Inactive', 'locked' => 'Locked'])
-                        ->default('active')
-                        ->required(),
-                    Select::make('roles')
-                        ->relationship('roles', 'name')
-                        ->preload()
-                        ->native(false)
-                        ->required(),
+                    ->components([
+                        Select::make('department_id')
+                            ->relationship('department', 'name')
+                            ->preload()
+                            ->required(),
+                        Select::make('status')
+                            ->options(['active' => 'Active', 'inactive' => 'Inactive', 'locked' => 'Locked'])
+                            ->default('active')
+                            ->required(),
+                        Select::make('roles')
+                            ->relationship('roles', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->required(),
                     ])->columnSpan(1),
             ]);
     }

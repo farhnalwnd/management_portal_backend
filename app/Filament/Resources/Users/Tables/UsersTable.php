@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Filament\Resources\Users\UserResource;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -19,7 +21,7 @@ class UsersTable
                     ->sortable(),
                 TextColumn::make('first_name')
                     ->label('Full Name')
-                    ->description(fn($record) => $record->last_name)
+                    ->description(fn ($record) => $record->last_name)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('department.name')
                     ->label('Department')
@@ -51,6 +53,14 @@ class UsersTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create User')
+                    ->url(fn (): string => UserResource::getUrl('create'))
+                    ->icon('heroicon-m-user-plus')
+                    ->button(),
+            ])
+            ->emptyStateDescription('Belum ada pengguna terdaftar. Silakan tambahkan user baru.')
             ->recordUrl(null);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ContentMgts\Tables;
 
+use App\Filament\Resources\ContentMgts\ContentMgtResource;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -31,24 +33,24 @@ class ContentMgtsTable
                     ->searchable(),
                 TextColumn::make('creator.first_name')
                     ->label('Creator')
-                    ->description(fn($record) => $record->creator->last_name)
+                    ->description(fn ($record) => $record->creator->last_name)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('modifier.first_name')
                     ->label('Modifier')
-                    ->description(fn($record) => $record->modifier->last_name)
+                    ->description(fn ($record) => $record->modifier->last_name)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approver.first_name')
                     ->label('Approver')
-                    ->description(fn($record) => $record->approver->last_name)
+                    ->description(fn ($record) => $record->approver->last_name)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approval_status')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'pending' => 'warning',
                         'approved' => 'success',
                         'rejected' => 'danger',
                     })
-                    ->icon(fn($state) => match ($state) {
+                    ->icon(fn ($state) => match ($state) {
                         'pending' => 'heroicon-o-clock',
                         'approved' => 'heroicon-o-check-circle',
                         'rejected' => 'heroicon-o-x-circle',
@@ -77,6 +79,14 @@ class ContentMgtsTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create Content')
+                    ->url(fn (): string => ContentMgtResource::getUrl('create'))
+                    ->icon('heroicon-m-document-text')
+                    ->button(),
+            ])
+            ->emptyStateDescription('Belum ada konten terdaftar. Tambahkan konten aplikasi baru.')
             ->recordUrl(null);
     }
 }

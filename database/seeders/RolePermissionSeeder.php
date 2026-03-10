@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -23,14 +22,22 @@ class RolePermissionSeeder extends Seeder
         $roles = [
             'super_admin',
             'vice_president',
-            'general_manager',
-            'manager',
-            'assistant_manager',
-            'section_head',
-            'officer',
-            'admin',
-            'leader',
-            'operator'
+            'general_manager IT',
+            'manager IT',
+            'assistant_manager IT',
+            'section_head IT',
+            'officer IT',
+            'admin IT',
+            'leader IT',
+            'operator IT',
+            'general_manager HR',
+            'manager HR',
+            'assistant_manager HR',
+            'section_head HR',
+            'officer HR',
+            'admin HR',
+            'leader HR',
+            'operator HR',
         ];
 
         foreach ($roles as $roleName) {
@@ -40,22 +47,6 @@ class RolePermissionSeeder extends Seeder
         $allPermissions = Permission::all();
         Role::findByName('super_admin')->givePermissionTo($allPermissions);
         Role::findByName('vice_president')->givePermissionTo($allPermissions);
-
-        $restrictedRoles = [
-            'general_manager',
-            'manager',
-            'assistant_manager',
-            'section_head',
-        ];
-
-        // foreach ($restrictedRoles as $roleName) {
-        //     Role::findByName($roleName)->givePermissionTo([
-        //         'ViewAny:ContentMgt',
-        //         'ViewAny:ModulMgt',
-        //         'ViewAny:MenuMgt',
-        //         'ViewAny:User',
-        //     ]);
-        // }
 
         $user = User::updateOrCreate(
             ['email' => 'superadmin@example.com'],

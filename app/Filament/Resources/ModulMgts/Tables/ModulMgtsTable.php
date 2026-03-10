@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\ModulMgts\Tables;
 
+use App\Filament\Resources\ModulMgts\ModulMgtResource;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -26,41 +27,41 @@ class ModulMgtsTable
                     ->searchable(),
                 TextColumn::make('category')
                     ->badge()
-                    ->icon(fn(string $state): string => match ($state) {
+                    ->icon(fn (string $state): string => match ($state) {
                         'fico' => 'heroicon-m-banknotes',
-                        'mm'   => 'heroicon-m-cube',
-                        'sd'   => 'heroicon-m-shopping-cart',
-                        'pp'   => 'heroicon-m-cog',
-                        'pm'   => 'heroicon-m-wrench',
-                        'hr'   => 'heroicon-m-user-group',
+                        'mm' => 'heroicon-m-cube',
+                        'sd' => 'heroicon-m-shopping-cart',
+                        'pp' => 'heroicon-m-cog',
+                        'pm' => 'heroicon-m-wrench',
+                        'hr' => 'heroicon-m-user-group',
                         default => 'heroicon-m-question-mark-circle',
                     })
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'fico' => 'success', // Hijau
-                        'mm'   => 'warning', // Oranye
-                        'sd'   => 'info',    // Biru Muda
-                        'pp'   => 'danger',  // Merah
-                        'pm'   => 'gray',    // Abu-abu
-                        'hr'   => 'primary', // Biru Tua
+                        'mm' => 'warning', // Oranye
+                        'sd' => 'info',    // Biru Muda
+                        'pp' => 'danger',  // Merah
+                        'pm' => 'gray',    // Abu-abu
+                        'hr' => 'primary', // Biru Tua
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
                         'fico' => 'Finance & Controlling',
-                        'mm'   => 'Materials Management',
-                        'sd'   => 'Sales & Distribution',
-                        'pp'   => 'Production Planning',
-                        'pm'   => 'Plant Maintenance',
-                        'hr'   => 'Human Capital Management',
+                        'mm' => 'Materials Management',
+                        'sd' => 'Sales & Distribution',
+                        'pp' => 'Production Planning',
+                        'pm' => 'Plant Maintenance',
+                        'hr' => 'Human Capital Management',
                         default => $state,
                     }),
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
                 TextColumn::make('creator.first_name')
-                    ->description(fn($record) => $record->modifier ? $record->creator->last_name : '')
+                    ->description(fn ($record) => $record->modifier ? $record->creator->last_name : '')
                     ->sortable(),
                 TextColumn::make('modifier.first_name')
-                    ->description(fn($record) => $record->modifier ? $record->modifier->last_name : '')
+                    ->description(fn ($record) => $record->modifier ? $record->modifier->last_name : '')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Created At')
@@ -76,18 +77,18 @@ class ModulMgtsTable
             ->filters([
                 Filter::make('is_active')
                     ->label('Active Modules')
-                    ->query(fn(Builder $query): Builder => $query->where('is_active', true)),
+                    ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
 
                 SelectFilter::make('category')
                     ->options([
                         'fico' => 'Finance & Controlling',
-                        'mm'   => 'Materials Management',
-                        'sd'   => 'Sales & Distribution',
-                        'pp'   => 'Production Planning',
-                        'pm'   => 'Plant Maintenance',
-                        'hr'   => 'Human Capital Management',
-                    ])
-                ])
+                        'mm' => 'Materials Management',
+                        'sd' => 'Sales & Distribution',
+                        'pp' => 'Production Planning',
+                        'pm' => 'Plant Maintenance',
+                        'hr' => 'Human Capital Management',
+                    ]),
+            ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
@@ -97,6 +98,14 @@ class ModulMgtsTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create Module')
+                    ->url(fn (): string => ModulMgtResource::getUrl('create'))
+                    ->icon('heroicon-m-rectangle-stack')
+                    ->button(),
+            ])
+            ->emptyStateDescription('Belum ada modul terdaftar. Tambahkan modul aplikasi baru.')
             ->recordUrl(null);
     }
 }

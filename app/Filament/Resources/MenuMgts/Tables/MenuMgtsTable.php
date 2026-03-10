@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\MenuMgts\Tables;
 
+use App\Filament\Resources\MenuMgts\MenuMgtResource;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -48,9 +50,9 @@ class MenuMgtsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-            Filter::make('is_active')
-                ->label('Active Menus')
-                ->query(fn(Builder $query): Builder => $query->where('is_active', true))
+                Filter::make('is_active')
+                    ->label('Active Menus')
+                    ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
             ])
             ->recordActions([
                 ViewAction::make(),
@@ -61,6 +63,14 @@ class MenuMgtsTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create Menu')
+                    ->url(fn (): string => MenuMgtResource::getUrl('create'))
+                    ->icon('heroicon-m-bars-3')
+                    ->button(),
+            ])
+            ->emptyStateDescription('Belum ada menu terdaftar. Tambahkan item menu baru.')
             ->recordUrl(null);
     }
 }

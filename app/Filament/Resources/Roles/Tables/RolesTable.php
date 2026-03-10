@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Roles\Tables;
 
+use App\Filament\Resources\Roles\RoleResource;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -44,6 +46,14 @@ class RolesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create Role')
+                    ->url(fn (): string => RoleResource::getUrl('create'))
+                    ->icon('heroicon-m-shield-check')
+                    ->button(),
+            ])
+            ->emptyStateDescription('Belum ada role. Buat role untuk mengelompokkan permission.');
     }
 }

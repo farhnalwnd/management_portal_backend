@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Permissions\Tables;
 
+use App\Filament\Resources\Permissions\PermissionResource;
 use App\Models\ModulMgt;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -63,9 +65,10 @@ class PermissionsTable
                 TextColumn::make('modulMgt.category')
                     ->label('SAP Category')
                     ->badge()
-                    ->icon(fn (?string $state): string => self::CATEGORY_ICONS[$state ?? ''] ?? 'heroicon-m-question-mark-circle')
+                    ->default('nan')
+                    ->icon(fn (?string $state): string => self::CATEGORY_ICONS[$state ?? ''] ?? 'heroicon-m-cog-6-tooth')
                     ->color(fn (?string $state): string => self::CATEGORY_COLORS[$state ?? ''] ?? 'gray')
-                    ->formatStateUsing(fn (?string $state): string => self::CATEGORY_LABELS[$state ?? ''] ?? 'Global')
+                    ->formatStateUsing(fn (?string $state): string => self::CATEGORY_LABELS[$state ?? ''] ?? 'portal system')
                     ->sortable(),
 
                 TextColumn::make('guard_name')
@@ -101,6 +104,14 @@ class PermissionsTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create Permission')
+                    ->url(fn (): string => PermissionResource::getUrl('create'))
+                    ->icon('heroicon-m-key')
+                    ->button(),
+            ])
+            ->emptyStateDescription('Belum ada permission. Buat permission baru untuk mengontrol akses.')
             ->recordUrl(null);
     }
 }
