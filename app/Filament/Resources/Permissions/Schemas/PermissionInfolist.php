@@ -47,8 +47,8 @@ class PermissionInfolist
                 Section::make('Permission Details')
                     ->columnSpan(1)
                     ->schema([
-                        TextEntry::make('name:')
-                            ->label('Permission Name')
+                        TextEntry::make('name')
+                            ->label('Permission Name:')
                             ->inlineLabel(true)
                             ->copyable(),
                         TextEntry::make('modulMgt.module_name')

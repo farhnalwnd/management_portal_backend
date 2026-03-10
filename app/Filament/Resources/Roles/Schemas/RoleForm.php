@@ -96,7 +96,6 @@ class RoleForm
                 fn(ModulMgt $module): Section => Section::make($module->module_name)
                     ->schema([
                         CheckboxList::make('permissions_module_' . $module->id)
-                            ->label('')
                             ->relationship(
                                 name: 'permissions',
                                 titleAttribute: 'name',
@@ -106,7 +105,8 @@ class RoleForm
                             ->columns(4)
                             ->gridDirection('row'),
                     ])
-                    ->collapsible()
+                    ->collapsible(true)
+                    ->collapsed(true)
             )->values()->all();
 
             $tabs[] = Tabs\Tab::make($categoryLabel)
