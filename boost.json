@@ -1,0 +1,22 @@
+{
+    "agents": [
+        "cursor",
+        "codex",
+        "claude_code",
+        "gemini"
+    ],
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "packages": [
+        "spatie/laravel-permission",
+        "filament/filament"
+    ],
+    "sail": false,
+    "skills": [
+        "tailwindcss-development",
+        "laravel-permission-development",
+        "project-guidelines"
+    ]
+}

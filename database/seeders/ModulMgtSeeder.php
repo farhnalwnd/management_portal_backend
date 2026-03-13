@@ -13,6 +13,6 @@ class ModulMgtSeeder extends Seeder
      */
     public function run(): void
     {
-        ModulMgt::factory(2)->create();
+        ModulMgt::factory(10)->create();
     }
 }

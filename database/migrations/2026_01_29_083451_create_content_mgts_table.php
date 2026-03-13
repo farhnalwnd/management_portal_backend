@@ -17,14 +17,16 @@ return new class extends Migration
             $table->string('title')->index();
             $table->foreignId('modul_id')->constrained('modul_mgts');
             $table->string('version');
-            $table->string('status');
+            $table->boolean('status')->default(false);
             $table->string('repo');
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('last_modified_by')->constrained('users');
-            $table->foreignId('published_by')->constrained('users');
-            $table->date('published_date');
-            $table->foreignId('approver_id')->constrained('users');
+            $table->foreignId('created_by')->constrained('users')->nullable();
+            $table->foreignId('last_modified_by')->constrained('users')->nullable();
+            $table->foreignId('published_by')->constrained('users')->nullable();
+            $table->date('published_date')->nullable();
+            $table->foreignId('approver_id')->constrained('users')->nullable();
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->index(['type', 'title', 'status']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
