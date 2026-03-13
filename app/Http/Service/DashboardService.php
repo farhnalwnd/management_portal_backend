@@ -17,17 +17,19 @@ class DashboardService
         //
     }
 
-    public function getMenu()
-    {
-        $menus = MenuMgt::with(['modul_mgt', 'content_mgt'])
-            ->where('is_active', true)
-            ->orderBy('display_order', 'asc')
-            ->get();
+    // public function getMenu()
+    // {
+    //     $menus = MenuMgt::with(['modul_mgt', 'content_mgt'])
+    //         ->where('is_active', true)
+    //         ->orderBy('display_order', 'asc')
+    //         ->get();
 
-        $resource = MenuResource::collection($menus)->resolve();
+    //     $resource = MenuResource::collection($menus)->resolve();
 
-        return collect($resource)->groupBy(function ($item) {
-            return $item['module']['category'] ?? 'Uncategorized';
-        });
-    }
+    //     return collect($resource)->groupBy(function ($item) {
+    //         return $item['module']['category'] ?? 'Uncategorized';
+    //     });
+    // }
+
+    public function getMenu($userLogin) {}
 }
