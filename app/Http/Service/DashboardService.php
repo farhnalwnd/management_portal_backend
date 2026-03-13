@@ -45,13 +45,15 @@ class DashboardService
             ->values()
             ->toArray();
 
+        Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
+
         $accsessibleMenus = MenuMgt::with(['modul_mgt', 'content_mgt'])
             ->whereIn('module_id', $moduleIds)
             ->where('is_active', true)
             ->orderBy('display_order', 'asc')
             ->get();
 
-        // Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
+        Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
         return MenuResource::collection($accsessibleMenus)->resolve();
     }
 }
