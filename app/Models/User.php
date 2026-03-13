@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->hasMany(ApprovalMaster::class, 'approver_id');
     }
 
+    public function getNameAttribute(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
     protected function fullName(): Attribute
     {
         return new Attribute(
