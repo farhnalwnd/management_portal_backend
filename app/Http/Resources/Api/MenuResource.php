@@ -17,7 +17,7 @@ class MenuResource extends JsonResource
         return [
             'id'            => $this->id,
             'menu_name'     => $this->menu_name,
-            'display_order' => $this->display_order,
+            // 'display_order' => $this->display_order,
             'is_active'     => $this->is_active,
 
             'module'        => new ModulResource($this->whenLoaded('modul_mgt')),

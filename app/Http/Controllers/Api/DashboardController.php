@@ -28,6 +28,10 @@ class DashboardController extends Controller
 
         $resultMenu = $this->dashboardService->getMenu($userLogin);
 
+        if (empty($resultMenu)) {
+            return $this->success($resultMenu, 'Menu not found for your role');
+        }
+
         return $this->success($resultMenu, 'Dashboard data retrieved successfully');
     }
 }
