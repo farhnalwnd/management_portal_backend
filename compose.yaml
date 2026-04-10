@@ -61,6 +61,7 @@ services:
             PGADMIN_DEFAULT_PASSWORD: '${PGADMIN_PASSWORD:-admin}'
         networks:
             - sail
+            - shared_network
         depends_on:
             - pgsql
 networks:

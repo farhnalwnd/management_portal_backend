@@ -13,9 +13,6 @@ class departmentSeeder extends Seeder
      */
     public function run(): void
     {
-        department::factory()->create([
-            'name' => 'Human Resources',
-            'slug' => 'human-resources',
-        ]);
+        department::factory(7)->create();
     }
 }
