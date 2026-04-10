@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('sso_tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('portal_application.users');
+            $table->string('ticket');
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }
