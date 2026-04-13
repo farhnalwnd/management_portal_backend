@@ -7,6 +7,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ContentResource extends JsonResource
 {
+    protected ?string $token = null;
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -18,7 +27,7 @@ class ContentResource extends JsonResource
             'type' => $this->type,
             'title' => $this->title,
             'version' => $this->version,
-            'repo' => $this->repo,
+            'repo' => $this->repo . "/sso/verify?ticket=" . $this->token
         ];
     }
 }
