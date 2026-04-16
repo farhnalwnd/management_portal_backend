@@ -15,11 +15,11 @@ trait SsoTicket
         $ssoTicket = SsoTicketModel::create([
             'ticket' => $token,
             'user_id' => $userLogin->id,
-            'expired_at' => now()->addMinutes(2),
+            'expired_at' => now()->addMinutes(3)
         ]);
+        // Log::info('value variable ssoTicket' . json_encode($ssoTicket));
 
         if ($ssoTicket) {
-            Log::info('token yang di generate adalah: ' . $token);
             return $token;
         }
 

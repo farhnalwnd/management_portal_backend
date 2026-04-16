@@ -51,7 +51,7 @@ class DashboardService
             ->values()
             ->toArray();
 
-        Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
+        // Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
 
         $accsessibleMenus = MenuMgt::with(['modul_mgt', 'content_mgt'])
             ->whereIn('module_id', $moduleIds)
@@ -61,7 +61,7 @@ class DashboardService
 
         $token = $this->generateSsoTicket($userLogin);
 
-        Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
+        // Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
         
         $menus = MenuResource::collection($accsessibleMenus);
         
