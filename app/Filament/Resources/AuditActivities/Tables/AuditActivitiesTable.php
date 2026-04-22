@@ -13,7 +13,23 @@ class AuditActivitiesTable
         return $table
             ->columns([
                 TextColumn::make('log_name')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'user management' => 'info',
+                        'featur mgt' => 'warning',
+                        'access control' => 'danger',
+                        default => 'gray',
+                    })
                     ->searchable()
+                    ->sortable(),
+                TextColumn::make('event')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'created' => 'success',
+                        'updated' => 'warning',
+                        'deleted' => 'danger',
+                        default => 'gray',
+                    })
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable()
@@ -37,6 +53,7 @@ class AuditActivitiesTable
             ])
             ->recordActions([
                 ViewAction::make(),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 }

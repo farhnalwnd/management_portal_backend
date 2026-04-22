@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Spatie\Activitylog\Models\Activity::observe(\App\Observers\ActivityObserver::class);
         // ContentMgt::observe(ContentMgtObserver::class);
     }
 }

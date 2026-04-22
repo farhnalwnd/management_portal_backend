@@ -22,7 +22,21 @@ class LatestActivities extends TableWidget
             ->query(fn (): Builder => Activity::query()->latest()->limit(5))
             ->columns([
                 TextColumn::make('log_name')
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'user management' => 'info',
+                        'featur mgt' => 'warning',
+                        'access control' => 'danger',
+                        default => 'gray',
+                    }),
+                TextColumn::make('event')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'created' => 'success',
+                        'updated' => 'warning',
+                        'deleted' => 'danger',
+                        default => 'gray',
+                    }),
                 TextColumn::make('description'),
                 TextColumn::make('subject_type')
                     ->label('Model')
