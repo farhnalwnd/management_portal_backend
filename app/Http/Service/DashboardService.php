@@ -6,10 +6,16 @@ use App\Http\Resources\Api\ContentResource;
 use App\Http\Resources\Api\MenuResource;
 use App\Http\Resources\Api\ModulResource;
 use App\Models\MenuMgt;
+use App\Models\User;
+use App\Traits\Api\SsoTicket;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
+use function Livewire\str;
 
 class DashboardService
 {
+    use SsoTicket;
     /**
      * Create a new class instance.
      */
@@ -45,7 +51,7 @@ class DashboardService
             ->values()
             ->toArray();
 
-        Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
+        // Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
 
         $accsessibleMenus = MenuMgt::with(['modul_mgt', 'content_mgt'])
             ->whereIn('module_id', $moduleIds)
@@ -53,7 +59,17 @@ class DashboardService
             ->orderBy('display_order', 'asc')
             ->get();
 
-        Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
-        return MenuResource::collection($accsessibleMenus)->resolve();
+        $token = $this->generateSsoTicket($userLogin);
+
+        // Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
+        
+        $menus = MenuResource::collection($accsessibleMenus);
+        
+        // Inject token ke dalam tiap resource instnace
+        $menus->collection->transform(function ($menuResource) use ($token) {
+            return $menuResource->setToken($token);
+        });
+
+        return $menus->resolve();
     }
 }

@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             ContentMgtSeeder::class,
             MenuMgtSeeder::class,
             ApprovalMasterSeeder::class,
-            PermissionSeeder::class,
+            FilamentResourcePermissionSeeder::class,
             RolePermissionSeeder::class,
         ]);
     }

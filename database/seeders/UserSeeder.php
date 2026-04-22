@@ -11,10 +11,5 @@ class UserSeeder extends Seeder
     {
         // Seed 50 random users via factory
         User::factory(50)->create();
-
-        // Ensure the test user always exists
-        User::factory()->create([
-            'email' => 'test@example.com',
-        ]);
     }
 }

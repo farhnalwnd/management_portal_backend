@@ -15,6 +15,7 @@ class ApprovalMasterSeeder extends Seeder
     public function run(): void
     {
         ApprovalMaster::factory(1)->create([
+            'approver_id' => 1,
             'level' => 1,
         ]);
     }

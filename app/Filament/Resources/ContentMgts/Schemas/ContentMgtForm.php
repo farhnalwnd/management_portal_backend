@@ -61,7 +61,7 @@ class ContentMgtForm
                         TextInput::make('approval_status')
                             ->disabled()
                             ->dehydrated()
-                            ->default('pending')
+                            ->default('approved')
                             ->required(),
                         DatePicker::make('published_date')
                             ->label('Published Date')
