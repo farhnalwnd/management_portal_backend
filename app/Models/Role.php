@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
-    // You can add custom relationships or properties here if needed in the future
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('access control')
+            ->logAll()
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
+    }
 }
