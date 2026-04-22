@@ -22,7 +22,7 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->useLogName('user management')
-            ->logAll()
+            ->logExcept(['password'])
             ->logOnlyDirty()
             ->dontLogEmptyChanges();
     }
@@ -33,7 +33,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
         'department_id',
