@@ -7,15 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class MenuResource extends JsonResource
 {
-    protected ?string $token = null;
-
-    public function setToken(?string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -30,9 +21,7 @@ class MenuResource extends JsonResource
             'is_active'     => $this->is_active,
 
             'module'        => new ModulResource($this->whenLoaded('modul_mgt')),
-            'content'       => $this->whenLoaded('content_mgt', function () {
-                return (new ContentResource($this->content_mgt))->setToken($this->token);
-            }),
+            'content'       => new ContentResource($this->whenLoaded('content_mgt')),
         ];
     }
 }

@@ -14,7 +14,6 @@ class MenuMgtSeeder extends Seeder
     {
         $menus = [
             [
-                'id' => 1,
                 'menu_name' => 'catera',
                 'module_id' => 1,
                 'content_id' => 1,
@@ -25,7 +24,6 @@ class MenuMgtSeeder extends Seeder
                 'updated_at' => '2026-04-14 02:22:13',
             ],
             [
-                'id' => 2,
                 'menu_name' => 'portal-aplication',
                 'module_id' => 2,
                 'content_id' => 2,
@@ -38,10 +36,7 @@ class MenuMgtSeeder extends Seeder
         ];
 
         foreach ($menus as $menu) {
-            MenuMgt::updateOrCreate(
-                ['id' => $menu['id']],
-                $menu
-            );
+            MenuMgt::create($menu);
         }
     }
 }
