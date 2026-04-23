@@ -22,7 +22,7 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->useLogName('user management')
-            ->logExcept(['password'])
+            ->logAll()
             ->logOnlyDirty()
             ->dontLogEmptyChanges();
     }
