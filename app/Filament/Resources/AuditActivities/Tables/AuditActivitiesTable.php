@@ -42,7 +42,7 @@ class AuditActivitiesTable
                 TextColumn::make('causer.name')
                     ->label('User')
                     ->placeholder('System')
-                    ->searchable()
+                    ->searchable(['first_name', 'last_name'])
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

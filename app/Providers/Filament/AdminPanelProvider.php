@@ -26,11 +26,16 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->viteTheme('resources/css/filament/admin/theme.css')
             // ->login()
             ->colors([
-                'primary' => Color::Cyan[600],
+                'danger' => Color::Rose,
+                'gray' => Color::Slate,
+                'info' => Color::Blue,
+                'primary' => Color::Cyan,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
+            ->font('Figtree')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -54,7 +59,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugins([])
-            ->viteTheme('resources/css/filament/admin/theme.css');
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->darkMode(false);
     }
 }
