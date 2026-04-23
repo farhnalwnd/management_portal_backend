@@ -14,7 +14,6 @@ class ModulMgtSeeder extends Seeder
     {
         $modules = [
             [
-                'id' => 1,
                 'module_name' => 'catera',
                 'module_description' => 'project catera',
                 'is_active' => true,
@@ -28,7 +27,6 @@ class ModulMgtSeeder extends Seeder
                 'api_secret' => null,
             ],
             [
-                'id' => 2,
                 'module_name' => 'portal',
                 'module_description' => 'portal admin panel',
                 'is_active' => true,
@@ -44,10 +42,7 @@ class ModulMgtSeeder extends Seeder
         ];
 
         foreach ($modules as $module) {
-            ModulMgt::updateOrCreate(
-                ['id' => $module['id']],
-                $module
-            );
+            ModulMgt::create($module);
         }
     }
 }

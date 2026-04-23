@@ -14,7 +14,6 @@ class ContentMgtSeeder extends Seeder
     {
         $contents = [
             [
-                'id' => 1,
                 'type' => 'catera',
                 'title' => 'catera',
                 'modul_id' => 1,
@@ -32,7 +31,6 @@ class ContentMgtSeeder extends Seeder
                 'updated_at' => '2026-04-14 02:19:08',
             ],
             [
-                'id' => 2,
                 'type' => 'portal',
                 'title' => 'portal',
                 'modul_id' => 2,
@@ -52,10 +50,7 @@ class ContentMgtSeeder extends Seeder
         ];
 
         foreach ($contents as $content) {
-            ContentMgt::updateOrCreate(
-                ['id' => $content['id']],
-                $content
-            );
+            ContentMgt::create($content);
         }
     }
 }
