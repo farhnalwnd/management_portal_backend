@@ -18,7 +18,7 @@ class ContentResource extends JsonResource
             'type' => $this->type,
             'title' => $this->title,
             'version' => $this->version,
-            'repo' => $this->repo,
+            'repo' => $this->repo
         ];
     }
 }

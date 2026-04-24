@@ -6,7 +6,11 @@ use App\Http\Resources\Api\ContentResource;
 use App\Http\Resources\Api\MenuResource;
 use App\Http\Resources\Api\ModulResource;
 use App\Models\MenuMgt;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
+use function Livewire\str;
 
 class DashboardService
 {
@@ -45,7 +49,7 @@ class DashboardService
             ->values()
             ->toArray();
 
-        Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
+        // Log::info('module yang dapat diakses adalah: ' . json_encode($moduleIds));
 
         $accsessibleMenus = MenuMgt::with(['modul_mgt', 'content_mgt'])
             ->whereIn('module_id', $moduleIds)
@@ -53,7 +57,8 @@ class DashboardService
             ->orderBy('display_order', 'asc')
             ->get();
 
-        Log::info('menu yang dapat diakses adalah: ' . $accsessibleMenus);
-        return MenuResource::collection($accsessibleMenus)->resolve();
+        $menus = MenuResource::collection($accsessibleMenus);
+        
+        return $menus->resolve();
     }
 }

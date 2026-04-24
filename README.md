@@ -1,59 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Management Portal Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem administrasi portal untuk pengelolaan tersentralisasi, SSO, dan manajemen akses.
 
-## About Laravel
+## Persyaratan Sistem
+- Docker & Docker Compose
+- Lingkungan pengembangan menggunakan **fvm** (Flutter Version Management) yang terintegrasi.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Setup & Instalasi (Menggunakan Docker / Sail)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Proyek ini telah dikonfigurasi menggunakan Laravel Sail untuk kemudahan setup *environment* berbasis Docker.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Clone repository:**
+   ```bash
+   git clone <repo_url>
+   cd management_portal_backend
+   ```
 
-## Learning Laravel
+2. **Setup Environment:**
+   Salin file konfigurasi `.env.example` menjadi `.env`.
+   ```bash
+   cp .env.example .env
+   ```
+   Pastikan variabel seperti `DB_CONNECTION`, port database (`FORWARD_DB_PORT`), `PGADMIN_PORT`, dan `SSO_PORTAL_URL` sudah terisi dengan benar (sudah tersinkronisasi di `.env.example`).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+3. **Install Dependencies:**
+   Jika Anda belum memiliki PHP/Composer lokal, gunakan image container kecil untuk meng-install dependensi awal:
+   ```bash
+   docker run --rm \
+       -u "$(id -u):$(id -g)" \
+       -v "$(pwd):/var/www/html" \
+       -w /var/www/html \
+       laravelsail/php84-composer:latest \
+       composer install --ignore-platform-reqs
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. **Jalankan Docker Container:**
+   ```bash
+   ./vendor/bin/sail up -d
+   ```
 
-## Laravel Sponsors
+5. **Generate Application Key:**
+   ```bash
+   ./vendor/bin/sail artisan key:generate
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+6. **Migrasi & Seeding Database:**
+   ```bash
+   ./vendor/bin/sail artisan migrate --seed
+   ```
 
-### Premium Partners
+## ⚠️ PERHATIAN: Penggunaan `sail artisan`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Mengingat kita menggunakan `fvm` di dalam alur pengembangan (yang dapat mempengaruhi *environment* path lokal), Anda **DIWAJIBKAN** untuk menggunakan `sail artisan` untuk seluruh eksekusi command Artisan, dan **jangan menggunakan `php artisan`**.
 
-## Contributing
+✅ **BENAR:**
+```bash
+sail artisan make:model User
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+❌ **SALAH:**
+```bash
+php artisan make:model User
+```
+*(Anda dapat mengkonfigurasi alias `alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'` untuk mempersingkat command)*.
 
-## Code of Conduct
+## Database & Skema
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Proyek ini menggunakan **PostgreSQL** (`pgsql`) sebagai database utamanya di dalam ekosistem Docker.
 
-## Security Vulnerabilities
+- **Database Name**: `internal_system`
+- **Username**: `postgres`
+- **Port Internal (Container)**: `5432`
+- **Port Eksternal (Host)**: `5433` (Diatur menggunakan `FORWARD_DB_PORT` untuk mencegah bentrok dengan *service* postgres lokal).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**PGAdmin**
+Untuk manajemen database via *browser*, proyek ini menyertakan container PGAdmin.
+- Akses melalui browser di: `http://localhost:5050` (cek `PGADMIN_PORT`).
+- Login default: `admin@example.com` / `admin` (atau sesuai yang di-*set* pada `.env`).

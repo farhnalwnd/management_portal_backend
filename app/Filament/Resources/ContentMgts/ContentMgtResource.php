@@ -7,13 +7,13 @@ use App\Filament\Resources\ContentMgts\Pages\EditContentMgt;
 use App\Filament\Resources\ContentMgts\Pages\ListContentMgts;
 use App\Filament\Resources\ContentMgts\Pages\ViewContentMgt;
 use App\Filament\Resources\ContentMgts\Schemas\ContentMgtForm;
-use App\Filament\Resources\ContentMgts\Schemas\ContentMgtInfolist;
 use App\Filament\Resources\ContentMgts\Tables\ContentMgtsTable;
 use App\Models\ContentMgt;
 use BackedEnum;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -24,7 +24,7 @@ class ContentMgtResource extends Resource
 {
     protected static ?string $model = ContentMgt::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Feature Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
@@ -62,7 +62,7 @@ class ContentMgtResource extends Resource
 
                         TextEntry::make('repo')
                             ->label('Repository URL')
-                            ->url(fn($record) => $record->repo)
+                            ->url(fn ($record) => $record->repo)
                             ->openUrlInNewTab()
                             ->color('info')
                             ->icon('heroicon-m-link'),
@@ -72,46 +72,49 @@ class ContentMgtResource extends Resource
                             ->dateTime('d M Y'),
                     ])->columnSpan(1),
 
-                Section::make('Status & Penanggung Jawab')
+                Group::make()
                     ->schema([
-                        Grid::make(3)
+                        Section::make('Status & Penanggung Jawab')
                             ->schema([
-                                TextEntry::make('approval_status')
-                                    ->badge()
-                                    ->color(fn(string $state): string => match ($state) {
-                                        'approved' => 'success',
-                                        'pending' => 'primary',
-                                        'rejected' => 'warning',
-                                        default => 'gray',
-                                    }),
-                                TextEntry::make('approver.first_name')
-                                    ->state(fn($record) => $record->approver ? $record->approver->first_name . ' ' . $record->approver->last_name : '-')
-                                    ->label('Approver Name'),
-                                TextEntry::make('published_date')
-                                    ->label('Action Date')
-                                    ->dateTime('d M Y'),
-                            ]),
-                    ])->columnSpan(1)->collapsible(),
+                                Grid::make(3)
+                                    ->schema([
+                                        TextEntry::make('approval_status')
+                                            ->badge()
+                                            ->color(fn (string $state): string => match ($state) {
+                                                'approved' => 'success',
+                                                'pending' => 'primary',
+                                                'rejected' => 'warning',
+                                                default => 'gray',
+                                            }),
+                                        TextEntry::make('approver.first_name')
+                                            ->state(fn ($record) => $record->approver ? $record->approver->first_name.' '.$record->approver->last_name : '-')
+                                            ->label('Approver Name'),
+                                        TextEntry::make('published_date')
+                                            ->label('Action Date')
+                                            ->dateTime('d M Y'),
+                                    ]),
+                            ])->columnSpan(1)->collapsible(),
 
-                Section::make('Audit Trail')
-                    ->description('Informasi riwayat perubahan data.')
-                    ->schema([
-                        Grid::make(2)
+                        Section::make('Audit Trail')
+                            ->description('Informasi riwayat perubahan data.')
                             ->schema([
-                                TextEntry::make('creator.first_name')
-                                    ->state(fn($record) => $record->creator ? $record->creator->first_name . ' ' . $record->creator->last_name : '-')
-                                    ->label('Dibuat Oleh'),
-                                TextEntry::make('modifier.first_name')
-                                    ->state(fn($record) => $record->modifier ? $record->modifier->first_name . ' ' . $record->modifier->last_name : '-')
-                                    ->label('Terakhir Diubah Oleh'),
-                                TextEntry::make('created_at')
-                                    ->label('Waktu Dibuat')
-                                    ->dateTime(),
-                                TextEntry::make('updated_at')
-                                    ->label('Waktu Update')
-                                    ->dateTime(),
-                            ]),
-                    ])->compact()->collapsible()->columnSpan(1),
+                                Grid::make(2)
+                                    ->schema([
+                                        TextEntry::make('creator.first_name')
+                                            ->state(fn ($record) => $record->creator ? $record->creator->first_name.' '.$record->creator->last_name : '-')
+                                            ->label('Dibuat Oleh'),
+                                        TextEntry::make('modifier.first_name')
+                                            ->state(fn ($record) => $record->modifier ? $record->modifier->first_name.' '.$record->modifier->last_name : '-')
+                                            ->label('Terakhir Diubah Oleh'),
+                                        TextEntry::make('created_at')
+                                            ->label('Waktu Dibuat')
+                                            ->dateTime(),
+                                        TextEntry::make('updated_at')
+                                            ->label('Waktu Update')
+                                            ->dateTime(),
+                                    ]),
+                            ])->compact()->collapsible()->columnSpan(1),
+                    ])->columnSpan(1),
             ]);
     }
 

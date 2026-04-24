@@ -7,13 +7,14 @@ use App\Http\Requests\Api\AuthRequest;
 use App\Http\Service\AuthService;
 use App\Models\User;
 use App\Traits\Api\ApiResponse;
+use App\Traits\Api\SsoTicket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    use ApiResponse;
+    use ApiResponse, SsoTicket;
 
     public function __construct(
         protected AuthService $authService
@@ -74,5 +75,20 @@ class AuthController extends Controller
         }
 
         return $this->success($result, 'Login success');
+    }
+
+    public function generateTicket(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return $this->error('Unauthenticated', 'Unauthenticated', 401);
+        }
+
+        $ticket = $this->generateSsoTicket($user);
+        if (!$ticket) {
+            return $this->error('Failed to generate ticket', 'Ticket generation failed', 500);
+        }
+
+        return $this->success(['ticket' => $ticket], 'Ticket generated successfully');
     }
 }

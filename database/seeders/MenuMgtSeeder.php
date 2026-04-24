@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\MenuMgt;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MenuMgtSeeder extends Seeder
@@ -13,6 +12,31 @@ class MenuMgtSeeder extends Seeder
      */
     public function run(): void
     {
-        MenuMgt::factory(10)->sequence(fn($sequence) => ['display_order' => $sequence->index + 1])->sequence(fn($sequence) => ['menu_level' => $sequence->index + 1])->create();
+        $menus = [
+            [
+                'menu_name' => 'catera',
+                'module_id' => 1,
+                'content_id' => 1,
+                'display_order' => 1,
+                'menu_level' => 1,
+                'is_active' => true,
+                'created_at' => '2026-04-14 02:22:13',
+                'updated_at' => '2026-04-14 02:22:13',
+            ],
+            [
+                'menu_name' => 'portal-aplication',
+                'module_id' => 2,
+                'content_id' => 2,
+                'display_order' => 2,
+                'menu_level' => 2,
+                'is_active' => true,
+                'created_at' => '2026-04-16 14:33:49',
+                'updated_at' => '2026-04-16 14:33:49',
+            ],
+        ];
+
+        foreach ($menus as $menu) {
+            MenuMgt::create($menu);
+        }
     }
 }

@@ -4,10 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 class ContentMgt extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('featur mgt')
+            ->logAll()
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
+    }
 
     protected $fillable = [
         'type',
@@ -48,6 +59,7 @@ class ContentMgt extends Model
     {
         return $this->hasMany(ApprovalMgt::class, 'approver_id', 'id');
     }
+
     protected static function booted()
     {
         static::creating(function ($model) {
@@ -59,7 +71,7 @@ class ContentMgt extends Model
 
             $approver = ApprovalMaster::where('level', 1)->first();
             $model->approver_id = $approver?->approver_id;
-            $model->approval_status = 'pending';
+            // $model->approval_status = 'approved';
         });
 
         static::updating(function ($model) {

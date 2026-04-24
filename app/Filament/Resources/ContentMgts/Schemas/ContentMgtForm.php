@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources\ContentMgts\Schemas;
 
-use App\Models\ApprovalMaster;
-use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -55,14 +53,13 @@ class ContentMgtForm
                         Select::make('approver_id')
                             ->label('Approver')
                             ->relationship('approver', 'first_name')
-                            ->getOptionLabelFromRecordUsing(fn($record) => $record->first_name . ' ' . $record->last_name)
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name.' '.$record->last_name)
                             ->visibleOn('edit')
                             ->disabled(),
                         TextInput::make('approval_status')
                             ->disabled()
                             ->dehydrated()
-                            ->default('pending')
-                            ->required(),
+                            ->default('approved'),
                         DatePicker::make('published_date')
                             ->label('Published Date')
                             ->nullable(),
@@ -72,8 +69,7 @@ class ContentMgtForm
                             ->onIcon('heroicon-m-check-circle')
                             ->offIcon('heroicon-m-x-circle')
                             ->onColor('success')
-                            ->offColor('danger')
-                            ->visible(fn($record) => $record && $record->approval_status === 'approved'),
+                            ->offColor('danger'),
                     ])->columnSpan(1),
             ]);
     }
