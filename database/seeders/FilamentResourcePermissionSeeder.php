@@ -18,7 +18,7 @@ class FilamentResourcePermissionSeeder extends Seeder
 
         $guardName = 'web';
 
-        $resources = [
+        $resourcesPortal = [
             'approval_master',
             'content_mgt',
             'menu_mgt',
@@ -26,6 +26,12 @@ class FilamentResourcePermissionSeeder extends Seeder
             'role',
             'permission',
             'user',
+        ];
+
+        $resourceCatera = [
+            'dashboard',
+            'registered',
+            'quota_scheduling',
         ];
 
         $actions = [
@@ -40,12 +46,24 @@ class FilamentResourcePermissionSeeder extends Seeder
 
         $permissions = [];
 
-        foreach ($resources as $resource) {
+        foreach ($resourcesPortal as $resource) {
             foreach ($actions as $action) {
                 $permissions[] = [
                     'name' => "portal:{$resource}:{$action}",
                     'guard_name' => $guardName,
                     'module_id' => 2,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+
+        foreach ($resourceCatera as $resource) {
+            foreach ($actions as $action) {
+                $permissions[] = [
+                    'name' => "catera:{$resource}:{$action}",
+                    'guard_name' => $guardName,
+                    'module_id' => 1,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
