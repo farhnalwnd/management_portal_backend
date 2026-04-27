@@ -19,17 +19,21 @@ class UserForm
                     ->columns(3)
                     ->components([
                         TextInput::make('first_name')
-                            ->required(),
+                            ->required()
+                            ->maxLength(255),
                         TextInput::make('last_name')
-                            ->required(),
+                            ->required()
+                            ->maxLength(255),
                         TextInput::make('nik')
                             ->required()
                             ->numeric()
-                            ->maxLength(16),
+                            ->length(16)
+                            ->regex('/^[0-9]{16}$/'),
                         TextInput::make('email')
                             ->label('Email address')
                             ->email()
-                            ->required(),
+                            ->required()
+                            ->maxLength(255),
                         TextInput::make('password')
                             ->password()
                             ->required(fn (string $operation): bool => $operation === 'create')
