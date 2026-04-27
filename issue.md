@@ -1,30 +1,37 @@
-@iss# [Task] Form Validation Enhancement and Security Audit
+# [Task] UI/UX Optimization: Permission Grouping on Role Management
 
 ## 🎯 Objective (Tujuan)
 
-Melakukan optimalisasi project dengan fokus pada peningkatan kualitas data dan keamanan. Task ini bertujuan untuk meneliti kemungkinan adanya bug pada form input, serta memastikan aplikasi memiliki _security safety_ yang kuat, khususnya dalam menangani input dari pengguna.
+Saat ini, tampilan pemilihan hak akses (Permission) pada halaman Create/Edit Role di Filament (berada pada fungsi `buildPermissionTabs`) terlihat kurang rapi. Permission hanya dikelompokkan pada level Modul (berdasarkan `module_id`), sehingga di dalam satu modul, semua permission menumpuk menjadi satu list yang sangat panjang dan sulit dibaca oleh user.
+
+Tujuan dari task ini adalah **memperbaiki UI/UX dengan mengelompokkan kembali list permission berdasarkan "Fitur" di dalam masing-masing modul**.
+Sebagai contoh: Jika di dalam modul `portal` terdapat fitur `menu_mgt`, maka semua action untuk `menu_mgt` (read, create, export, dll) harus dikelompokkan ke dalam satu "Card" atau "Fieldset" tersendiri yang terpisah dari fitur lainnya.
 
 ## 📝 Tasks (Daftar Pekerjaan)
 
-### 1. Memperbaiki dan Memperketat Validasi Filament
+### 1. Refactor Logika Grouping pada Schema Role
 
-Validasi input saat ini perlu ditingkatkan agar lebih ketat dan mencegah data yang tidak sesuai atau tidak lengkap masuk ke dalam sistem.
+- Perhatikan metode/skema pada file form Role (`app/Filament/Resources/Roles/Schemas/RoleForm.php`).
+- Saat ini, data di-_query_ per modul dan langsung dilempar ke satu komponen `CheckboxList`.
+- Anda perlu memodifikasi logika pembacaan data ini. Karena nama permission sudah memiliki format `namamodul:fitur:action`, pecahlah string tersebut (misalnya dengan fungsi `explode` di PHP) untuk mengekstrak elemen kedua, yaitu nama **Fitur**.
+- Lakukan proses _grouping_ (pengelompokan) _collection_ permission berdasarkan nama Fitur tersebut sebelum dirender ke tampilan.
 
-- Telusuri file-file Resource, Page, dan Schema/Form pada direktori Filament.
-- Terapkan aturan validasi bawaan Filament yang lebih spesifik pada setiap _field input_.
-- Gunakan validasi seperti `required()`, `maxLength()`, `minLength()`, validasi format (misal `email()`, `numeric()`), hingga `regex()` atau `pattern` jika field membutuhkan format tertentu (seperti format NIK, nomor telepon, username, atau kode identitas khusus).
-- **Penting:** Anda **wajib memeriksa file database** (seperti _migration_ dan _model_) untuk memastikan bahwa aturan validasi yang diterapkan di Filament (misalnya batasan karakter maksimal atau apakah suatu kolom _nullable_) sama dan sejalan dengan skema tabel di database.
+### 2. Implementasi UI yang Lebih Baik (User Friendly)
 
-### 2. Security Audit: XSS dan Injection
+- Setelah data berhasil dikelompokkan menjadi hierarki Modul $\rightarrow$ Fitur, ubah struktur _Schema_ Filament.
+- Buatkan komponen UI pemisah di dalam Modul. Anda bisa menggunakan komponen Filament seperti `Fieldset`, `Section` kecil, atau `Grid` untuk setiap "Fitur".
+- Di dalam wadah "Fitur" tersebut, barulah tampilkan daftar "Action" menggunakan _Checkbox_.
 
-Memastikan aplikasi terhindar dari manipulasi data atau celah keamanan melalui _malicious payload_ yang dikirimkan oleh user.
+### 3. Perhatian Terhadap Flow Penyimpanan Filament (Catatan Teknis Penting)
 
-- Lakukan pemeriksaan terhadap celah-celah yang berpotensi memicu serangan XSS (Cross-Site Scripting) atau SQL/Command Injection dari setiap inputan form user.
-- Pastikan semua input sudah divalidasi dengan ketat dan ditangani (di-sanitize/escape) secara benar oleh framework sebelum disimpan ke database atau sebelum dirender kembali ke antarmuka pengguna (UI).
-- Jika ditemukan potensi celah keamanan pada _flow_ penyimpanan data, segera perbaiki menggunakan fungsi keamanan standar Laravel dan Eloquent.
+- **Warning:** Pada framework Filament, memecah satu relasi database (`permissions`) menjadi banyak komponen `CheckboxList` yang terpisah-pisah terkadang dapat menimbulkan isu saat proses _save_. Filament mungkin hanya menyimpan nilai dari _CheckboxList_ terakhir yang di-render.
+- **Tugas Tambahan:** Pikirkan solusi terbaik jika kendala tersebut terjadi. Beberapa cara yang umum digunakan:
+    1. Menangani _state_ checkbox secara manual dengan `mutateFormDataBeforeSave` dan `mutateFormDataBeforeFill`.
+    2. Atau, sekadar meng-override view kustom bawaan dari `CheckboxList` sehingga dari segi UI terlihat terkelompok, namun di balik layar tetap dianggap sebagai satu komponen oleh Filament.
+       Silakan cari referensi dan pilih cara yang paling efektif tanpa menulis kode yang terlalu berbelit-belit (spaghetti code).
 
-## ⚠️ Notes & Development Guidelines (Harap Diperhatikan)
+## ⚠️ Notes & Development Guidelines
 
-- **Environment (Sail):** Project ini berjalan di atas Docker menggunakan Laravel Sail. Oleh karena itu, **seluruh eksekusi command harus menggunakan `sail artisan`** (contoh: `sail artisan test` atau `sail artisan route:list`), dan **bukan** `php artisan`.
-- Pendekatan yang dilakukan harus menyeluruh ke berbagai form, namun kerjakan secara bertahap.
-- Buatlah kode yang rapi dan sesuai dengan konvensi penulisan Laravel/Filament. Anda tidak perlu memikirkan perombakan arsitektur besar-besaran, cukup fokus pada validasi ketat dan penutupan celah _security_ dasar.
+- **Database Consistency:** Sebelum mengerjakan kodenya, **periksa tabel `permissions` di database**. Pastikan format _naming convention_-nya benar-benar konsisten menggunakan pemisah titik dua (`:`). Jika ada data lama yang tidak sesuai format, itu bisa menyebabkan _error_ saat fungsi `explode` dijalankan.
+- **Lingkungan Docker (Sail):** Project ini beroperasi dengan Laravel Sail. Ingat bahwa seluruh perintah terminal (terutama migrasi, _tinkering_, atau testing) **WAJIB menggunakan `sail artisan`** dan bukan `php artisan` biasa.
+- Tujuan akhir task ini adalah kenyamanan Admin. Buatlah antar muka senyaman dan semudah mungkin untuk dibaca.

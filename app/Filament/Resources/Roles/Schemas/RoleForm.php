@@ -3,14 +3,16 @@
 namespace App\Filament\Resources\Roles\Schemas;
 
 use App\Models\ModulMgt;
+use App\Models\Permission;
 use Filament\Forms\Components\CheckboxList;
+// use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class RoleForm
 {
@@ -71,19 +73,24 @@ class RoleForm
     {
         $tabs = [];
 
-        $tabs[] = Tabs\Tab::make('Global')
-            ->schema([
-                CheckboxList::make('permissions_global')
-                    ->label('')
-                    ->relationship(
-                        name: 'permissions',
-                        titleAttribute: 'name',
-                        modifyQueryUsing: fn (Builder $query) => $query->whereNull('module_id'),
-                    )
-                    ->bulkToggleable()
-                    ->columns(4)
-                    ->gridDirection('row'),
-            ]);
+        $globalPermissions = Permission::whereNull('module_id')->get();
+        if ($globalPermissions->isNotEmpty()) {
+            $tabs[] = Tabs\Tab::make('Global')
+                ->schema([
+                    CheckboxList::make('permissions_global')
+                        ->label('')
+                        ->options($globalPermissions->pluck('name', 'id'))
+                        ->bulkToggleable()
+                        ->columns(4)
+                        ->gridDirection('row')
+                        ->afterStateHydrated(function (CheckboxList $component, ?Model $record) use ($globalPermissions) {
+                            if ($record) {
+                                $component->state($record->permissions()->whereIn('id', $globalPermissions->pluck('id'))->pluck('id')->toArray());
+                            }
+                        })
+                        ->dehydrated(true),
+                ]);
+        }
 
         $modulesByCategory = ModulMgt::where('is_active', true)
             ->orderBy('category')
@@ -94,22 +101,46 @@ class RoleForm
         foreach ($modulesByCategory as $categoryCode => $modules) {
             $categoryLabel = self::CATEGORY_LABELS[$categoryCode] ?? strtoupper((string) $categoryCode);
 
-            $moduleSections = $modules->map(
-                fn (ModulMgt $module): Section => Section::make($module->module_name)
-                    ->schema([
-                        CheckboxList::make('permissions_module_'.$module->id)
-                            ->relationship(
-                                name: 'permissions',
-                                titleAttribute: 'name',
-                                modifyQueryUsing: fn (Builder $query) => $query->where('module_id', $module->id),
-                            )
-                            ->bulkToggleable()
-                            ->columns(4)
-                            ->gridDirection('row'),
-                    ])
+            $moduleSections = $modules->map(function (ModulMgt $module) {
+                $modulePermissions = Permission::where('module_id', $module->id)->get();
+
+                $features = $modulePermissions->groupBy(function ($perm) {
+                    $parts = explode(':', $perm->name);
+
+                    return count($parts) >= 3 ? $parts[1] : 'General';
+                });
+
+                $featureFieldsets = $features->map(function ($perms, $featureName) use ($module) {
+                    return Section::make(ucfirst($featureName))
+                        ->schema([
+                            CheckboxList::make('permissions_feature_'.$module->id.'_'.$featureName)
+                                ->label('select permission')
+                                ->options($perms->mapWithKeys(function ($p) {
+                                    $parts = explode(':', $p->name);
+                                    $action = count($parts) >= 3 ? $parts[2] : $p->name;
+
+                                    return [$p->id => ucfirst($action)];
+                                }))
+                                ->bulkToggleable()
+                                ->columns(4)
+                                ->gridDirection('row')
+                                ->afterStateHydrated(function (CheckboxList $component, ?Model $record) use ($perms) {
+                                    if ($record) {
+                                        $component->state($record->permissions()->whereIn('id', $perms->pluck('id'))->pluck('id')->toArray());
+                                    }
+                                })
+                                ->dehydrated(true),
+                        ])
+                        ->collapsible(true)
+                        ->collapsed(true)
+                        ->columns(1);
+                })->values()->all();
+
+                return Section::make($module->module_name)
+                    ->schema($featureFieldsets)
                     ->collapsible(true)
-                    ->collapsed(true)
-            )->values()->all();
+                    ->collapsed(true);
+            })->values()->all();
 
             $tabs[] = Tabs\Tab::make($categoryLabel)
                 ->schema($moduleSections);
