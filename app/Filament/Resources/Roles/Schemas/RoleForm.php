@@ -73,24 +73,24 @@ class RoleForm
     {
         $tabs = [];
 
-        $globalPermissions = Permission::whereNull('module_id')->get();
-        if ($globalPermissions->isNotEmpty()) {
-            $tabs[] = Tabs\Tab::make('Global')
-                ->schema([
-                    CheckboxList::make('permissions_global')
-                        ->label('')
-                        ->options($globalPermissions->pluck('name', 'id'))
-                        ->bulkToggleable()
-                        ->columns(4)
-                        ->gridDirection('row')
-                        ->afterStateHydrated(function (CheckboxList $component, ?Model $record) use ($globalPermissions) {
-                            if ($record) {
-                                $component->state($record->permissions()->whereIn('id', $globalPermissions->pluck('id'))->pluck('id')->toArray());
-                            }
-                        })
-                        ->dehydrated(true),
-                ]);
-        }
+        // $globalPermissions = Permission::whereNull('module_id')->get();
+        // if ($globalPermissions->isNotEmpty()) {
+        //     $tabs[] = Tabs\Tab::make('Global')
+        //         ->schema([
+        //             CheckboxList::make('permissions_global')
+        //                 ->label('')
+        //                 ->options($globalPermissions->pluck('name', 'id'))
+        //                 ->bulkToggleable()
+        //                 ->columns(4)
+        //                 ->gridDirection('row')
+        //                 ->afterStateHydrated(function (CheckboxList $component, ?Model $record) use ($globalPermissions) {
+        //                     if ($record) {
+        //                         $component->state($record->permissions()->whereIn('id', $globalPermissions->pluck('id'))->pluck('id')->toArray());
+        //                     }
+        //                 })
+        //                 ->dehydrated(true),
+        //         ]);
+        // }
 
         $modulesByCategory = ModulMgt::where('is_active', true)
             ->orderBy('category')
