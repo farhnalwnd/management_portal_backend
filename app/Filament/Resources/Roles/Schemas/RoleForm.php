@@ -36,11 +36,13 @@ class RoleForm
                             ->label('Role Name')
                             ->required()
                             ->unique(ignoreRecord: true)
+                            ->maxLength(255)
                             ->columnSpan(3),
                         TextInput::make('guard_name')
                             ->label('Guard')
                             ->default('web')
                             ->required()
+                            ->maxLength(255)
                             ->columnSpan(2),
                         Toggle::make('all_access')
                             ->label('Superior')
@@ -76,7 +78,7 @@ class RoleForm
                     ->relationship(
                         name: 'permissions',
                         titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query) => $query->whereNull('module_id'),
+                        modifyQueryUsing: fn (Builder $query) => $query->whereNull('module_id'),
                     )
                     ->bulkToggleable()
                     ->columns(4)
@@ -93,13 +95,13 @@ class RoleForm
             $categoryLabel = self::CATEGORY_LABELS[$categoryCode] ?? strtoupper((string) $categoryCode);
 
             $moduleSections = $modules->map(
-                fn(ModulMgt $module): Section => Section::make($module->module_name)
+                fn (ModulMgt $module): Section => Section::make($module->module_name)
                     ->schema([
-                        CheckboxList::make('permissions_module_' . $module->id)
+                        CheckboxList::make('permissions_module_'.$module->id)
                             ->relationship(
                                 name: 'permissions',
                                 titleAttribute: 'name',
-                                modifyQueryUsing: fn(Builder $query) => $query->where('module_id', $module->id),
+                                modifyQueryUsing: fn (Builder $query) => $query->where('module_id', $module->id),
                             )
                             ->bulkToggleable()
                             ->columns(4)

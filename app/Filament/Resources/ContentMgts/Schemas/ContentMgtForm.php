@@ -24,13 +24,16 @@ class ContentMgtForm
                                 TextInput::make('title')
                                     ->label('Title')
                                     ->required()
+                                    ->maxLength(255)
                                     ->columnSpan(3),
                                 TextInput::make('type')
                                     ->label('Type')
-                                    ->required(),
+                                    ->required()
+                                    ->maxLength(255),
                                 TextInput::make('version')
                                     ->label('Version')
-                                    ->required(),
+                                    ->required()
+                                    ->maxLength(255),
                                 Select::make('modul_id')
                                     ->label('Module')
                                     ->relationship('module', 'module_name')
@@ -41,6 +44,7 @@ class ContentMgtForm
                                     ->suffixIcon('heroicon-m-link')
                                     ->placeholder('https://github.com/...')
                                     ->required()
+                                    ->maxLength(255)
                                     ->columnSpan(3),
                             ]),
                     ])
