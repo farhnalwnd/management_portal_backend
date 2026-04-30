@@ -28,11 +28,13 @@ class UserForm
                             ->required()
                             ->numeric()
                             ->length(16)
+                            ->unique()
                             ->regex('/^[0-9]{16}$/'),
                         TextInput::make('email')
                             ->label('Email address')
                             ->email()
                             ->required()
+                            ->unique()
                             ->maxLength(255),
                         TextInput::make('password')
                             ->password()

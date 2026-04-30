@@ -32,7 +32,7 @@ class RoleForm
             ->columns(2)
             ->components([
                 Section::make('Role Identity')
-                    ->columns(6)
+                    ->columns(4)
                     ->schema([
                         TextInput::make('name')
                             ->label('Role Name')
@@ -45,15 +45,6 @@ class RoleForm
                             ->default('web')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(2),
-                        Toggle::make('all_access')
-                            ->label('Superior')
-                            ->inline(false)
-                            ->helperText('Give all access to this role')
-                            ->onColor('success')
-                            ->offColor('danger')
-                            ->onIcon(Heroicon::OutlinedCheck)
-                            ->offIcon(Heroicon::OutlinedXMark)
                             ->columnSpan(1),
                     ])
                     ->columnSpanFull(),

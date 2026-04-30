@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ContentMgts\Schemas;
 
+use App\Models\ModulMgt;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -36,7 +37,8 @@ class ContentMgtForm
                                     ->maxLength(255),
                                 Select::make('modul_id')
                                     ->label('Module')
-                                    ->relationship('module', 'module_name')
+                                    ->options(ModulMgt::query()->pluck('module_name', 'id'))
+                                    ->searchable()
                                     ->required(),
                                 TextInput::make('repo')
                                     ->label('Repository URL')

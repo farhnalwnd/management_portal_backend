@@ -9,11 +9,4 @@ use Filament\Resources\Pages\ListRecords;
 class ListAuditActivities extends ListRecords
 {
     protected static string $resource = AuditActivityResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make(),
-        ];
-    }
 }
