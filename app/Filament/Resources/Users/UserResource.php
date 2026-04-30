@@ -11,7 +11,6 @@ use App\Filament\Resources\Users\Schemas\UserInfolist;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
-use Dom\Text;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -25,8 +24,8 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $modelLabel = 'Users';
-    
-    protected static string | UnitEnum | null $navigationGroup = 'Settings';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
 
@@ -54,7 +53,7 @@ class UserResource extends Resource
                             ->schema([
                                 TextEntry::make('full_name')
                                     ->label('Full Name')
-                                    ->state(fn($record): string => $record->first_name . ' ' . $record->last_name),
+                                    ->state(fn ($record): string => $record->first_name.' '.$record->last_name),
 
                                 TextEntry::make('nik')
                                     ->label('NIK'),
@@ -72,7 +71,7 @@ class UserResource extends Resource
 
                                 TextEntry::make('status')
                                     ->badge()
-                                    ->color(fn(string $state): string => match ($state) {
+                                    ->color(fn (string $state): string => match ($state) {
                                         'active' => 'success',
                                         'inactive' => 'warning',
                                         'locked' => 'danger',

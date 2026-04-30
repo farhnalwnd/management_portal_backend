@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AuthRequest;
 use App\Http\Service\AuthService;
-use App\Models\User;
 use App\Traits\Api\ApiResponse;
 use App\Traits\Api\SsoTicket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -80,12 +77,12 @@ class AuthController extends Controller
     public function generateTicket(Request $request)
     {
         $user = $request->user();
-        if (!$user) {
+        if (! $user) {
             return $this->error('Unauthenticated', 'Unauthenticated', 401);
         }
 
         $ticket = $this->generateSsoTicket($user);
-        if (!$ticket) {
+        if (! $ticket) {
             return $this->error('Failed to generate ticket', 'Ticket generation failed', 500);
         }
 

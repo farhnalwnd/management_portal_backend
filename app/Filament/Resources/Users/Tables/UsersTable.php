@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Users\Tables;
 
 use App\Filament\Resources\Users\UserResource;
-use App\Models\Role;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -34,7 +33,7 @@ class UsersTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'active' => 'primary',
                         'inactive' => 'warning',
                         'locked' => 'danger',

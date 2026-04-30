@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ApprovalMgt;
 use App\Models\ContentMgt;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -16,10 +15,11 @@ class ApprovalController extends Controller
             DB::beginTransaction();
             $approvalMgt = ApprovalMgt::where('content_id', $id)->where('token', $token)->where('approval_status', 'pending')->first();
 
-            if (!$approvalMgt) {
-                Log::error('tidak ditemukan: ' . $id . ' ' . $token);
+            if (! $approvalMgt) {
+                Log::error('tidak ditemukan: '.$id.' '.$token);
+
                 return view('mail.approval-failed', [
-                    'e' => new \Exception("Link sudah tidak valid atau sudah pernah diproses.")
+                    'e' => new \Exception('Link sudah tidak valid atau sudah pernah diproses.'),
                 ]);
             }
 
@@ -37,9 +37,11 @@ class ApprovalController extends Controller
             $contentMgt->save();
 
             DB::commit();
+
             return view('mail.approval-success');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return view('mail.approval-failed', compact('e'));
         }
     }

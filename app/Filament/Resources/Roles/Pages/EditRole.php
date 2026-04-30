@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Roles\Pages;
 use App\Filament\Resources\Roles\RoleResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Facades\Log;
 
 class EditRole extends EditRecord
 {

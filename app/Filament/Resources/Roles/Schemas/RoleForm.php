@@ -7,11 +7,9 @@ use App\Models\Permission;
 use Filament\Forms\Components\CheckboxList;
 // use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 
 class RoleForm

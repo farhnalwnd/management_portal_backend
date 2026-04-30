@@ -19,7 +19,10 @@ class LatestActivities extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => Activity::query()->latest()->limit(5))
+            ->query(fn (): Builder => Activity::query()
+                ->where('subject_type', '!=', 'App\\Models\\ContentMgt')
+                ->latest()
+                ->limit(5))
             ->columns([
                 TextColumn::make('log_name')
                     ->badge()

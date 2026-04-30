@@ -2,15 +2,9 @@
 
 namespace App\Http\Service;
 
-use App\Http\Resources\Api\ContentResource;
 use App\Http\Resources\Api\MenuResource;
-use App\Http\Resources\Api\ModulResource;
 use App\Models\MenuMgt;
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-
-use function Livewire\str;
 
 class DashboardService
 {
@@ -58,7 +52,7 @@ class DashboardService
             ->get();
 
         $menus = MenuResource::collection($accsessibleMenus);
-        
+
         return $menus->resolve();
     }
 }

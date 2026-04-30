@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\department;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -47,7 +48,8 @@ class UserForm
                     ->components([
                         Select::make('department_id')
                             ->relationship('department', 'name')
-                            ->preload()
+                            ->options(department::query()->pluck('name', 'id'))
+                            ->searchable()
                             ->required(),
                         Select::make('status')
                             ->options(['active' => 'Active', 'inactive' => 'Inactive', 'locked' => 'Locked'])
@@ -56,7 +58,6 @@ class UserForm
                         Select::make('roles')
                             ->relationship('roles', 'name')
                             ->searchable()
-                            ->preload()
                             ->native(false)
                             ->required(),
                     ])->columnSpan(1),
