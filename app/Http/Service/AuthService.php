@@ -34,7 +34,7 @@ class AuthService
         $token = $user->createToken($device_name)->plainTextToken;
 
         return [
-            'user'  => new UserResource($user),
+            'user' => new UserResource($user),
             'token' => $token,
         ];
     }
@@ -42,9 +42,10 @@ class AuthService
     public function getUserLogin()
     {
         $user = Auth::user();
-        if (!$user) {
+        if (! $user) {
             return 'user not found';
         }
-        return ($user);
+
+        return $user;
     }
 }

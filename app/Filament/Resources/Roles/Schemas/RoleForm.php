@@ -7,11 +7,9 @@ use App\Models\Permission;
 use Filament\Forms\Components\CheckboxList;
 // use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
 
 class RoleForm
@@ -32,7 +30,7 @@ class RoleForm
             ->columns(2)
             ->components([
                 Section::make('Role Identity')
-                    ->columns(6)
+                    ->columns(4)
                     ->schema([
                         TextInput::make('name')
                             ->label('Role Name')
@@ -45,15 +43,6 @@ class RoleForm
                             ->default('web')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpan(2),
-                        Toggle::make('all_access')
-                            ->label('Superior')
-                            ->inline(false)
-                            ->helperText('Give all access to this role')
-                            ->onColor('success')
-                            ->offColor('danger')
-                            ->onIcon(Heroicon::OutlinedCheck)
-                            ->offIcon(Heroicon::OutlinedXMark)
                             ->columnSpan(1),
                     ])
                     ->columnSpanFull(),

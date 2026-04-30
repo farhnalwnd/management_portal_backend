@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Service\AuthService;
 use App\Http\Service\DashboardService;
 use App\Traits\Api\ApiResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {

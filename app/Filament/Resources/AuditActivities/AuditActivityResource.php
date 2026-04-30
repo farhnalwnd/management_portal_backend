@@ -56,14 +56,4 @@ class AuditActivityResource extends Resource
             'view' => ViewAuditActivity::route('/{record}'),
         ];
     }
-
-    public static function canCreate(): bool
-    {
-        return false;
-    }
-
-    public static function canUpdate(): bool
-    {
-        return false;
-    }
 }
