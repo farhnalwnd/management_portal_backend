@@ -19,17 +19,22 @@ class ContentMgtsTable
         return $table
             ->columns([
                 TextColumn::make('type')
+                    ->label('Type')
                     ->searchable(),
                 TextColumn::make('title')
+                    ->label('Title')
                     ->searchable(),
                 TextColumn::make('module.module_name')
+                    ->label('Module Name')
                     ->sortable(),
                 TextColumn::make('version')
+                    ->label('Version')
                     ->searchable(),
                 IconColumn::make('status')
                     ->label('Is Active')
                     ->boolean(),
                 TextColumn::make('repo')
+                    ->label('Module Domain')
                     ->searchable(),
                 TextColumn::make('creator.first_name')
                     ->label('Creator')
@@ -44,6 +49,7 @@ class ContentMgtsTable
                     ->description(fn ($record) => $record->approver->last_name)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approval_status')
+                    ->label('Approval Status')
                     ->badge()
                     ->color(fn ($state) => match ($state) {
                         'pending' => 'warning',
@@ -56,6 +62,7 @@ class ContentMgtsTable
                         'rejected' => 'heroicon-o-x-circle',
                     }),
                 TextColumn::make('published_date')
+                    ->label('Published Date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('created_at')

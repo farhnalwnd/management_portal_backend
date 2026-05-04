@@ -125,7 +125,7 @@ class RoleForm
                         ->columns(1);
                 })->values()->all();
 
-                return Section::make($module->module_name)
+                return Section::make(strtoupper((string) $module->module_name))
                     ->schema($featureFieldsets)
                     ->collapsible(true)
                     ->collapsed(true);

@@ -22,10 +22,13 @@ class ModulMgtsTable
         return $table
             ->columns([
                 TextColumn::make('module_name')
+                    ->label('Module Name')
                     ->searchable(),
                 TextColumn::make('module_description')
+                    ->label('Module Description')
                     ->searchable(),
                 TextColumn::make('category')
+                    ->label('Category')
                     ->badge()
                     ->icon(fn (string $state): string => match ($state) {
                         'fico' => 'heroicon-m-banknotes',
@@ -58,9 +61,11 @@ class ModulMgtsTable
                     ->label('Active')
                     ->boolean(),
                 TextColumn::make('creator.first_name')
+                    ->label('Creator')
                     ->description(fn ($record) => $record->modifier ? $record->creator->last_name : '')
                     ->sortable(),
                 TextColumn::make('modifier.first_name')
+                    ->label('Modifier')
                     ->description(fn ($record) => $record->modifier ? $record->modifier->last_name : '')
                     ->sortable(),
                 TextColumn::make('created_at')

@@ -20,7 +20,6 @@ class LatestActivities extends TableWidget
     {
         return $table
             ->query(fn (): Builder => Activity::query()
-                ->where('subject_type', '!=', 'App\\Models\\ContentMgt')
                 ->latest()
                 ->limit(5))
             ->columns([

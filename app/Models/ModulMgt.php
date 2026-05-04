@@ -40,6 +40,22 @@ class ModulMgt extends Model
         return $this->belongsTo(User::class, 'last_modified_by', 'id');
     }
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->created_by = auth()->id();
+                $model->last_modified_by = auth()->id();
+            }
+        });
+
+        static::updating(function ($model) {
+            if (auth()->check()) {
+                $model->last_modified_by = auth()->id();
+            }
+        });
+    }
+
     public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class, 'module_id');

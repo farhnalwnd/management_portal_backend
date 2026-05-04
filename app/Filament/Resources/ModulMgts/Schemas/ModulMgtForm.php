@@ -18,14 +18,17 @@ class ModulMgtForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('module_name')
+                            ->label('Module Name')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
                         TextInput::make('module_description')
+                            ->label('Module Description')
                             ->default(null)
                             ->maxLength(255)
                             ->columnSpanFull(),
                         Select::make('category')
+                            ->label('Category')
                             ->options([
                                 'fico' => 'Finance & Controlling (FI/CO)',
                                 'mm' => 'Materials Management (MM)',
@@ -38,6 +41,7 @@ class ModulMgtForm
                             ->required()
                             ->columnSpan(1),
                         Toggle::make('is_active')
+                            ->label('Is Active')
                             ->required()
                             ->helperText('Enable to activate the module.')
                             ->onIcon('heroicon-m-check')
@@ -45,21 +49,6 @@ class ModulMgtForm
                             ->onColor('success')
                             ->inline(false)
                             ->columnSpan(1),
-                    ]),
-                Section::make('Audit Information')
-                    ->schema([
-                        Select::make('created_by')
-                            ->label('Created By')
-                            ->relationship('creator', 'first_name')
-                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name.' '.$record->last_name)
-                            ->searchable(['first_name', 'last_name'])
-                            ->required(),
-                        Select::make('last_modified_by')
-                            ->label('Last Modified By')
-                            ->relationship('modifier', 'first_name')
-                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name.' '.$record->last_name)
-                            ->searchable(['first_name', 'last_name'])
-                            ->required(),
                     ]),
             ]);
     }
