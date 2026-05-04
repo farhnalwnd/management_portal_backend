@@ -29,10 +29,10 @@ class AdminPanelProvider extends PanelProvider
             // ->login()
             ->colors([
                 'danger' => Color::Rose,
-                'gray' => Color::Slate,
-                'info' => Color::Blue,
-                'primary' => Color::Cyan,
-                'success' => Color::Emerald,
+                'gray' => '#5B5856',
+                'info' => '#6DC5EE',
+                'primary' => '#4DA8CF',
+                'success' => '#3F8F81',
                 'warning' => Color::Orange,
             ])
             ->font('Figtree')
@@ -59,6 +59,10 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->globalSearch(false)
+            ->sidebarCollapsibleOnDesktop()
+            ->sidebarWidth('18rem')
+            ->topbar(false)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->darkMode(false);
     }

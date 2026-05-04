@@ -39,14 +39,17 @@ class ContentMgtsTable
                 TextColumn::make('creator.first_name')
                     ->label('Creator')
                     ->description(fn ($record) => $record->creator->last_name)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('modifier.first_name')
                     ->label('Modifier')
                     ->description(fn ($record) => $record->modifier->last_name)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approver.first_name')
                     ->label('Approver')
                     ->description(fn ($record) => $record->approver->last_name)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approval_status')
                     ->label('Approval Status')

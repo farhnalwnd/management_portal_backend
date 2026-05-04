@@ -60,8 +60,10 @@ class MenuMgtResource extends Resource
                 Section::make('Relations')
                     ->schema([
                         TextEntry::make('modul_mgt.module_name')
+                            ->inlineLabel()
                             ->label('Module :'),
                         TextEntry::make('content_mgt.title')
+                            ->inlineLabel()
                             ->label('Content :'),
                     ])
                     ->extraAttributes(['class' => 'h-full'])
@@ -89,7 +91,10 @@ class MenuMgtResource extends Resource
                             TextEntry::make('updated_at')
                                 ->label('Updated At :')
                                 ->isoDateTime(),
-                        ])->columnSpan(1),
+                        ])
+                        ->collapsed()
+                        ->collapsible()
+                        ->columnSpan(1),
                 ]),
             ]);
     }

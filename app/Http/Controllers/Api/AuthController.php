@@ -67,6 +67,10 @@ class AuthController extends Controller
             return $this->error('User not found', 'user not found', 401);
         }
 
+        if ($result === 'user not active') {
+            return $this->error('User not active', 'user not active', 401);
+        }
+
         if ($result === 'password not match') {
             return $this->error('Password not match', 'password not match', 401);
         }

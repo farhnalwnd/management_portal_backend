@@ -13,20 +13,26 @@ class ModulMgtForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
-                Section::make('Modul Mgt Details')
+                Section::make('Modul Mgt Data')
                     ->columns(2)
+                    ->columnSpan(2)
                     ->schema([
                         TextInput::make('module_name')
                             ->label('Module Name')
                             ->required()
                             ->maxLength(255)
-                            ->columnSpanFull(),
+                            ->columnSpan(1),
                         TextInput::make('module_description')
                             ->label('Module Description')
                             ->default(null)
                             ->maxLength(255)
-                            ->columnSpanFull(),
+                            ->columnSpan(1),
+                    ]),
+                Section::make('Modul Mgt Settings')
+                    ->columnSpan(1)
+                    ->schema([
                         Select::make('category')
                             ->label('Category')
                             ->options([
@@ -39,7 +45,7 @@ class ModulMgtForm
                             ])
                             ->native(false)
                             ->required()
-                            ->columnSpan(1),
+                            ->columnSpanFull(),
                         Toggle::make('is_active')
                             ->label('Is Active')
                             ->required()
@@ -48,7 +54,7 @@ class ModulMgtForm
                             ->offIcon('heroicon-m-x-mark')
                             ->onColor('success')
                             ->inline(false)
-                            ->columnSpan(1),
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

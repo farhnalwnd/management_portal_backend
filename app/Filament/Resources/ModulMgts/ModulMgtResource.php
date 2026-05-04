@@ -49,6 +49,7 @@ class ModulMgtResource extends Resource
                             ->inlineLabel(true)
                             ->label('Module Name :'),
                         TextEntry::make('module_description')
+                            ->inlineLabel(true)
                             ->label('Description :'),
                         TextEntry::make('category')
                             ->hiddenLabel()
@@ -101,6 +102,7 @@ class ModulMgtResource extends Resource
                                     ->label('Is Active :')
                                     ->boolean(),
                             ])
+                            ->collapsible()
                             ->columnSpan(1),
 
                         // * timestamps
@@ -112,7 +114,9 @@ class ModulMgtResource extends Resource
                                 TextEntry::make('updated_at')
                                     ->label('Updated At :')
                                     ->isoDateTime(),
-                            ]),
+                            ])
+                            ->collapsed()
+                            ->collapsible(),
                     ])->columnSpan(1),
             ]);
     }
