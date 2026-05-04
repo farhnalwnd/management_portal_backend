@@ -27,6 +27,10 @@ class AuthService
             return 'user not found';
         }
 
+        if ($user->status !== 'active') {
+            return 'user not active';
+        }
+
         if (! Hash::check($password, $user->password)) {
             return 'password not match';
         }

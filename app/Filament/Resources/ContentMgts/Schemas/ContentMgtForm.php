@@ -67,6 +67,8 @@ class ContentMgtForm
                             ->default('approved'),
                         DatePicker::make('published_date')
                             ->label('Published Date')
+                            ->native(false)
+                            ->displayFormat('d/m/Y')
                             ->placeholder('dd/mm/yyyy')
                             ->nullable(),
                         Toggle::make('status')

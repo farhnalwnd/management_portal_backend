@@ -4,12 +4,15 @@
 @source '../../../../resources/views/filament/**/*';
 
 :root {
-    --medical-bg: #f8fafc; /* Slate 50 */
-    --medical-primary-soft: #ecfeff; /* Cyan 50 */
+    --medical-bg: #f0f9ff; /* Soft light blue background */
+    --medical-primary-soft: #e0f2fe; /* Soft primary blue */
+    --primary-main: #4DA8CF;
+    --success-main: #3F8F81;
 }
 
 .fi-body {
     background-color: var(--medical-bg) !important;
+    transition: background-color 0.3s ease;
 }
 
 /* Subtle refinements for a premium medical look */
@@ -20,9 +23,19 @@
 }
 
 .fi-topbar {
-    background-color: white !important;
+    background: linear-gradient(to right, white, var(--medical-bg)) !important;
     border-bottom: 1px solid #e2e8f0 !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+}
+
+.fi-sidebar-item-button:hover {
+    background-color: var(--medical-primary-soft) !important;
+    color: var(--primary-main) !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background-color: var(--medical-primary-soft) !important;
+    border-left: 4px solid var(--primary-main) !important;
 }
 
 .fi-section {

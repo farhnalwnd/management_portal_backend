@@ -27,7 +27,7 @@ class UserForm
                             ->maxLength(255),
                         TextInput::make('nik')
                             ->required()
-                            ->numeric()
+                            ->tel()
                             ->length(16)
                             ->unique()
                             ->regex('/^[0-9]{16}$/'),
