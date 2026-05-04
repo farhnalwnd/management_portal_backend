@@ -24,6 +24,10 @@ class ContentMgtResource extends Resource
 {
     protected static ?string $model = ContentMgt::class;
 
+    protected static ?string $modelLabel = 'Content Management';
+
+    protected static ?string $pluralModelLabel = 'Content Management';
+
     protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
@@ -61,7 +65,7 @@ class ContentMgtResource extends Resource
                             ]),
 
                         TextEntry::make('repo')
-                            ->label('Repository URL')
+                            ->label('Module Domain')
                             ->url(fn ($record) => $record->repo)
                             ->openUrlInNewTab()
                             ->color('info')

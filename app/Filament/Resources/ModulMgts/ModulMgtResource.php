@@ -24,6 +24,10 @@ class ModulMgtResource extends Resource
 {
     protected static ?string $model = ModulMgt::class;
 
+    protected static ?string $modelLabel = 'Module Management';
+
+    protected static ?string $pluralModelLabel = 'Module Management';
+
     protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquaresPlus;

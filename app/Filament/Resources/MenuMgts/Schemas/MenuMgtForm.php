@@ -20,15 +20,15 @@ class MenuMgtForm
                 Section::make('Menu Name')
                     ->schema([
                         TextInput::make('menu_name')
-                            ->hiddenLabel()
+                            ->label('Menu Name')
                             ->required()
                             ->maxLength(255),
                     ])
                     ->columnSpanFull(),
-                Section::make('relations')
+                Section::make('Relations')
                     ->schema([
                         Select::make('module_id')
-                            ->label('Modul')
+                            ->label('Module')
                             ->options(ModulMgt::query()->pluck('module_name', 'id'))
                             ->searchable()
                             ->required(),
@@ -38,9 +38,10 @@ class MenuMgtForm
                             ->searchable()
                             ->required(),
                     ]),
-                Section::make('settings')
+                Section::make('Settings')
                     ->schema([
                         TextInput::make('display_order')
+                            ->label('Display Order')
                             ->required()
                             ->unique(table: 'menu_mgts', column: 'display_order', ignoreRecord: true)
                             ->validationMessages([
@@ -48,6 +49,7 @@ class MenuMgtForm
                             ])
                             ->numeric(),
                         TextInput::make('menu_level')
+                            ->label('Menu Level')
                             ->required()
                             ->unique(table: 'menu_mgts', column: 'menu_level', ignoreRecord: true)
                             ->validationMessages([
@@ -55,6 +57,7 @@ class MenuMgtForm
                             ])
                             ->numeric(),
                         Toggle::make('is_active')
+                            ->label('Is Active')
                             ->helperText('Enable to activate the menu.')
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-x-mark')

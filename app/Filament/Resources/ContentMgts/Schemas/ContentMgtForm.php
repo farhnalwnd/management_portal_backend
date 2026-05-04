@@ -41,10 +41,10 @@ class ContentMgtForm
                                     ->searchable()
                                     ->required(),
                                 TextInput::make('repo')
-                                    ->label('Repository URL')
+                                    ->label('Module Domain')
                                     ->url()
                                     ->suffixIcon('heroicon-m-link')
-                                    ->placeholder('https://github.com/...')
+                                    ->placeholder('https://domain.com')
                                     ->required()
                                     ->maxLength(255)
                                     ->columnSpan(3),
@@ -52,9 +52,7 @@ class ContentMgtForm
                     ])
                     ->columnSpan(2),
 
-                // ! perbaiki approver di select
                 Section::make('Status & Scheduling')
-                    // ->visibleOn('edit')
                     ->schema([
                         Select::make('approver_id')
                             ->label('Approver')
@@ -63,11 +61,13 @@ class ContentMgtForm
                             ->visibleOn('edit')
                             ->disabled(),
                         TextInput::make('approval_status')
+                            ->label('Approval Status')
                             ->disabled()
                             ->dehydrated()
                             ->default('approved'),
                         DatePicker::make('published_date')
                             ->label('Published Date')
+                            ->placeholder('dd/mm/yyyy')
                             ->nullable(),
                         Toggle::make('status')
                             ->label('Status Content')

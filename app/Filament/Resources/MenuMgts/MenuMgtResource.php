@@ -23,6 +23,10 @@ class MenuMgtResource extends Resource
 {
     protected static ?string $model = MenuMgt::class;
 
+    protected static ?string $modelLabel = 'Menu Management';
+
+    protected static ?string $pluralModelLabel = 'Menu Management';
+
     protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
@@ -52,8 +56,8 @@ class MenuMgtResource extends Resource
                     ])
                     ->columnSpanFull(),
 
-                // * relations
-                Section::make('relations')
+                // * Relations
+                Section::make('Relations')
                     ->schema([
                         TextEntry::make('modul_mgt.module_name')
                             ->label('Module :'),
@@ -64,8 +68,8 @@ class MenuMgtResource extends Resource
                     ->columnSpan(2),
 
                 Group::make()->schema([
-                    // * settings
-                    Section::make('settings')
+                    // * Settings
+                    Section::make('Settings')
                         ->schema([
                             TextEntry::make('display_order')
                                 ->label('Display Order :'),
