@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\UserResource;
 use App\Http\Service\AuthService;
 use App\Http\Service\DashboardService;
 use App\Traits\Api\ApiResponse;
@@ -31,5 +32,15 @@ class DashboardController extends Controller
         }
 
         return $this->success($resultMenu, 'Dashboard data retrieved successfully');
+    }
+
+    public function me(){
+        $userLogin = $this->authService->getUserLogin();
+
+        if ($userLogin === 'user not found') {
+            return $this->error('User not found', 'user not found', 401);
+        }
+
+        return $this->success(new UserResource($userLogin), 'User data retrieved successfully');
     }
 }

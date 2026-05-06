@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\PortalTokenMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/status',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->append(PortalTokenMiddleware::class);
         $middleware->redirectGuestsTo(fn () => config('services.sso.portal_url'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
