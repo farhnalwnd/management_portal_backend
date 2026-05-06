@@ -8,6 +8,8 @@ use App\Http\Service\AuthService;
 use App\Traits\Api\ApiResponse;
 use App\Traits\Api\SsoTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -75,7 +77,7 @@ class AuthController extends Controller
             return $this->error('Password not match', 'password not match', 401);
         }
 
-        return $this->success($result, 'Login success');
+        return $this->success($result, 'Login success')->withCookie($result['cookie']);
     }
 
     public function generateTicket(Request $request)
@@ -91,5 +93,18 @@ class AuthController extends Controller
         }
 
         return $this->success(['ticket' => $ticket], 'Ticket generated successfully');
+    }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        if (! $user) {
+            return $this->error('Unauthenticated', 'Unauthenticated', 401);
+        }
+
+        $user->currentAccessToken()->delete();
+        $cookie = Cookie::forget('portal_access_token')->withSameSite('none')->withSecure(true);
+
+        return $this->success([], 'Logout success')->withCookie($cookie);
     }
 }

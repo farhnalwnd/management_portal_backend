@@ -5,7 +5,9 @@ namespace App\Http\Service;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
@@ -37,9 +39,13 @@ class AuthService
 
         $token = $user->createToken($device_name)->plainTextToken;
 
+        // Parameter Cookie::make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite)
+        $cookie = Cookie::make('portal_access_token', $token, 0, '/', null, true, true, false, 'none');
+
         return [
             'user' => new UserResource($user),
             'token' => $token,
+            'cookie' => $cookie,
         ];
     }
 
