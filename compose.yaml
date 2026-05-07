@@ -21,7 +21,7 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
-            # - shared_network
+            - shared_network
         depends_on:
             - pgsql
     pgsql:

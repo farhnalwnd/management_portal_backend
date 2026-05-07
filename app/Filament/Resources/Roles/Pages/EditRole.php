@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Roles\Pages;
 use App\Filament\Resources\Roles\RoleResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class EditRole extends EditRecord
 {
@@ -36,5 +38,14 @@ class EditRole extends EditRecord
     protected function afterSave(): void
     {
         $this->record->syncPermissions($this->permissionIds);
+
+        try {
+            Http::withHeaders([
+                'X-Secret-Token' => config('services.catera.webhook_secret')
+            ])->post(config('services.catera.webhook_url') . '/api/webhook/clear-permission-cache');
+            Log::info('Webhook Catera berhasil');
+        } catch (\Exception $e) {
+            Log::error('Webhook Catera gagal: ' . $e->getMessage());
+        }
     }
 }
