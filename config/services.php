@@ -39,4 +39,9 @@ return [
         'portal_url' => env('SSO_PORTAL_URL', 'http://localhost:43711'),
     ],
 
+    'catera' => [
+        'webhook_url' => env('CATERA_WEBHOOK_URL', 'http://localhost:81'),
+        'webhook_secret' => env('CATERA_WEBHOOK_SECRET', 'secret1234567890'),
+    ],
+
 ];
