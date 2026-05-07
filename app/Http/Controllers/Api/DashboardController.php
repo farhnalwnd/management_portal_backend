@@ -7,6 +7,7 @@ use App\Http\Resources\Api\UserResource;
 use App\Http\Service\AuthService;
 use App\Http\Service\DashboardService;
 use App\Traits\Api\ApiResponse;
+use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
 {
@@ -17,11 +18,11 @@ class DashboardController extends Controller
         protected DashboardService $dashboardService
     ) {}
 
-    public function index()
+    public function index(): JsonResponse
     {
         $userLogin = $this->authService->getUserLogin();
 
-        if ($userLogin === 'user not found') {
+        if (! $userLogin) {
             return $this->error('User not found', 'user not found', 401);
         }
 
@@ -34,10 +35,11 @@ class DashboardController extends Controller
         return $this->success($resultMenu, 'Dashboard data retrieved successfully');
     }
 
-    public function me(){
+    public function me(): JsonResponse
+    {
         $userLogin = $this->authService->getUserLogin();
 
-        if ($userLogin === 'user not found') {
+        if (! $userLogin) {
             return $this->error('User not found', 'user not found', 401);
         }
 

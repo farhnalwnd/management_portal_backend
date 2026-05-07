@@ -15,10 +15,14 @@ class PortalTokenMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->hasCookie('portal_access_token')) {
+        if (! $request->headers->has('Authorization') && $request->hasCookie('portal_access_token')) {
             $token = $request->cookie('portal_access_token');
-            $request->headers->set('Authorization', 'Bearer ' . $token);
+
+            if ($token != 0 && $token != '') {
+                $request->headers->set('Authorization', 'Bearer '.$token);
+            }
         }
+
         return $next($request);
     }
 }
