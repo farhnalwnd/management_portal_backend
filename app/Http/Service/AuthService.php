@@ -7,34 +7,25 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    public function login(array $data)
+    public function login(array $data): array|string
     {
         ['email' => $email, 'password' => $password, 'device_name' => $device_name] = $data;
 
-        $user = User::where('email', $email)->first();
+        $user = User::query()->where('email', $email)->first();
 
-        if (! $user) {
-            return 'user not found';
+        if (!$user) {
+            throw new \Exception('user not found');
         }
 
         if ($user->status !== 'active') {
-            return 'user not active';
+            throw new \Exception('user not active');
         }
 
-        if (! Hash::check($password, $user->password)) {
-            return 'password not match';
+        if (!Hash::check($password, $user->password)) {
+            throw new \Exception('password not match');
         }
 
         $token = $user->createToken($device_name)->plainTextToken;
@@ -49,13 +40,10 @@ class AuthService
         ];
     }
 
-    public function getUserLogin()
+    public function getUserLogin(): ?User
     {
         $user = Auth::user();
-        if (! $user) {
-            return 'user not found';
-        }
 
-        return $user;
+        return $user instanceof User ? $user : null;
     }
 }

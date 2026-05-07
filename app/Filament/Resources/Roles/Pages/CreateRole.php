@@ -34,13 +34,22 @@ class CreateRole extends CreateRecord
     {
         $this->record->syncPermissions($this->permissionIds);
 
+        $webhookUrl = config('services.catera.webhook_url');
+        $webhookSecret = config('services.catera.webhook_secret');
+
+        if (empty($webhookUrl) || empty($webhookSecret)) {
+            Log::warning('Webhook Catera tidak dikirim: URL atau Secret tidak dikonfigurasi.');
+
+            return;
+        }
+
         try {
             Http::withHeaders([
-                'X-Secret-Token' => config('services.catera.webhook_secret')
-            ])->post(config('services.catera.webhook_url') . '/api/webhook/clear-permission-cache');
+                'X-Secret-Token' => $webhookSecret,
+            ])->post($webhookUrl.'/api/webhook/clear-permission-cache');
             Log::info('Webhook Catera berhasil');
         } catch (\Exception $e) {
-            Log::error('Webhook Catera gagal: ' . $e->getMessage());
+            Log::error('Webhook Catera gagal: '.$e->getMessage());
         }
     }
 }
