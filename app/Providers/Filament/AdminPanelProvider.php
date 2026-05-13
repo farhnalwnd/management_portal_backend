@@ -64,6 +64,12 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarWidth('18rem')
             ->topbar(false)
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->darkMode(false);
+            ->darkMode(false)
+            ->navigationGroups([
+                'Feature Management',
+                'Feature Support',
+                'Access Control',
+                'Setting',
+            ]);
     }
 }

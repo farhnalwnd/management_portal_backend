@@ -22,7 +22,9 @@ class MdModuleCategoryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Module Categories';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Feature Support';
+
+    protected static ?int $navigationSort = 1;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
 

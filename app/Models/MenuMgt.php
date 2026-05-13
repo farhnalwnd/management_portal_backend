@@ -40,4 +40,9 @@ class MenuMgt extends Model
     {
         return $this->belongsTo(ContentMgt::class, 'content_id', 'id');
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(MenuSchedule::class, 'menu_id');
+    }
 }

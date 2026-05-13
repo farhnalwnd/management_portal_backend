@@ -29,6 +29,8 @@ class MenuMgtResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
 
+    protected static ?int $navigationSort = 3;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
 
     protected static ?string $recordTitleAttribute = 'MenuMgt';
