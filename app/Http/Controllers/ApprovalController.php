@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApprovalMgt;
 use App\Models\ContentMgt;
+use App\Models\MenuSchedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -42,6 +43,44 @@ class ApprovalController extends Controller
             });
         } catch (\Throwable $e) {
             Log::error('Approval Process Error: '.$e->getMessage(), [
+                'exception' => $e,
+                'id' => $id,
+                'token' => $token,
+                'status' => $status,
+            ]);
+
+            return view('mail.approval-failed', ['e' => $e]);
+        }
+    }
+
+    public function menuScheduleApproval(int $id, string $token, string $status)
+    {
+        try {
+            return DB::transaction(function () use ($id, $token, $status) {
+                $approvalMgt = ApprovalMgt::where('menu_schedule_id', $id)
+                    ->where('token', $token)
+                    ->where('approval_status', 'pending')
+                    ->lockForUpdate()
+                    ->first();
+
+                if (! $approvalMgt) {
+                    Log::error('Menu Schedule Approval Process: tidak ditemukan atau sudah diproses: '.$id.' '.$token);
+
+                    throw new \Exception('Link sudah tidak valid atau sudah pernah diproses.');
+                }
+
+                $approvalMgt->approval_status = $status;
+                $approvalMgt->token = null;
+                $approvalMgt->save();
+
+                $menuSchedule = MenuSchedule::findOrFail($id);
+                $menuSchedule->status = ($status === 'approved') ? 'pending' : 'rejected';
+                $menuSchedule->save();
+
+                return view('mail.approval-success');
+            });
+        } catch (\Throwable $e) {
+            Log::error('Menu Schedule Approval Process Error: '.$e->getMessage(), [
                 'exception' => $e,
                 'id' => $id,
                 'token' => $token,

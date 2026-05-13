@@ -11,6 +11,7 @@ class MenuSchedule extends Model
 
     protected $fillable = [
         'menu_id',
+        'approver_id',
         'action_type',
         'scheduled_at',
         'status',
@@ -19,5 +20,10 @@ class MenuSchedule extends Model
     public function menu(): BelongsTo
     {
         return $this->belongsTo(MenuMgt::class, 'menu_id');
+    }
+
+    public function approvalMaster(): BelongsTo
+    {
+        return $this->belongsTo(ApprovalMaster::class, 'approver_id');
     }
 }

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('md_menu_schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('menu_id')->constrained('md_menu_mgts')->cascadeOnDelete();
-            $table->string('action_type'); // activate, deactivate
+            $table->foreignId('approver_id')->constrained('md_approval_masters');
+            $table->enum('action_type', ['activate', 'deactivate']);
             $table->dateTime('scheduled_at');
-            $table->string('status')->default('pending'); // pending, executed, failed
+            $table->enum('status', ['pending', 'executed', 'failed', 'approval_stage', 'rejected'])->default('approval_stage');
             $table->timestamps();
         });
     }

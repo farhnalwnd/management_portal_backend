@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Responses\SsoLogoutResponse;
-use App\Models\ContentMgt;
-use App\Observers\ContentMgtObserver;
+use App\Models\MenuSchedule;
+use App\Observers\MenuScheduleObserver;
 use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \Spatie\Activitylog\Models\Activity::observe(\App\Observers\ActivityObserver::class);
-        // ContentMgt::observe(ContentMgtObserver::class);
+        MenuSchedule::observe(MenuScheduleObserver::class);
     }
 }
