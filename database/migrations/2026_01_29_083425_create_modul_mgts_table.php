@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('modul_mgts', function (Blueprint $table) {
             $table->id();
             $table->string('module_name');
+            $table->string('slug')->unique()->index();
+            $table->string('api_secret')->nullable();
             $table->string('module_description')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->string('category');
+            $table->foreignId('category')->constrained('md_module_categories');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('last_modified_by')->constrained('users');
             $table->softDeletes();

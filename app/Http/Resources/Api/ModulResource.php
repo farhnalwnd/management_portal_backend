@@ -18,7 +18,7 @@ class ModulResource extends JsonResource
             'id' => $this->id,
             'module_name' => $this->module_name,
             'module_description' => $this->module_description,
-            'category' => $this->category,
+            'category' => $this->categoryRelationship->module_sign,
         ];
     }
 }

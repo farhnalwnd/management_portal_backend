@@ -27,36 +27,12 @@ class ModulMgtsTable
                 TextColumn::make('module_description')
                     ->label('Module Description')
                     ->searchable(),
-                TextColumn::make('category')
+                TextColumn::make('categoryRelationship.module_slug')
                     ->label('Category')
                     ->badge()
-                    ->icon(fn (string $state): string => match ($state) {
-                        'fico' => 'heroicon-m-banknotes',
-                        'mm' => 'heroicon-m-cube',
-                        'sd' => 'heroicon-m-shopping-cart',
-                        'pp' => 'heroicon-m-cog',
-                        'pm' => 'heroicon-m-wrench',
-                        'hr' => 'heroicon-m-user-group',
-                        default => 'heroicon-m-question-mark-circle',
-                    })
-                    ->color(fn (string $state): string => match ($state) {
-                        'fico' => 'success', // Hijau
-                        'mm' => 'warning', // Oranye
-                        'sd' => 'info',    // Biru Muda
-                        'pp' => 'danger',  // Merah
-                        'pm' => 'gray',    // Abu-abu
-                        'hr' => 'primary', // Biru Tua
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'fico' => 'Finance & Controlling',
-                        'mm' => 'Materials Management',
-                        'sd' => 'Sales & Distribution',
-                        'pp' => 'Production Planning',
-                        'pm' => 'Plant Maintenance',
-                        'hr' => 'Human Capital Management',
-                        default => $state,
-                    }),
+                    ->color('primary')
+                    ->searchable()
+                    ->sortable(),
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
@@ -85,14 +61,7 @@ class ModulMgtsTable
                     ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
 
                 SelectFilter::make('category')
-                    ->options([
-                        'fico' => 'Finance & Controlling',
-                        'mm' => 'Materials Management',
-                        'sd' => 'Sales & Distribution',
-                        'pp' => 'Production Planning',
-                        'pm' => 'Plant Maintenance',
-                        'hr' => 'Human Capital Management',
-                    ]),
+                    ->relationship('categoryRelationship', 'module_slug'),
             ])
             ->recordActions([
                 ViewAction::make(),

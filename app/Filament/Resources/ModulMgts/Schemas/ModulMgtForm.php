@@ -35,14 +35,9 @@ class ModulMgtForm
                     ->schema([
                         Select::make('category')
                             ->label('Category')
-                            ->options([
-                                'fico' => 'Finance & Controlling (FI/CO)',
-                                'mm' => 'Materials Management (MM)',
-                                'sd' => 'Sales & Distribution (SD)',
-                                'pp' => 'Production Planning (PP)',
-                                'pm' => 'Plant Maintenance (PM)',
-                                'hr' => 'Human Capital Management (HCM)',
-                            ])
+                            ->relationship('categoryRelationship', 'module_slug')
+                            ->searchable()
+                            ->preload()
                             ->native(false)
                             ->required()
                             ->columnSpanFull(),

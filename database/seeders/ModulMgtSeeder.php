@@ -23,7 +23,7 @@ class ModulMgtSeeder extends Seeder
                 'deleted_at' => null,
                 'created_at' => '2026-04-14 02:17:09',
                 'updated_at' => '2026-04-14 02:17:09',
-                'slug' => null,
+                'slug' => 'catera',
                 'api_secret' => null,
             ],
             [
@@ -36,12 +36,14 @@ class ModulMgtSeeder extends Seeder
                 'deleted_at' => null,
                 'created_at' => '2026-04-16 14:30:56',
                 'updated_at' => '2026-04-20 09:30:57',
-                'slug' => null,
+                'slug' => 'portal',
                 'api_secret' => null,
             ],
         ];
 
         foreach ($modules as $module) {
+            $category = \App\Models\MdModuleCategory::where('module_sign', $module['category'])->first();
+            $module['category'] = $category->id;
             ModulMgt::create($module);
         }
     }
