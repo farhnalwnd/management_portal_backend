@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approval_masters', function (Blueprint $table) {
+        Schema::create('md_approval_masters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('approver_id')->constrained('users');
+            $table->foreignId('approver_id')->constrained('md_users');
             $table->integer('level')->unique();
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('approval_masters');
+        Schema::dropIfExists('md_approval_masters');
     }
 };

@@ -12,6 +12,8 @@ class ModulMgt extends Model
 {
     use HasFactory, LogsActivity;
 
+    protected $table = 'md_modul_mgts';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

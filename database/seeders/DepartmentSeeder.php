@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\department;
+use App\Models\Department;
 use Illuminate\Database\Seeder;
 
-class departmentSeeder extends Seeder
+class DepartmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        department::factory(4)->create();
+        Department::factory(4)->create();
     }
 }

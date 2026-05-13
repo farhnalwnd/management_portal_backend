@@ -11,6 +11,8 @@ class ApprovalMaster extends Model
 {
     use HasFactory, LogsActivity;
 
+    protected $table = 'md_approval_masters';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

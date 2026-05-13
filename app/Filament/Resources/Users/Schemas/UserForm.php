@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use App\Models\department;
+use App\Models\Department;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -48,7 +48,7 @@ class UserForm
                     ->components([
                         Select::make('department_id')
                             ->relationship('department', 'name')
-                            ->options(department::query()->pluck('name', 'id'))
+                            ->options(Department::query()->pluck('name', 'id'))
                             ->searchable()
                             ->required(),
                         Select::make('status')

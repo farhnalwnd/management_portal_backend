@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('content_mgts', function (Blueprint $table) {
+        Schema::create('md_content_mgts', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->string('title')->index();
-            $table->foreignId('modul_id')->constrained('modul_mgts');
+            $table->foreignId('modul_id')->constrained('md_modul_mgts');
             $table->string('version');
             $table->boolean('status')->default(false);
             $table->string('repo');
-            $table->foreignId('created_by')->constrained('users')->nullable();
-            $table->foreignId('last_modified_by')->constrained('users')->nullable();
-            $table->foreignId('published_by')->constrained('users')->nullable();
+            $table->foreignId('created_by')->constrained('md_users')->nullable();
+            $table->foreignId('last_modified_by')->constrained('md_users')->nullable();
+            $table->foreignId('published_by')->constrained('md_users')->nullable();
             $table->date('published_date')->nullable();
-            $table->foreignId('approver_id')->constrained('users')->nullable();
+            $table->foreignId('approver_id')->constrained('md_users')->nullable();
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('approved');
             $table->index(['type', 'title', 'status']);
             $table->softDeletes();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('content_mgts');
+        Schema::dropIfExists('md_content_mgts');
     }
 };

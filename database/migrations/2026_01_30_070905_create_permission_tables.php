@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
             $table->foreignId('module_id')
                 ->nullable()
-                ->constrained('modul_mgts')
+                ->constrained('md_modul_mgts')
                 ->nullOnDelete();
             $table->timestamps();
 

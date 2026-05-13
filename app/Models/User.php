@@ -18,6 +18,8 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, HasRoles, LogsActivity, Notifiable;
 
+    protected $table = 'md_users';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -67,7 +69,7 @@ class User extends Authenticatable
 
     public function department()
     {
-        return $this->belongsTo(department::class, 'department_id', 'id');
+        return $this->belongsTo(Department::class, 'department_id', 'id');
     }
 
     public function approvalMasters()

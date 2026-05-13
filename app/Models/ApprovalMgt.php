@@ -10,6 +10,8 @@ class ApprovalMgt extends Model
 {
     use LogsActivity;
 
+    protected $table = 'md_approval_mgts';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
