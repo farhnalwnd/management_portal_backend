@@ -7,6 +7,7 @@ use App\Models\ApprovalMgt;
 use App\Models\MenuSchedule;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendMenuScheduleJob implements ShouldQueue
@@ -44,5 +45,7 @@ class SendMenuScheduleJob implements ShouldQueue
 
         Mail::to($this->approvalMgt->approver->email)
             ->send(new SendMenuScheduleMail($this->menuSchedule, $this->approvalMgt, $approveLink, $rejectLink));
+
+        Log::info('data dari $this->approvalMgt adalah: '.$this->approvalMgt);
     }
 }

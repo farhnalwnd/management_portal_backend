@@ -22,7 +22,7 @@ class ApprovalMgt extends Model
 
     protected $fillable = [
         'approver_id',
-        'content_id',
+        'menu_schedule_id',
         'approval_level',
         'token',
         'comments',

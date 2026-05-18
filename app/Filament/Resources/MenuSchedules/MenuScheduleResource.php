@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\MenuSchedules;
 
 use App\Filament\Resources\MenuSchedules\Pages\ManageMenuSchedules;
+use App\Models\ApprovalMaster;
 use App\Models\MenuSchedule;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -13,6 +15,7 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -69,6 +72,16 @@ class MenuScheduleResource extends Resource
                     ])
                     ->required()
                     ->columnSpanFull(),
+
+                TextInput::make('approver_id')
+                    ->label('Approver ID')
+                    ->disabled()
+                    ->dehydrated()
+                    ->default(function () {
+                        $approvalMaster = ApprovalMaster::query()->where('level', 1)->first();
+
+                        return $approvalMaster ? $approvalMaster->id : null;
+                    }),
             ]);
     }
 
@@ -78,7 +91,6 @@ class MenuScheduleResource extends Resource
             ->columns([
                 TextColumn::make('menu.menu_name')
                     ->label('Menu Name')
-                    ->searchable()
                     ->sortable(),
                 TextColumn::make('action_type')
                     ->label('Action')
@@ -116,7 +128,13 @@ class MenuScheduleResource extends Resource
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create Menu Schedule')
+                    ->icon('heroicon-m-document-plus'),
+            ])
+            ->emptyStateDescription('Belum ada list Menu Schedule untuk saat ini. Silakan tambahkan buat baru.');
     }
 
     public static function getPages(): array

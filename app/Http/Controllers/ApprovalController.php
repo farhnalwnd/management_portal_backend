@@ -77,7 +77,7 @@ class ApprovalController extends Controller
                 $menuSchedule->status = ($status === 'approved') ? 'pending' : 'rejected';
                 $menuSchedule->save();
 
-                return view('mail.approval-success');
+                return view('mail.menu-schedule.approval-success');
             });
         } catch (\Throwable $e) {
             Log::error('Menu Schedule Approval Process Error: '.$e->getMessage(), [
@@ -87,7 +87,7 @@ class ApprovalController extends Controller
                 'status' => $status,
             ]);
 
-            return view('mail.approval-failed', ['e' => $e]);
+            return view('mail.menu-schedule.approval-failed', ['e' => $e]);
         }
     }
 }

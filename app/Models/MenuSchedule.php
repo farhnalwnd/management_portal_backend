@@ -9,6 +9,10 @@ class MenuSchedule extends Model
 {
     protected $table = 'md_menu_schedules';
 
+    protected $attributes = [
+        'status' => 'approval_stage',
+    ];
+
     protected $fillable = [
         'menu_id',
         'approver_id',

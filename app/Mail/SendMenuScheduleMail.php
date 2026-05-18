@@ -38,7 +38,7 @@ class SendMenuScheduleMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.menu-schedule-approval',
+            view: 'mail.menu-schedule.approval-email',
         );
     }
 
