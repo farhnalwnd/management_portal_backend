@@ -16,11 +16,11 @@ class MdModuleCategoriesTable
         return $table
             ->columns([
                 TextColumn::make('module_sign')
-                    ->label('Module Sign')
+                    ->label('Category Sign')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('module_slug')
-                    ->label('Module Slug')
+                    ->label('Category Name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')

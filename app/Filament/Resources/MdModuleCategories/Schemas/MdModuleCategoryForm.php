@@ -17,16 +17,17 @@ class MdModuleCategoryForm
                     ->columns(2)
                     ->schema([
                         TextInput::make('module_sign')
-                            ->label('Module Sign')
+                            ->label('Category Sign')
                             ->placeholder('e.g. fico')
                             ->required()
                             ->unique(ignoreRecord: true)
-                            ->maxLength(255),
+                            ->maxLength(50),
                         TextInput::make('module_slug')
-                            ->label('Module Slug')
+                            ->label('Category Name')
                             ->placeholder('e.g. Finance & Controlling (FI/CO)')
                             ->required()
-                            ->maxLength(255),
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(50),
                     ]),
             ]);
     }

@@ -15,17 +15,19 @@ class MenuMgtForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->columns(2)
+            ->columns(5)
             ->components([
                 Section::make('Menu Name')
                     ->schema([
                         TextInput::make('menu_name')
                             ->label('Menu Name')
                             ->required()
+                            ->unique(ignoreRecord: true)
                             ->maxLength(255),
                     ])
-                    ->columnSpanFull(),
+                    ->columnSpan(2),
                 Section::make('Relations')
+                    ->columns(2)
                     ->schema([
                         Select::make('module_id')
                             ->label('Module')
@@ -37,25 +39,10 @@ class MenuMgtForm
                             ->options(ContentMgt::query()->where('status', true)->pluck('title', 'id'))
                             ->searchable()
                             ->required(),
-                    ]),
+                    ])
+                    ->columnSpan(2),
                 Section::make('Settings')
                     ->schema([
-                        TextInput::make('display_order')
-                            ->label('Display Order')
-                            ->required()
-                            ->unique(table: 'menu_mgts', column: 'display_order', ignoreRecord: true)
-                            ->validationMessages([
-                                'unique' => 'The display order has already been taken.',
-                            ])
-                            ->numeric(),
-                        TextInput::make('menu_level')
-                            ->label('Menu Level')
-                            ->required()
-                            ->unique(table: 'menu_mgts', column: 'menu_level', ignoreRecord: true)
-                            ->validationMessages([
-                                'unique' => 'The menu level has already been taken.',
-                            ])
-                            ->numeric(),
                         Toggle::make('is_active')
                             ->label('Is Active')
                             ->helperText('Enable to activate the menu.')
@@ -63,7 +50,8 @@ class MenuMgtForm
                             ->offIcon('heroicon-m-x-mark')
                             ->onColor('success')
                             ->required(),
-                    ]),
+                    ])
+                    ->columnSpan(1),
             ]);
     }
 }

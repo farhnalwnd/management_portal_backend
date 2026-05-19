@@ -31,10 +31,6 @@ class MenuMgtsTable
                     ->label('Content')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('display_order')
-                    ->label('Display Order')
-                    ->numeric()
-                    ->sortable(),
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),

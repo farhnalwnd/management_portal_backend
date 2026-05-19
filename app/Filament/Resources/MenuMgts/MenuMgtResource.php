@@ -75,8 +75,6 @@ class MenuMgtResource extends Resource
                     // * Settings
                     Section::make('Settings')
                         ->schema([
-                            TextEntry::make('display_order')
-                                ->label('Display Order :'),
                             IconEntry::make('is_active')
                                 ->label('Is Active :')
                                 ->boolean(),

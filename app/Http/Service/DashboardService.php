@@ -6,7 +6,6 @@ use App\Http\Resources\Api\MenuResource;
 use App\Models\MenuMgt;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DashboardService
 {
@@ -29,7 +28,6 @@ class DashboardService
         $accsessibleMenus = MenuMgt::with(['modul_mgt', 'content_mgt'])
             ->whereIn('module_id', $moduleIds)
             ->where('is_active', true)
-            ->orderBy('display_order', 'asc')
             ->get();
 
         $menus = MenuResource::collection($accsessibleMenus);
