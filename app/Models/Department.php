@@ -11,7 +11,7 @@ class Department extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $table = 'md_departments';
+    protected $table = 'portal_application.md_departments';
 
     public function getActivitylogOptions(): LogOptions
     {

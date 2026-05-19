@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('md_approval_mgts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('approver_id')->constrained('md_users');
-            $table->foreignId('menu_schedule_id')->constrained('md_menu_schedules');
+            $table->foreignId('approver_id')->constrained('portal_application.md_users');
+            $table->foreignId('menu_schedule_id')->constrained('portal_application.md_menu_schedules');
             $table->string('approval_level')->nullable();
             $table->string('token')->nullable();
             $table->string('comments')->nullable();

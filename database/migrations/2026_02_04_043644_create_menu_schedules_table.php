@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('md_menu_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('menu_id')->constrained('md_menu_mgts')->cascadeOnDelete();
-            $table->foreignId('approver_id')->constrained('md_approval_masters')->nullable();
+            $table->foreignId('menu_id')->constrained('portal_application.md_menu_mgts')->cascadeOnDelete();
+            $table->foreignId('approver_id')->constrained('portal_application.md_approval_masters')->nullable();
             $table->enum('action_type', ['activate', 'deactivate']);
             $table->dateTime('scheduled_at');
             $table->enum('status', ['pending', 'executed', 'failed', 'approval_stage', 'rejected'])->default('approval_stage');

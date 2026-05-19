@@ -12,7 +12,7 @@ class ModulMgt extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $table = 'md_modul_mgts';
+    protected $table = 'portal_application.md_modul_mgts';
 
     public function getActivitylogOptions(): LogOptions
     {

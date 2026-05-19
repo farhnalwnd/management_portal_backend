@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('first_name');
             $table->string('last_name');
-            $table->foreignId('department_id')->constrained('md_departments');
+            $table->foreignId('department_id')->constrained('portal_application.md_departments');
             $table->enum('status', ['active', 'inactive', 'locked'])->default('active');
             $table->index(['nik', 'department_id', 'status']);
             $table->timestamps();

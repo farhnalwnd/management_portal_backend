@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MenuSchedule extends Model
 {
-    protected $table = 'md_menu_schedules';
+    protected $table = 'portal_application.md_menu_schedules';
 
     protected $attributes = [
         'status' => 'approval_stage',

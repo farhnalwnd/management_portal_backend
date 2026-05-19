@@ -10,6 +10,8 @@ class MdModuleCategory extends Model
 {
     use LogsActivity;
 
+    protected $table = 'portal_application.md_module_categories';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

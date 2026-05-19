@@ -18,7 +18,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, HasRoles, LogsActivity, Notifiable;
 
-    protected $table = 'md_users';
+    protected $table = 'portal_application.md_users';
 
     public function getActivitylogOptions(): LogOptions
     {

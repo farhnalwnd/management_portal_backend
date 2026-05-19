@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('md_approval_masters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('approver_id')->constrained('md_users');
+            $table->foreignId('approver_id')->constrained('portal_application.md_users');
             $table->integer('level')->unique();
             $table->timestamps();
         });

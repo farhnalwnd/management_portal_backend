@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('md_menu_mgts', function (Blueprint $table) {
             $table->id();
             $table->string('menu_name');
-            $table->foreignId('module_id')->constrained('md_modul_mgts');
-            $table->foreignId('content_id')->constrained('md_content_mgts');
-            $table->integer('display_order')->unique();
-            $table->integer('menu_level')->unique();
+            $table->foreignId('module_id')->constrained('portal_application.md_modul_mgts');
+            $table->foreignId('content_id')->constrained('portal_application.md_content_mgts');
             $table->boolean('is_active')->default(true);
             $table->index(['menu_name', 'module_id', 'content_id']);
             $table->timestamps();

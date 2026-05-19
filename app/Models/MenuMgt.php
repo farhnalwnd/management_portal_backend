@@ -20,7 +20,7 @@ class MenuMgt extends Model
             ->dontLogEmptyChanges();
     }
 
-    protected $table = 'md_menu_mgts';
+    protected $table = 'portal_application.md_menu_mgts';
 
     protected $fillable = [
         'menu_name',
