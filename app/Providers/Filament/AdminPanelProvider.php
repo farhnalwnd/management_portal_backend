@@ -69,6 +69,7 @@ class AdminPanelProvider extends PanelProvider
                 'Feature Management',
                 'Feature Support',
                 'Access Control',
+                'Approval Management',
                 'Setting',
             ]);
     }

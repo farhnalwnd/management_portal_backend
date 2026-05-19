@@ -11,4 +11,6 @@ class CreateUser extends CreateRecord
     use indexDirect;
 
     protected static string $resource = UserResource::class;
+
+    protected static bool $canCreateAnother = false;
 }

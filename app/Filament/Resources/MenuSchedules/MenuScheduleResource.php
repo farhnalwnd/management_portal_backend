@@ -6,7 +6,6 @@ use App\Filament\Resources\MenuSchedules\Pages\ManageMenuSchedules;
 use App\Models\ApprovalMaster;
 use App\Models\MenuSchedule;
 use BackedEnum;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -128,11 +127,6 @@ class MenuScheduleResource extends Resource
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ])
-            ->emptyStateActions([
-                Action::make('create')
-                    ->label('Create Menu Schedule')
-                    ->icon('heroicon-m-document-plus'),
             ])
             ->emptyStateDescription('Belum ada list Menu Schedule untuk saat ini. Silakan tambahkan buat baru.');
     }

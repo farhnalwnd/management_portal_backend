@@ -24,6 +24,8 @@ class MdModuleCategory extends Model
     protected $fillable = [
         'module_sign',
         'module_slug',
+        'color',
+        'icon',
     ];
 
     public function modulMgts(): \Illuminate\Database\Eloquent\Relations\HasMany

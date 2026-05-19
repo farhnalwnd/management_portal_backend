@@ -8,4 +8,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMdModuleCategory extends CreateRecord
 {
     protected static string $resource = MdModuleCategoryResource::class;
+
+    protected static bool $canCreateAnother = false;
 }

@@ -21,6 +21,9 @@ class MdModuleCategoriesTable
                     ->sortable(),
                 TextColumn::make('module_slug')
                     ->label('Category Name')
+                    ->badge()
+                    ->color(fn ($record) => $record->color ?? 'primary')
+                    ->icon(fn ($record) => $record->icon ?? 'heroicon-m-tag')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('module_sign')->unique();
             $table->string('module_slug');
+            $table->string('color')->nullable();
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

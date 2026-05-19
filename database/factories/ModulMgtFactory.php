@@ -19,8 +19,6 @@ class ModulMgtFactory extends Factory
         return [
             'module_name' => $this->faker->word(),
             'module_description' => $this->faker->sentence(),
-            'slug' => $this->faker->slug(),
-            'api_secret' => $this->faker->numerify('########'),
             'is_active' => $this->faker->boolean(),
             'category' => fn () => \App\Models\MdModuleCategory::firstOrCreate(
                 ['module_sign' => $this->faker->randomElement(['fico', 'mm', 'sd', 'pp', 'pm', 'hr'])],

@@ -5,14 +5,14 @@ namespace App\Filament\Resources\Permissions\Pages;
 use App\Filament\Resources\Permissions\PermissionResource;
 use App\Traits\indexDirect;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class CreatePermission extends CreateRecord
 {
     use indexDirect;
 
     protected static string $resource = PermissionResource::class;
+
+    protected static bool $canCreateAnother = false;
 
     /**
      * Concatenate the structured inputs into the standard module:feature:action format

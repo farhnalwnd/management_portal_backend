@@ -30,7 +30,8 @@ class ModulMgtsTable
                 TextColumn::make('categoryRelationship.module_slug')
                     ->label('Category')
                     ->badge()
-                    ->color('primary')
+                    ->color(fn ($record) => $record->categoryRelationship?->color ?? 'primary')
+                    ->icon(fn ($record) => $record->categoryRelationship?->icon ?? 'heroicon-m-tag')
                     ->searchable()
                     ->sortable(),
                 IconColumn::make('is_active')

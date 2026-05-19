@@ -14,11 +14,15 @@ class MdModuleCategorySeeder extends Seeder
         \App\Models\MdModuleCategory::create([
             'module_sign' => 'fico',
             'module_slug' => 'Finance & Controlling (FI/CO)',
+            'color' => 'success',
+            'icon' => 'heroicon-m-banknotes',
         ]);
 
         \App\Models\MdModuleCategory::create([
             'module_sign' => 'hr',
             'module_slug' => 'Human Resources (HR)',
+            'color' => 'secondary',
+            'icon' => 'heroicon-m-users',
         ]);
     }
 }

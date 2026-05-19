@@ -51,8 +51,8 @@ class MenuMgtsTable
                     ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
             ])
             ->recordActions([
-                ViewAction::make()->label(''),
-                EditAction::make()->label(''),
+                ViewAction::make(),
+                EditAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
