@@ -12,8 +12,7 @@ class ApprovalMasterPolicy
      */
     public function viewAny(User $user): bool
     {
-        // return $user->hasPermissionTo('portal:approval_master:view_any');
-        return true;
+        return $user->hasPermissionTo('portal:approval_master:view_any');
     }
 
     /**
