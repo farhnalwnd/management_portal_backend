@@ -37,7 +37,7 @@ class PermissionSeeder extends Seeder
         }
 
         // 40 Module-specific permissions
-        $modules = ModulMgt::where('is_active', true)->get();
+        $modules = ModulMgt::query()->where('is_active', true)->get();
 
         if ($modules->isEmpty()) {
             $this->command->warn('No active modules found. Skipping module-specific permissions.');

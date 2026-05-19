@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -48,6 +49,8 @@ class RolePermissionSeeder extends Seeder
         Role::findByName('super_admin')->givePermissionTo($allPermissions);
         Role::findByName('vice_president')->givePermissionTo($allPermissions);
 
+        $department = Department::query()->first() ?? Department::factory()->create();
+
         $user = User::updateOrCreate(
             ['email' => 'superadmin@example.com'],
             [
@@ -55,7 +58,7 @@ class RolePermissionSeeder extends Seeder
                 'first_name' => 'Super',
                 'last_name' => 'Admin',
                 'password' => bcrypt('password'),
-                'department_id' => 1,
+                'department_id' => $department->id,
                 'status' => 'active',
             ]
         );
