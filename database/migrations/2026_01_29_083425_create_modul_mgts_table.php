@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modul_mgts', function (Blueprint $table) {
+        Schema::create('md_modul_mgts', function (Blueprint $table) {
             $table->id();
             $table->string('module_name');
             $table->string('module_description')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->string('category');
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('last_modified_by')->constrained('users');
+            $table->foreignId('category')->constrained('portal_application.md_module_categories');
+            $table->foreignId('created_by')->constrained('portal_application.md_users');
+            $table->foreignId('last_modified_by')->constrained('portal_application.md_users');
             $table->softDeletes();
             $table->index(['module_name', 'is_active', 'category', 'created_by']);
             $table->timestamps();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('modul_mgts');
+        Schema::dropIfExists('md_modul_mgts');
     }
 };

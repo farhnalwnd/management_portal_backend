@@ -23,6 +23,8 @@ class AuditActivityResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Access Control';
 
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationLabel = 'Audit Activity';
 
     protected static ?string $pluralModelLabel = 'Audit Activity';

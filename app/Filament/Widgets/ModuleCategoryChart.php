@@ -45,4 +45,14 @@ class ModuleCategoryChart extends ChartWidget
     {
         return 'bar';
     }
+
+    protected function getOptions(): array
+    {
+        return [
+            'animation' => [
+                'duration' => 1000,
+                'easing' => 'easeOutQuart',
+            ],
+        ];
+    }
 }

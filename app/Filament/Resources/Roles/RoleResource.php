@@ -21,6 +21,8 @@ class RoleResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Access Control';
 
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationLabel = 'Roles';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;

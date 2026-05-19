@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('md_users', function (Blueprint $table) {
             $table->id();
             $table->string('nik');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('first_name');
             $table->string('last_name');
-            $table->foreignId('department_id')->constrained();
+            $table->foreignId('department_id')->constrained('portal_application.md_departments');
             $table->enum('status', ['active', 'inactive', 'locked'])->default('active');
             $table->index(['nik', 'department_id', 'status']);
             $table->timestamps();
@@ -39,7 +39,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('md_users');
         Schema::dropIfExists('sessions');
     }
 };

@@ -20,7 +20,7 @@ class MenuMgt extends Model
             ->dontLogEmptyChanges();
     }
 
-    protected $table = 'menu_mgts';
+    protected $table = 'portal_application.md_menu_mgts';
 
     protected $fillable = [
         'menu_name',
@@ -39,5 +39,10 @@ class MenuMgt extends Model
     public function content_mgt()
     {
         return $this->belongsTo(ContentMgt::class, 'content_id', 'id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(MenuSchedule::class, 'menu_id');
     }
 }

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approval_mgts', function (Blueprint $table) {
+        Schema::create('md_approval_mgts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('approver_id')->constrained('users');
-            $table->foreignId('content_id')->constrained('content_mgts');
+            $table->foreignId('approver_id')->constrained('portal_application.md_users');
+            $table->foreignId('menu_schedule_id')->constrained('portal_application.md_menu_schedules');
             $table->string('approval_level')->nullable();
             $table->string('token')->nullable();
             $table->string('comments')->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('approval_mgts');
+        Schema::dropIfExists('md_approval_mgts');
     }
 };

@@ -11,4 +11,6 @@ class CreateContentMgt extends CreateRecord
     use indexDirect;
 
     protected static string $resource = ContentMgtResource::class;
+
+    protected static bool $canCreateAnother = false;
 }

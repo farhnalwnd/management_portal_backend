@@ -45,4 +45,14 @@ class UserStatusChart extends ChartWidget
     {
         return 'pie';
     }
+
+    protected function getOptions(): array
+    {
+        return [
+            'animation' => [
+                'duration' => 1000,
+                'easing' => 'easeOutQuart',
+            ],
+        ];
+    }
 }

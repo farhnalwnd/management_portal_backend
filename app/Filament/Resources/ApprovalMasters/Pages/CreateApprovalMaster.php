@@ -11,4 +11,6 @@ class CreateApprovalMaster extends CreateRecord
     use indexDirect;
 
     protected static string $resource = ApprovalMasterResource::class;
+
+    protected static bool $canCreateAnother = false;
 }

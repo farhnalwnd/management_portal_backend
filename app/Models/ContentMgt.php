@@ -11,6 +11,8 @@ class ContentMgt extends Model
 {
     use HasFactory, LogsActivity;
 
+    protected $table = 'portal_application.md_content_mgts';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -69,7 +71,7 @@ class ContentMgt extends Model
                 $model->last_modified_by = auth()->id();
             }
 
-            $approver = ApprovalMaster::where('level', 1)->first();
+            $approver = ApprovalMaster::query()->where('level', 1)->first();
             $model->approver_id = $approver?->approver_id;
             // $model->approval_status = 'approved';
         });

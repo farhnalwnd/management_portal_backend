@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\department;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'department_id' => department::factory(),
+            'department_id' => Department::factory(),
             'status' => 'active',
         ];
     }
