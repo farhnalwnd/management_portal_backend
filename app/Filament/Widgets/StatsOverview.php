@@ -25,7 +25,7 @@ class StatsOverview extends StatsOverviewWidget
                 ->descriptionIcon('heroicon-m-users')
                 ->color('info'),
 
-            Stat::make('New Users (Month)', User::where('created_at', '>=', Carbon::now()->startOfMonth())->count())
+            Stat::make('New Users (Month)', User::query()->where('created_at', '>=', Carbon::now()->startOfMonth())->count())
                 ->description('Joined this month')
                 ->descriptionIcon('heroicon-m-user-plus')
                 ->color('success'),

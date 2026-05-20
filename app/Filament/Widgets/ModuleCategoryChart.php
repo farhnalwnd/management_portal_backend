@@ -9,6 +9,10 @@ class ModuleCategoryChart extends ChartWidget
 {
     protected static ?int $sort = 4;
 
+    protected ?string $pollingInterval = null;
+
+    protected static bool $isLazy = false;
+
     protected ?string $heading = 'Modules by Category';
 
     protected int|string|array $columnSpan = 1;
@@ -35,6 +39,12 @@ class ModuleCategoryChart extends ChartWidget
                     ],
                     'borderColor' => '#0891b2',
                     'borderWidth' => 1,
+                    'animation' => [
+                        'duration' => 1500,
+                        'easing' => 'easeOutQuart',
+                        'animateScale' => true,
+                        'animateRotate' => true,
+                    ],
                 ],
             ],
             'labels' => array_keys($data),
@@ -49,9 +59,10 @@ class ModuleCategoryChart extends ChartWidget
     protected function getOptions(): array
     {
         return [
-            'animation' => [
-                'duration' => 1000,
-                'easing' => 'easeOutQuart',
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                ],
             ],
         ];
     }

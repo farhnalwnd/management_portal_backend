@@ -9,6 +9,10 @@ class UserStatusChart extends ChartWidget
 {
     protected static ?int $sort = 3;
 
+    protected ?string $pollingInterval = null;
+
+    protected static bool $isLazy = false;
+
     protected ?string $heading = 'User Status Distribution';
 
     protected int|string|array $columnSpan = 1;
@@ -35,6 +39,12 @@ class UserStatusChart extends ChartWidget
                         '#f59e0b', // amber-500
                         '#ef4444', // red-500
                     ],
+                    'animation' => [
+                        'duration' => 1500,
+                        'easing' => 'easeOutQuart',
+                        'animateRotate' => true,
+                        'animateScale' => true,
+                    ],
                 ],
             ],
             'labels' => ['Active', 'Inactive', 'Locked'],
@@ -43,15 +53,16 @@ class UserStatusChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'doughnut';
     }
 
     protected function getOptions(): array
     {
         return [
-            'animation' => [
-                'duration' => 1000,
-                'easing' => 'easeOutQuart',
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
+                ],
             ],
         ];
     }
