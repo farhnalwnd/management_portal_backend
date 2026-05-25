@@ -73,7 +73,8 @@ class ContentMgt extends Model
 
             $approver = ApprovalMaster::query()->where('level', 1)->first();
             $model->approver_id = $approver?->approver_id;
-            // $model->approval_status = 'approved';
+            $model->published_date = now();
+            $model->approval_status = 'approved';
         });
 
         static::updating(function ($model) {

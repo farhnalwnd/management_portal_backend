@@ -37,7 +37,8 @@ class FilamentResourcePermissionSeeder extends Seeder
 
         $resourceCatera = [
             'dashboard',
-            'registered',
+            'authorized',
+            'unauthorized',
             'quota_scheduling',
         ];
 
