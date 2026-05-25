@@ -60,17 +60,6 @@ class ContentMgtForm
                             ->getOptionLabelFromRecordUsing(fn ($record) => $record->first_name.' '.$record->last_name)
                             ->visibleOn('edit')
                             ->disabled(),
-                        TextInput::make('approval_status')
-                            ->label('Approval Status')
-                            ->disabled()
-                            ->dehydrated()
-                            ->default('approved'),
-                        DatePicker::make('published_date')
-                            ->label('Published Date')
-                            ->native(false)
-                            ->displayFormat('d/m/Y')
-                            ->placeholder('dd/mm/yyyy')
-                            ->nullable(),
                         Toggle::make('status')
                             ->label('Status Content')
                             ->helperText('Active content will be visible to users')

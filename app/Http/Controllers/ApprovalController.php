@@ -14,7 +14,7 @@ class ApprovalController extends Controller
     {
         try {
             return DB::transaction(function () use ($id, $token, $status) {
-                $approvalMgt = ApprovalMgt::where('content_id', $id)
+                $approvalMgt = ApprovalMgt::query()->where('content_id', $id)
                     ->where('token', $token)
                     ->where('approval_status', 'pending')
                     ->lockForUpdate()
@@ -39,7 +39,7 @@ class ApprovalController extends Controller
                 }
                 $contentMgt->save();
 
-                return view('mail.approval-success');
+                return view('mail.menu-mgts.approval-success');
             });
         } catch (\Throwable $e) {
             Log::error('Approval Process Error: '.$e->getMessage(), [
@@ -49,7 +49,7 @@ class ApprovalController extends Controller
                 'status' => $status,
             ]);
 
-            return view('mail.approval-failed', ['e' => $e]);
+            return view('mail.menu-mgts.approval-failed', ['e' => $e]);
         }
     }
 
@@ -57,7 +57,7 @@ class ApprovalController extends Controller
     {
         try {
             return DB::transaction(function () use ($id, $token, $status) {
-                $approvalMgt = ApprovalMgt::where('menu_schedule_id', $id)
+                $approvalMgt = ApprovalMgt::query()->where('menu_schedule_id', $id)
                     ->where('token', $token)
                     ->where('approval_status', 'pending')
                     ->lockForUpdate()
