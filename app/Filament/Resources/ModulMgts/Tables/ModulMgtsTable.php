@@ -20,6 +20,7 @@ class ModulMgtsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with(['categoryRelationship', 'creator', 'modifier']))
             ->columns([
                 TextColumn::make('module_name')
                     ->label('Module Name')

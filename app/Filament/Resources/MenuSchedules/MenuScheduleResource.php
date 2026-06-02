@@ -87,6 +87,7 @@ class MenuScheduleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with(['menu', 'approvalMaster']))
             ->columns([
                 TextColumn::make('menu.menu_name')
                     ->label('Menu Name')
