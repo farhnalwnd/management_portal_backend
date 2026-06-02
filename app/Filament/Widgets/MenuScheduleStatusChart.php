@@ -2,10 +2,10 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\User;
+use App\Models\MenuSchedule;
 use Filament\Widgets\ChartWidget;
 
-class UserStatusChart extends ChartWidget
+class MenuScheduleStatusChart extends ChartWidget
 {
     protected static ?int $sort = 3;
 
@@ -15,7 +15,7 @@ class UserStatusChart extends ChartWidget
 
     protected static bool $isLazy = false;
 
-    protected ?string $heading = 'User Status Distribution';
+    protected ?string $heading = 'Menu Schedule Status Distribution';
 
     protected int|string|array $columnSpan = 1;
 
@@ -23,8 +23,9 @@ class UserStatusChart extends ChartWidget
     {
         $activeFilter = $this->filter;
 
-        $query = User::query()
+        $query = MenuSchedule::query()
             ->selectRaw('status, count(*) as count')
+            ->whereIn('status', ['approval_stage', 'pending', 'executed', 'failed', 'rejected'])
             ->groupBy('status');
 
         match ($activeFilter) {
@@ -35,9 +36,9 @@ class UserStatusChart extends ChartWidget
             default => $query,
         };
 
-        $data = $query->pluck('count', 'status')->toArray();
+        $statusCounts = $query->pluck('count', 'status')->toArray();
 
-        if (empty($data) || array_sum($data) === 0) {
+        if (empty($statusCounts) || array_sum($statusCounts) === 0) {
             return [
                 'datasets' => [
                     [
@@ -61,16 +62,20 @@ class UserStatusChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Users',
+                    'label' => 'Schedules',
                     'data' => [
-                        $data['active'] ?? 0,
-                        $data['inactive'] ?? 0,
-                        $data['locked'] ?? 0,
+                        $statusCounts['approval_stage'] ?? 0,
+                        $statusCounts['pending'] ?? 0,
+                        $statusCounts['executed'] ?? 0,
+                        $statusCounts['failed'] ?? 0,
+                        $statusCounts['rejected'] ?? 0,
                     ],
                     'backgroundColor' => [
-                        '#10b981', // green-500
-                        '#f59e0b', // amber-500
-                        '#ef4444', // red-500
+                        '#3b82f6',
+                        '#f59e0b',
+                        '#10b981',
+                        '#ef4444',
+                        '#6b7280',
                     ],
                     'animation' => [
                         'duration' => 1500,
@@ -80,7 +85,7 @@ class UserStatusChart extends ChartWidget
                     ],
                 ],
             ],
-            'labels' => ['Active', 'Inactive', 'Locked'],
+            'labels' => ['Approval Stage', 'Pending', 'Executed', 'Failed', 'Rejected'],
         ];
     }
 
@@ -95,6 +100,7 @@ class UserStatusChart extends ChartWidget
             'scales' => [
                 'y' => [
                     'beginAtZero' => true,
+                    'display' => false,
                 ],
             ],
         ];
