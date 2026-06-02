@@ -10,6 +10,8 @@ class ApprovalMgt extends Model
 {
     use LogsActivity;
 
+    protected $table = 'portal_application.md_approval_mgts';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -20,7 +22,7 @@ class ApprovalMgt extends Model
 
     protected $fillable = [
         'approver_id',
-        'content_id',
+        'menu_schedule_id',
         'approval_level',
         'token',
         'comments',

@@ -12,6 +12,8 @@ class CreatePermission extends CreateRecord
 
     protected static string $resource = PermissionResource::class;
 
+    protected static bool $canCreateAnother = false;
+
     /**
      * Concatenate the structured inputs into the standard module:feature:action format
      * before the record is persisted to the database.

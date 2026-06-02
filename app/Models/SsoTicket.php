@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SsoTicket extends Model
 {
+    protected $table = 'portal_application.sso_tickets';
+
     protected $fillable = [
         'user_id',
         'ticket',

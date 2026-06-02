@@ -21,7 +21,7 @@ class ApprovalMasterResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Approval Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Approval Management';
 
     protected static ?string $recordTitleAttribute = 'ApprovalMaster';
 

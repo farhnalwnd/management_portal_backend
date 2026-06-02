@@ -21,7 +21,9 @@ class PermissionFormTest extends TestCase
     {
         parent::setUp();
 
-        $this->adminUser = User::factory()->create();
+        $this->seed();
+
+        $this->adminUser = User::query()->where('email', 'superadmin@example.com')->first();
     }
 
     /**
@@ -47,7 +49,7 @@ class PermissionFormTest extends TestCase
             ->call('create')
             ->assertHasNoFormErrors();
 
-        $this->assertDatabaseHas('permissions', [
+        $this->assertDatabaseHas(Permission::class, [
             'name' => 'hris:report:export',
             'guard_name' => 'web',
         ]);
@@ -79,11 +81,12 @@ class PermissionFormTest extends TestCase
      */
     public function test_permission_list_is_accessible(): void
     {
-        Permission::create(['name' => 'hris:attendance:view', 'guard_name' => 'web']);
+        $permission = Permission::create(['name' => 'hris:attendance:view', 'guard_name' => 'web']);
 
         $this->actingAs($this->adminUser);
 
         Livewire::test(ListPermissions::class)
-            ->assertCanSeeTableRecords(Permission::all());
+            ->searchTable('hris:attendance:view')
+            ->assertCanSeeTableRecords([$permission]);
     }
 }

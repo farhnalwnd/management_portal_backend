@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ModulMgt;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\PermissionRegistrar;
@@ -18,6 +19,12 @@ class FilamentResourcePermissionSeeder extends Seeder
 
         $guardName = 'web';
 
+        $cateraModule = ModulMgt::query()->where('module_name', 'catera')->first();
+        $portalModule = ModulMgt::query()->where('module_name', 'portal')->first();
+
+        $cateraModuleId = $cateraModule?->id ?? 1;
+        $portalModuleId = $portalModule?->id ?? 2;
+
         $resourcesPortal = [
             'approval_master',
             'content_mgt',
@@ -30,7 +37,8 @@ class FilamentResourcePermissionSeeder extends Seeder
 
         $resourceCatera = [
             'dashboard',
-            'registered',
+            'authorized',
+            'unauthorized',
             'quota_scheduling',
         ];
 
@@ -51,7 +59,7 @@ class FilamentResourcePermissionSeeder extends Seeder
                 $permissions[] = [
                     'name' => "portal:{$resource}:{$action}",
                     'guard_name' => $guardName,
-                    'module_id' => 2,
+                    'module_id' => $portalModuleId,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -63,7 +71,7 @@ class FilamentResourcePermissionSeeder extends Seeder
                 $permissions[] = [
                     'name' => "catera:{$resource}:{$action}",
                     'guard_name' => $guardName,
-                    'module_id' => 1,
+                    'module_id' => $cateraModuleId,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

@@ -19,31 +19,40 @@ class ContentMgtsTable
         return $table
             ->columns([
                 TextColumn::make('type')
+                    ->label('Type')
                     ->searchable(),
                 TextColumn::make('title')
+                    ->label('Title')
                     ->searchable(),
                 TextColumn::make('module.module_name')
+                    ->label('Module Name')
                     ->sortable(),
                 TextColumn::make('version')
+                    ->label('Version')
                     ->searchable(),
                 IconColumn::make('status')
                     ->label('Is Active')
                     ->boolean(),
                 TextColumn::make('repo')
+                    ->label('Module Domain')
                     ->searchable(),
                 TextColumn::make('creator.first_name')
                     ->label('Creator')
                     ->description(fn ($record) => $record->creator->last_name)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('modifier.first_name')
                     ->label('Modifier')
                     ->description(fn ($record) => $record->modifier->last_name)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approver.first_name')
                     ->label('Approver')
                     ->description(fn ($record) => $record->approver->last_name)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('approval_status')
+                    ->label('Approval Status')
                     ->badge()
                     ->color(fn ($state) => match ($state) {
                         'pending' => 'warning',
@@ -56,6 +65,7 @@ class ContentMgtsTable
                         'rejected' => 'heroicon-o-x-circle',
                     }),
                 TextColumn::make('published_date')
+                    ->label('Published Date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('created_at')

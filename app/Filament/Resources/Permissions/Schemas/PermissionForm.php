@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Permissions\Schemas;
 
 use App\Models\ModulMgt;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
@@ -33,11 +32,13 @@ class PermissionForm
                                     ->label('Feature')
                                     ->placeholder('contoh: report')
                                     ->required()
+                                    ->maxLength(255)
                                     ->columnSpan(2),
                                 TextInput::make('action')
                                     ->label('Action')
                                     ->placeholder('contoh: view, export')
                                     ->required()
+                                    ->maxLength(255)
                                     ->columnSpan(1),
                             ]),
                     ]),
@@ -53,7 +54,8 @@ class PermissionForm
                         TextInput::make('guard_name')
                             ->label('Guard')
                             ->default('web')
-                            ->required(),
+                            ->required()
+                            ->maxLength(255),
                     ]),
             ]);
     }

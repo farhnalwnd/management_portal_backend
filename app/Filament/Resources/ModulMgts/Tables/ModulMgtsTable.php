@@ -20,47 +20,30 @@ class ModulMgtsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with(['categoryRelationship', 'creator', 'modifier']))
             ->columns([
                 TextColumn::make('module_name')
+                    ->label('Module Name')
                     ->searchable(),
                 TextColumn::make('module_description')
+                    ->label('Module Description')
                     ->searchable(),
-                TextColumn::make('category')
+                TextColumn::make('categoryRelationship.module_slug')
+                    ->label('Category')
                     ->badge()
-                    ->icon(fn (string $state): string => match ($state) {
-                        'fico' => 'heroicon-m-banknotes',
-                        'mm' => 'heroicon-m-cube',
-                        'sd' => 'heroicon-m-shopping-cart',
-                        'pp' => 'heroicon-m-cog',
-                        'pm' => 'heroicon-m-wrench',
-                        'hr' => 'heroicon-m-user-group',
-                        default => 'heroicon-m-question-mark-circle',
-                    })
-                    ->color(fn (string $state): string => match ($state) {
-                        'fico' => 'success', // Hijau
-                        'mm' => 'warning', // Oranye
-                        'sd' => 'info',    // Biru Muda
-                        'pp' => 'danger',  // Merah
-                        'pm' => 'gray',    // Abu-abu
-                        'hr' => 'primary', // Biru Tua
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'fico' => 'Finance & Controlling',
-                        'mm' => 'Materials Management',
-                        'sd' => 'Sales & Distribution',
-                        'pp' => 'Production Planning',
-                        'pm' => 'Plant Maintenance',
-                        'hr' => 'Human Capital Management',
-                        default => $state,
-                    }),
+                    ->color(fn ($record) => $record->categoryRelationship?->color ?? 'primary')
+                    ->icon(fn ($record) => $record->categoryRelationship?->icon ?? 'heroicon-m-tag')
+                    ->searchable()
+                    ->sortable(),
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
                 TextColumn::make('creator.first_name')
+                    ->label('Creator')
                     ->description(fn ($record) => $record->modifier ? $record->creator->last_name : '')
                     ->sortable(),
                 TextColumn::make('modifier.first_name')
+                    ->label('Modifier')
                     ->description(fn ($record) => $record->modifier ? $record->modifier->last_name : '')
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -80,14 +63,7 @@ class ModulMgtsTable
                     ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
 
                 SelectFilter::make('category')
-                    ->options([
-                        'fico' => 'Finance & Controlling',
-                        'mm' => 'Materials Management',
-                        'sd' => 'Sales & Distribution',
-                        'pp' => 'Production Planning',
-                        'pm' => 'Plant Maintenance',
-                        'hr' => 'Human Capital Management',
-                    ]),
+                    ->relationship('categoryRelationship', 'module_slug'),
             ])
             ->recordActions([
                 ViewAction::make(),

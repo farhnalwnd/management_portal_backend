@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\department;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -30,8 +29,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'department_id' => department::factory(),
-            'status' => 'active',
+            'department_id' => Department::factory(),
+            'status' => fake()->randomElement(['active', 'inactive', 'locked']),
         ];
     }
 
@@ -42,6 +41,36 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is active.
+     */
+    public function active(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'active',
+        ]);
+    }
+
+    /**
+     * Indicate that the user is inactive.
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'inactive',
+        ]);
+    }
+
+    /**
+     * Indicate that the user is locked.
+     */
+    public function locked(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'locked',
         ]);
     }
 }

@@ -14,9 +14,11 @@ class sendApprovalJob implements ShouldQueue
     use Queueable;
 
     public $tries = 3;
+
     public $backoff = 5;
 
     protected $contentMgt;
+
     protected $approvalMgt;
 
     /**

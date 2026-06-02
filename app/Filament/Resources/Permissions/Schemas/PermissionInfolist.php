@@ -70,7 +70,7 @@ class PermissionInfolist
                                     ->label('Created At')
                                     ->inlineLabel(true)
                                     ->since()
-                                    ->placeholder('-')
+                                    ->placeholder('-'),
                             ]),
 
                         Section::make('SAP Category')
@@ -80,9 +80,9 @@ class PermissionInfolist
                                     ->label('SAP Category')
                                     ->inlineLabel(true)
                                     ->default('nan')
-                                    ->icon(fn(?string $state): string => self::CATEGORY_ICONS[$state ?? ''] ?? 'heroicon-m-cog-6-tooth')
-                                    ->color(fn(?string $state): string => self::CATEGORY_COLORS[$state ?? ''] ?? 'gray')
-                                    ->formatStateUsing(fn(?string $state): string => self::CATEGORY_LABELS[$state ?? ''] ?? 'portal system')
+                                    ->icon(fn (?string $state): string => self::CATEGORY_ICONS[$state ?? ''] ?? 'heroicon-m-cog-6-tooth')
+                                    ->color(fn (?string $state): string => self::CATEGORY_COLORS[$state ?? ''] ?? 'gray')
+                                    ->formatStateUsing(fn (?string $state): string => self::CATEGORY_LABELS[$state ?? ''] ?? 'portal system')
                                     ->badge(),
                             ]),
                     ]),

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\ApprovalMaster;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ApprovalMasterSeeder extends Seeder
@@ -14,9 +13,11 @@ class ApprovalMasterSeeder extends Seeder
      */
     public function run(): void
     {
-        ApprovalMaster::factory(1)->create([
-            'approver_id' => 1,
-            'level' => 1,
-        ]);
+        $user = User::query()->first() ?? User::factory()->create();
+
+        ApprovalMaster::firstOrCreate(
+            ['level' => 1],
+            ['approver_id' => $user->id]
+        );
     }
 }

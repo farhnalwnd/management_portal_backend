@@ -18,17 +18,17 @@ class ContentMgtObserver
         $token = Str::random(16);
 
         $approvalmgt = ApprovalMgt::create([
-            'content_id'     => $contentMgt->id,
-            'approver_id'    => $contentMgt->approver_id,
-            'token'          => $token,
+            'content_id' => $contentMgt->id,
+            'approver_id' => $contentMgt->approver_id,
+            'token' => $token,
             'approval_status' => 'pending',
             'approval_level' => 1,
         ]);
 
         sendApprovalJob::dispatch($contentMgt, $approvalmgt);
 
-        Log::info('data dari $contentMgt adalah: ' . $contentMgt);
-        Log::info('ApprovalMgt created for content ' . $contentMgt->id);
+        Log::info('data dari $contentMgt adalah: '.$contentMgt);
+        Log::info('ApprovalMgt created for content '.$contentMgt->id);
     }
 
     /**

@@ -16,7 +16,6 @@ use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use UnitEnum;
 
@@ -24,7 +23,13 @@ class MenuMgtResource extends Resource
 {
     protected static ?string $model = MenuMgt::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Feature Management';
+    protected static ?string $modelLabel = 'Menu Management';
+
+    protected static ?string $pluralModelLabel = 'Menu Management';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Feature Management';
+
+    protected static ?int $navigationSort = 3;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQueueList;
 
@@ -53,23 +58,23 @@ class MenuMgtResource extends Resource
                     ])
                     ->columnSpanFull(),
 
-                // * relations
-                Section::make('relations')
+                // * Relations
+                Section::make('Relations')
                     ->schema([
                         TextEntry::make('modul_mgt.module_name')
+                            ->inlineLabel()
                             ->label('Module :'),
                         TextEntry::make('content_mgt.title')
+                            ->inlineLabel()
                             ->label('Content :'),
                     ])
                     ->extraAttributes(['class' => 'h-full'])
                     ->columnSpan(2),
 
                 Group::make()->schema([
-                    // * settings
-                    Section::make('settings')
+                    // * Settings
+                    Section::make('Settings')
                         ->schema([
-                            TextEntry::make('display_order')
-                                ->label('Display Order :'),
                             IconEntry::make('is_active')
                                 ->label('Is Active :')
                                 ->boolean(),
@@ -86,7 +91,10 @@ class MenuMgtResource extends Resource
                             TextEntry::make('updated_at')
                                 ->label('Updated At :')
                                 ->isoDateTime(),
-                        ])->columnSpan(1),
+                        ])
+                        ->collapsed()
+                        ->collapsible()
+                        ->columnSpan(1),
                 ]),
             ]);
     }

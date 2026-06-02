@@ -9,5 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMenuMgt extends CreateRecord
 {
     use indexDirect;
+
     protected static string $resource = MenuMgtResource::class;
+
+    protected static bool $canCreateAnother = false;
 }

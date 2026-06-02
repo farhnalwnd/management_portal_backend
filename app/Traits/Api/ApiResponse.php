@@ -7,18 +7,18 @@ trait ApiResponse
     protected function success($data, $message = null, $code = 200)
     {
         return response()->json([
-            'status'  => 'success',
+            'status' => 'success',
             'message' => $message,
-            'data'    => $data,
+            'data' => $data,
         ], $code);
     }
 
     protected function error($errors, $message = null, $code = 400)
     {
         return response()->json([
-            'status'  => 'error',
+            'status' => 'error',
             'message' => $message,
-            'errors' => $errors
+            'errors' => $errors,
         ], $code);
     }
 }

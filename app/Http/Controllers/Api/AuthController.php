@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AuthRequest;
 use App\Http\Service\AuthService;
-use App\Models\User;
 use App\Traits\Api\ApiResponse;
 use App\Traits\Api\SsoTicket;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
@@ -20,75 +19,84 @@ class AuthController extends Controller
         protected AuthService $authService
     ) {}
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function login(AuthRequest $request)
     {
-        $validateData = $request->validated();
+        try {
+            $validateData = $request->validated();
 
-        $result = $this->authService->login($validateData);
+            $result = $this->authService->login($validateData);
 
-        if ($result === 'user not found') {
-            return $this->error('User not found', 'user not found', 401);
+            $cookie = $result['cookie'];
+
+            unset($result['cookie']);
+
+            return $this->success($result, 'Login success')->withCookie($cookie);
+
+        } catch (\Throwable $e) {
+            $code = $e->getCode();
+            if ($code < 400 || $code >= 600) {
+                $code = 401;
+                Log::error('Login Error: '.$e->getMessage(), [
+                    'exception' => $e,
+                    'email' => $request->email,
+                ]);
+            }
+
+            return $this->error('Login failed', $e->getMessage(), $code);
         }
-
-        if ($result === 'password not match') {
-            return $this->error('Password not match', 'password not match', 401);
-        }
-
-        return $this->success($result, 'Login success');
     }
 
     public function generateTicket(Request $request)
     {
-        $user = $request->user();
-        if (!$user) {
-            return $this->error('Unauthenticated', 'Unauthenticated', 401);
-        }
+        try {
+            $user = $request->user();
+            if (! $user) {
+                return $this->error('Unauthenticated', 'Unauthenticated', 401);
+            }
 
-        $ticket = $this->generateSsoTicket($user);
-        if (!$ticket) {
-            return $this->error('Failed to generate ticket', 'Ticket generation failed', 500);
-        }
+            $ticket = $this->generateSsoTicket($user);
+            if (! $ticket) {
+                return $this->error('Failed to generate ticket', 'Ticket generation failed', 500);
+            }
 
-        return $this->success(['ticket' => $ticket], 'Ticket generated successfully');
+            return $this->success(['ticket' => $ticket], 'Ticket generated successfully');
+        } catch (\Throwable $e) {
+            Log::error('Generate SSO Ticket Error: '.$e->getMessage(), [
+                'exception' => $e,
+                'user_id' => $request->user()?->id,
+            ]);
+
+            return $this->error($e->getMessage(), 'Failed to generate ticket', 500);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            if (! $user) {
+                return $this->error('Unauthenticated', 'Unauthenticated', 401);
+            }
+
+            if ($request->cookie('portal_access_token')) {
+                /** @var \Laravel\Sanctum\PersonalAccessToken $token */
+                $token = $user->currentAccessToken();
+                if ($token) {
+                    $token->delete();
+                }
+            }
+
+            $cookie = Cookie::forget('portal_access_token')->withSameSite('none')->withSecure(true);
+
+            return $this->success([], 'Logout success')->withCookie($cookie);
+        } catch (\Throwable $e) {
+            Log::error('Logout Error: '.$e->getMessage(), [
+                'exception' => $e,
+                'user_id' => $request->user()?->id,
+            ]);
+
+            return $this->error($e->getMessage(), 'Logout failed', 500);
+        }
     }
 }

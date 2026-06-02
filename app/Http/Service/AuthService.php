@@ -5,46 +5,45 @@ namespace App\Http\Service;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    public function login(array $data)
+    public function login(array $data): array|string
     {
         ['email' => $email, 'password' => $password, 'device_name' => $device_name] = $data;
 
-        $user = User::where('email', $email)->first();
+        $user = User::query()->where('email', $email)->first();
 
         if (! $user) {
-            return 'user not found';
+            throw new \Exception('user not found', 404);
+        }
+
+        if ($user->status !== 'active') {
+            throw new \Exception('user not active', 403);
         }
 
         if (! Hash::check($password, $user->password)) {
-            return 'password not match';
+            throw new \Exception('password mismatch', 401);
         }
 
         $token = $user->createToken($device_name)->plainTextToken;
 
+        // Parameter Cookie::make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite)
+        $cookie = Cookie::make('portal_access_token', $token, 0, '/', null, true, true, false, 'none');
+
         return [
-            'user'  => new UserResource($user),
+            'user' => new UserResource($user),
             'token' => $token,
+            'cookie' => $cookie,
         ];
     }
 
-    public function getUserLogin()
+    public function getUserLogin(): ?User
     {
         $user = Auth::user();
-        if (!$user) {
-            return 'user not found';
-        }
-        return ($user);
+
+        return $user instanceof User ? $user : null;
     }
 }

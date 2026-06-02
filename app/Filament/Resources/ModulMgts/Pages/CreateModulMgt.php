@@ -11,4 +11,6 @@ class CreateModulMgt extends CreateRecord
     use indexDirect;
 
     protected static string $resource = ModulMgtResource::class;
+
+    protected static bool $canCreateAnother = false;
 }

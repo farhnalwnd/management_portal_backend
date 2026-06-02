@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\Department;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -19,17 +20,23 @@ class UserForm
                     ->columns(3)
                     ->components([
                         TextInput::make('first_name')
-                            ->required(),
+                            ->required()
+                            ->maxLength(255),
                         TextInput::make('last_name')
-                            ->required(),
+                            ->required()
+                            ->maxLength(255),
                         TextInput::make('nik')
                             ->required()
-                            ->numeric()
-                            ->maxLength(16),
+                            ->tel()
+                            ->length(16)
+                            ->unique()
+                            ->regex('/^[0-9]{16}$/'),
                         TextInput::make('email')
                             ->label('Email address')
                             ->email()
-                            ->required(),
+                            ->required()
+                            ->unique()
+                            ->maxLength(255),
                         TextInput::make('password')
                             ->password()
                             ->required(fn (string $operation): bool => $operation === 'create')
@@ -41,7 +48,8 @@ class UserForm
                     ->components([
                         Select::make('department_id')
                             ->relationship('department', 'name')
-                            ->preload()
+                            ->options(Department::query()->pluck('name', 'id'))
+                            ->searchable()
                             ->required(),
                         Select::make('status')
                             ->options(['active' => 'Active', 'inactive' => 'Inactive', 'locked' => 'Locked'])
@@ -50,7 +58,6 @@ class UserForm
                         Select::make('roles')
                             ->relationship('roles', 'name')
                             ->searchable()
-                            ->preload()
                             ->native(false)
                             ->required(),
                     ])->columnSpan(1),

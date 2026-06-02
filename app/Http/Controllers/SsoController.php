@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -10,93 +9,43 @@ use Illuminate\Support\Facades\Log;
 
 class SsoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        $portalLogoutUrl = config('services.sso.portal_url');
-
-        return redirect($portalLogoutUrl);
-    }
-
     public function verify(Request $request): mixed
     {
-        $token = $request->query('ticket');
+        try {
+            $token = $request->query('ticket');
 
-        if (! $token) {
-            Log::info('Tiket tidak ditemukan.');
+            if (! $token) {
+                Log::info('SSO Verify: Tiket tidak ditemukan.');
 
-            return redirect(config('services.sso.portal_url'))->with('error', 'Tiket tidak ditemukan.');
+                return redirect(config('services.sso.portal_url'))->with('error', 'Tiket tidak ditemukan.');
+            }
+
+            return DB::transaction(function () use ($request, $token) {
+                $ticket = DB::table('portal_application.sso_tickets')
+                    ->where('ticket', $token)
+                    ->where('expired_at', '>', now())
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($ticket) {
+                    Auth::loginUsingId($ticket->user_id);
+                    DB::table('portal_application.sso_tickets')->where('ticket', $token)->delete();
+                    $request->session()->regenerate();
+
+                    return redirect()->intended(route('filament.admin.pages.dashboard'));
+                }
+
+                Log::info('SSO Verify: Tiket tidak valid atau kadaluwarsa.', ['ticket' => $token]);
+
+                return redirect(config('services.sso.portal_url'))->with('error', 'Tiket tidak valid atau kadaluwarsa.');
+            });
+        } catch (\Throwable $e) {
+            Log::error('SSO Verify Error: '.$e->getMessage(), [
+                'exception' => $e,
+                'ticket' => $request->query('ticket'),
+            ]);
+
+            return redirect(config('services.sso.portal_url'))->with('error', 'Terjadi kesalahan sistem saat verifikasi.');
         }
-
-        $ticket = DB::table('portal_application.sso_tickets')
-            ->where('ticket', $token)
-            ->where('expired_at', '>', now())
-            ->first();
-
-        if ($ticket) {
-            Auth::loginUsingId($ticket->user_id);
-            DB::table('portal_application.sso_tickets')->where('ticket', $token)->delete();
-            $request->session()->regenerate();
-
-            return redirect()->intended(route('filament.admin.pages.dashboard'));
-        }
-
-        Log::info('Tiket tidak valid atau kadaluwarsa.');
-
-        return redirect(config('services.sso.portal_url'))->with('error', 'Tiket tidak valid atau kadaluwarsa.');
     }
 }

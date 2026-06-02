@@ -12,6 +12,8 @@ class ModulMgt extends Model
 {
     use HasFactory, LogsActivity;
 
+    protected $table = 'portal_application.md_modul_mgts';
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -23,6 +25,8 @@ class ModulMgt extends Model
 
     protected $fillable = [
         'module_name',
+        'slug',
+        'api_secret',
         'module_description',
         'is_active',
         'category',
@@ -38,6 +42,27 @@ class ModulMgt extends Model
     public function modifier()
     {
         return $this->belongsTo(User::class, 'last_modified_by', 'id');
+    }
+
+    public function categoryRelationship(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(MdModuleCategory::class, 'category');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->created_by = auth()->id();
+                $model->last_modified_by = auth()->id();
+            }
+        });
+
+        static::updating(function ($model) {
+            if (auth()->check()) {
+                $model->last_modified_by = auth()->id();
+            }
+        });
     }
 
     public function permissions(): HasMany
