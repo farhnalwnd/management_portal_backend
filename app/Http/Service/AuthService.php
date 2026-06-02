@@ -17,15 +17,15 @@ class AuthService
         $user = User::query()->where('email', $email)->first();
 
         if (! $user) {
-            throw new \Exception('user not found');
+            throw new \Exception('user not found', 404);
         }
 
         if ($user->status !== 'active') {
-            throw new \Exception('user not active');
+            throw new \Exception('user not active', 403);
         }
 
         if (! Hash::check($password, $user->password)) {
-            throw new \Exception('password mismatch');
+            throw new \Exception('password mismatch', 401);
         }
 
         $token = $user->createToken($device_name)->plainTextToken;

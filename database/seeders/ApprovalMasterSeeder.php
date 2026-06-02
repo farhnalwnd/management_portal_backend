@@ -15,9 +15,9 @@ class ApprovalMasterSeeder extends Seeder
     {
         $user = User::query()->first() ?? User::factory()->create();
 
-        ApprovalMaster::factory(1)->create([
-            'approver_id' => $user->id,
-            'level' => 1,
-        ]);
+        ApprovalMaster::firstOrCreate(
+            ['level' => 1],
+            ['approver_id' => $user->id]
+        );
     }
 }

@@ -33,14 +33,16 @@ class AuthController extends Controller
             return $this->success($result, 'Login success')->withCookie($cookie);
 
         } catch (\Throwable $e) {
-            Log::error('Login Error: '.$e->getMessage(), [
-                'exception' => $e,
-                'email' => $request->email,
-            ]);
+            $code = $e->getCode();
+            if ($code < 400 || $code >= 600) {
+                $code = 401;
+                Log::error('Login Error: '.$e->getMessage(), [
+                    'exception' => $e,
+                    'email' => $request->email,
+                ]);
+            }
 
-            $code = $e->getCode() && $e->getCode() >= 400 && $e->getCode() < 600 ? $e->getCode() : 401;
-
-            return $this->error($e->getMessage(), 'Login failed', $code);
+            return $this->error('Login failed', $e->getMessage(), $code);
         }
     }
 
