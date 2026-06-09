@@ -17,7 +17,7 @@ class ModuleCategoryChart extends ChartWidget
 
     protected int|string|array $columnSpan = 'full';
 
-    protected ?string $maxHeight = '300px';
+    protected ?string $maxHeight = '350px';
 
     protected function getData(): array
     {
@@ -35,7 +35,6 @@ class ModuleCategoryChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Modules',
                     'data' => array_values($data),
                     'backgroundColor' => [
                         'rgba(8, 145, 178, 0.2)', // cyan-600
@@ -72,22 +71,35 @@ class ModuleCategoryChart extends ChartWidget
     protected function getOptions(): array
     {
         return [
+            'responsive' => true,
+            'maintainAspectRatio' => true,
             'scales' => [
+                'x' => [
+                    'display' => false,
+                    // 'ticks' => [
+                    //     'maxRotation' => 45,
+                    //     'minRotation' => 45,
+                    // ],
+                ],
                 'y' => [
                     'beginAtZero' => true,
                     'ticks' => [
                         'precision' => 0,
                     ],
                 ],
-                // 'x' => [
-                //     'ticks' => [
-                //         'maxRotation' => 10,
-                //         'minRotation' => 10,
-                //         'align' => 'end',
-                //         'crossAlign' => 'start',
-                //     ],
-                // ],
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ],
             ],
         ];
     }
+
+    // public function getExtraAttributes(): array
+    // {
+    //     return [
+    //         'class' => 'module-category-chart',
+    //     ];
+    // }
 }
