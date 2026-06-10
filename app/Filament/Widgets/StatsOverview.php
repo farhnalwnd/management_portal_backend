@@ -13,6 +13,14 @@ class StatsOverview extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
+    public function getColumns(): int | array
+    {
+        return [
+            'default' => 2,
+            'lg' => 4,
+        ];
+    }
+
     protected function getStats(): array
     {
         $totalModules = \Illuminate\Support\Facades\Cache::remember('stats.total_modules', 300, function () {
